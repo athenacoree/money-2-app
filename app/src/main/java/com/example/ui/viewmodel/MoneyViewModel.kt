@@ -15,6 +15,7 @@ import com.example.data.model.AuditoriaStock
 import com.example.data.model.PropuestaCambio
 import com.example.data.model.DespachoDistribuidor
 import com.example.data.model.BranchInfo
+import com.example.data.model.PinHasher
 import com.example.data.qvapay.QvaPayApiService
 import com.example.data.qvapay.QvaPayCoin
 import com.example.data.qvapay.QvaPayUserInfo
@@ -63,7 +64,9 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
             mensajeDao = db.mensajeDao(),
             configuracionDao = db.configuracionDao(),
             auditoriaStockDao = db.auditoriaStockDao(),
-            propuestaCambioDao = db.propuestaCambioDao()
+            propuestaCambioDao = db.propuestaCambioDao(),
+            branchDao = db.branchDao(),
+            despachoDistribuidorDao = db.despachoDistribuidorDao()
         )
         viewModelScope.launch {
             repository.checkAndSeedData()
@@ -137,7 +140,7 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0.0)
 
     val availableBalance: StateFlow<Double> = combine(totalIncome, totalExpense) { inc, exp ->
-        (inc - exp).coerceAtLeast(0.0)
+        inc - exp
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0.0)
 
     // Last 7 days trend percentage
@@ -296,7 +299,7 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
 
     // Sistema de Autenticación de Seguridad (PIN / Biometría por defecto activada)
     val isSecurityAuthEnabled = MutableStateFlow(true)
-    val userSecurityPin = MutableStateFlow("1234")
+    val userSecurityPin = MutableStateFlow(PinHasher.hash("1234"))
     val isAuthDialogVisible = MutableStateFlow(false)
     val authDialogTitle = MutableStateFlow("Autenticación Requerida")
     val authDialogReason = MutableStateFlow("Confirma tu identidad para continuar.")
@@ -325,43 +328,40 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun saveSecurityAuthConfig(enabled: Boolean, newPin: String = userSecurityPin.value) {
+        val hashedPin = if (newPin.length == 4) PinHasher.hash(newPin) else newPin
         requestSecurityAuth(
             title = "Ajustes de Seguridad",
             reason = "Confirma tu identidad para modificar la autenticación de acciones sensibles."
         ) {
             viewModelScope.launch {
                 isSecurityAuthEnabled.value = enabled
-                userSecurityPin.value = newPin
+                userSecurityPin.value = hashedPin
                 repository.insertConfiguracion(Configuracion(clave = "security_auth_enabled", valor = enabled.toString()))
-                repository.insertConfiguracion(Configuracion(clave = "user_security_pin", valor = newPin))
+                repository.insertConfiguracion(Configuracion(clave = "user_security_pin", valor = hashedPin))
             }
         }
     }
 
     // Ramas de la Empresa (Rama Principal y Ramas Secundarias / Sucursales)
-    private val _companyBranches = MutableStateFlow<List<BranchInfo>>(
-        listOf(
-            BranchInfo(1, "Rama Principal (Sede Central)", "Av. Italia #102, La Habana", isMain = true, managerName = "Carlos (Propietario)"),
-            BranchInfo(2, "Rama Secundaría - Sucursal Vedado", "Calle 23 e/ I y J, Vedado", isMain = false, managerName = "Marlon (Encargado)"),
-            BranchInfo(3, "Rama Secundaría - Sucursal Miramar", "Calle 5ta y 42, Miramar", isMain = false, managerName = "Elena (Supervisora)")
-        )
-    )
-    val companyBranches: StateFlow<List<BranchInfo>> = _companyBranches.asStateFlow()
+    val companyBranches: StateFlow<List<BranchInfo>> = repository.allBranches
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     fun addCompanyBranch(name: String, address: String, managerName: String) {
         requestSecurityAuth(
             title = "Agregar Nueva Rama / Sucursal",
             reason = "Autentícate con PIN o Huella para vincular la rama '$name' a la principal."
         ) {
-            val nextId = (_companyBranches.value.maxOfOrNull { it.id } ?: 0) + 1
-            val newBranch = BranchInfo(
-                id = nextId,
-                name = name,
-                address = address,
-                isMain = false,
-                managerName = managerName
-            )
-            _companyBranches.value = _companyBranches.value + newBranch
+            viewModelScope.launch {
+                val nextId = (companyBranches.value.maxOfOrNull { it.id } ?: 0) + 1
+                val newBranch = BranchInfo(
+                    id = nextId,
+                    name = name,
+                    address = address,
+                    isMain = false,
+                    managerName = managerName
+                )
+                repository.insertBranch(newBranch)
+            }
         }
     }
 
@@ -372,29 +372,8 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
     val activePeekPreview = MutableStateFlow<PeekPreviewType?>(null)
 
     // Distributor Dispatches (Despachos de Mercancía)
-    private val _despachosDistribuidor = MutableStateFlow<List<DespachoDistribuidor>>(
-        listOf(
-            DespachoDistribuidor(
-                id = 1,
-                destinatario = "Carlos (Empleador)",
-                productoNombre = "Lote Aceite Vegetal 1L (x12)",
-                cantidadUnidades = 24,
-                precioPorUnidad = 4.50,
-                estado = "Entregado",
-                timestamp = System.currentTimeMillis() - 86400000L
-            ),
-            DespachoDistribuidor(
-                id = 2,
-                destinatario = "Marlon (Empleado Terminal)",
-                productoNombre = "Caja Café Molido 250g (x20)",
-                cantidadUnidades = 40,
-                precioPorUnidad = 2.80,
-                estado = "Pendiente de Cobro",
-                timestamp = System.currentTimeMillis() - 36000000L
-            )
-        )
-    )
-    val despachosDistribuidor: StateFlow<List<DespachoDistribuidor>> = _despachosDistribuidor.asStateFlow()
+    val despachosDistribuidor: StateFlow<List<DespachoDistribuidor>> = repository.allDespachos
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     // Configuration-backed User profile loading/saving
     private suspend fun loadConfigurations() {
@@ -431,7 +410,14 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
 
         // Security Authentication settings loading
         val secAuth = repository.getConfiguracionByKey("security_auth_enabled")?.valor?.toBoolean() ?: true
-        val secPin = repository.getConfiguracionByKey("user_security_pin")?.valor ?: "1234"
+        val secPinRaw = repository.getConfiguracionByKey("user_security_pin")?.valor ?: "1234"
+        val secPin = if (secPinRaw.length == 4) {
+            val hashed = PinHasher.hash(secPinRaw)
+            repository.insertConfiguracion(Configuracion(clave = "user_security_pin", valor = hashed))
+            hashed
+        } else {
+            secPinRaw
+        }
         isSecurityAuthEnabled.value = secAuth
         userSecurityPin.value = secPin
 
@@ -681,7 +667,9 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
             _appMode.value = AppMode.PERSONAL
         }
         if (enabled && resetData) {
-            _despachosDistribuidor.value = emptyList()
+            viewModelScope.launch {
+                repository.deleteAllDespachos()
+            }
         }
         viewModelScope.launch {
             repository.insertConfiguracion(Configuracion(clave = "modo_distribuidor_activo", valor = enabled.toString()))
@@ -698,7 +686,9 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
             estado = "Entregado",
             timestamp = System.currentTimeMillis()
         )
-        _despachosDistribuidor.value = listOf(newDespacho) + _despachosDistribuidor.value
+        viewModelScope.launch {
+            repository.insertDespacho(newDespacho)
+        }
     }
 
     fun updateProfilePhoto(photoUri: String) {
@@ -846,7 +836,7 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
 
     fun simulateP2PSync() {
         viewModelScope.launch {
-            syncP2PMessage.value = "Conectando por Wi-Fi Local / Bluetooth con dispositivos vinculados..."
+            syncP2PMessage.value = "Iniciando Simulación Local (Monodispositivo)..."
             kotlinx.coroutines.delay(1000)
 
             // Sincronización de fotos de perfil (Empleador y Empleado)
@@ -869,8 +859,8 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
                 }
             }
 
-            syncP2PMessage.value = "✅ Sincronización P2P Exitosa: Fotos de perfil (Empleador/Empleado) e Inventario sincronizados sin pérdida de calidad."
-            kotlinx.coroutines.delay(2200)
+            syncP2PMessage.value = "ℹ️ Simulación Monodispositivo: El entorno es local. Sincronización P2P (Wi-Fi Direct/Bluetooth) estará disponible próximamente."
+            kotlinx.coroutines.delay(3500)
             syncP2PMessage.value = null
         }
     }
@@ -1022,10 +1012,27 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
 
         viewModelScope.launch {
             val total = cartTotal.value
-            // Update stocks
+            val role = when (appMode.value) {
+                AppMode.WORK_EMPLOYER -> "Empleador"
+                AppMode.WORK_EMPLOYEE -> "Empleado"
+                else -> "Usuario"
+            }
+            // Update stocks and write audits
             currentCart.forEach { (prod, qty) ->
                 val newStock = (prod.stock - qty).coerceAtLeast(0)
                 repository.updateProducto(prod.copy(stock = newStock))
+                repository.insertAuditoria(
+                    AuditoriaStock(
+                        producto_id = prod.id,
+                        nombre_producto = prod.nombre,
+                        cambio_stock = -qty,
+                        stock_anterior = prod.stock,
+                        stock_resultante = newStock,
+                        justificacion = "Venta desde Catálogo",
+                        realizado_por = role,
+                        timestamp = System.currentTimeMillis()
+                    )
+                )
             }
 
             // Create transaction of type "ingreso"
@@ -1161,6 +1168,9 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
     private val _showTransferSuccessDialog = MutableStateFlow(false)
     val showTransferSuccessDialog: StateFlow<Boolean> = _showTransferSuccessDialog.asStateFlow()
 
+    private val _localTransferError = MutableStateFlow<String?>(null)
+    val localTransferError: StateFlow<String?> = _localTransferError.asStateFlow()
+
     // Configured employer's Transfermóvil number
     val employerTransfermovilNumber = flow {
         val num = repository.getConfiguracionByKey("numero_transfermovil")?.valor.orEmpty()
@@ -1169,15 +1179,24 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
 
     fun updateTransferPhone(phone: String) {
         _transferPhone.value = phone
+        _localTransferError.value = null
     }
 
     fun updateTransferAmount(amount: String) {
         _transferAmount.value = amount
+        _localTransferError.value = null
     }
 
     fun executeTransfer(onSuccess: () -> Unit) {
         val amountVal = _transferAmount.value.toDoubleOrNull() ?: return
         val phoneVal = _transferPhone.value.ifBlank { "Destinatario" }
+
+        if (amountVal > availableBalance.value) {
+            _localTransferError.value = "Saldo insuficiente para realizar la transferencia."
+            return
+        }
+
+        _localTransferError.value = null
 
         viewModelScope.launch {
             val cal = Calendar.getInstance()

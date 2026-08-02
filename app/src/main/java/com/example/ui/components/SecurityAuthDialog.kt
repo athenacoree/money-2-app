@@ -32,6 +32,7 @@ import com.example.ui.theme.IncomeGreen
 import com.example.ui.theme.PurplePrimary
 import com.example.ui.theme.TextPrimary
 import com.example.ui.theme.TextSecondary
+import com.example.data.model.PinHasher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -251,7 +252,12 @@ fun SecurityAuthDialog(
                                                         if (enteredPin.length < 4) {
                                                             enteredPin += key
                                                             if (enteredPin.length == 4) {
-                                                                if (enteredPin == userPin || enteredPin == "1234") {
+                                                                val isMatch = if (userPin.length == 4) {
+                                                                    enteredPin == userPin
+                                                                } else {
+                                                                    PinHasher.hash(enteredPin) == userPin
+                                                                }
+                                                                if (isMatch) {
                                                                     onSuccess()
                                                                 } else {
                                                                     pinError = true
