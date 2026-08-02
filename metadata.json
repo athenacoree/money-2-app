@@ -1,0 +1,6 @@
+{
+  "name": "MONEY",
+  "description": "Aplicación financiera moderna con diseño glassmorphism, control de gastos, transferencias e historial de transacciones.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
