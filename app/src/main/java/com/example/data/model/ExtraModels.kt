@@ -121,3 +121,16 @@ object PinHasher {
         return hashBytes.joinToString("") { "%02x".format(it) }
     }
 }
+
+@Entity(tableName = "saldo_movil")
+data class SaldoMovil(
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0,
+    val tipo: String, // "saldo_principal", "bono_datos", "promocion", "alerta_consumo"
+    val saldoCUP: Double = 0.0,
+    val datosMB: Double = 0.0,
+    val bonoDatosMB: Double = 0.0,
+    val fechaVencimiento: String = "",
+    val descripcion: String = "",
+    val timestamp: Long = System.currentTimeMillis()
+)

@@ -88,4 +88,46 @@ class SecurityAndSmsTest {
         assertFalse(isIncome3)
         assertFalse(isIncome4)
     }
+
+    @Test
+    fun testCubacelSmsParser() {
+        val parser = com.example.data.receiver.CubacelMessageParser
+
+        // Test Case 1: Main Balance
+        val body1 = "ETECSA informa: Su saldo principal es de 125.00 CUP, valido hasta 30/12/2026."
+        val parsed1 = parser.parseMessage(body1, 1000L)
+        assertEquals("saldo_principal", parsed1.tipo)
+        assertEquals(125.0, parsed1.saldoCUP, 0.01)
+        assertEquals("30/12/2026", parsed1.fechaVencimiento)
+
+        // Test Case 2: Data Packages
+        val body2 = "Su paquete de datos tiene 2.4 GB de navegacion internacional LTE y 300 MB de navegacion nacional, validos hasta 25/11/2026."
+
+        // Print matching details
+        val pattern = java.util.regex.Pattern.compile("(\\d+(?:\\.\\d+)?)\\s*(GB|MB)\\s*(?:de\\s+)?(?:navegacion|datos|LTE|internacional)?")
+        val matcher = pattern.matcher(body2)
+        println("--- MATCHER DEBUG ---")
+        while(matcher.find()) {
+            println("Matched group: '${matcher.group()}' at ${matcher.start()}-${matcher.end()}")
+            println("Group 1: '${matcher.group(1)}', Group 2: '${matcher.group(2)}'")
+            val start = matcher.start()
+            val end = Math.min(body2.length, matcher.end() + 25)
+            val context = body2.substring(start, end).lowercase()
+            println("Context: '$context'")
+            println("Contains nacional: ${context.contains("nacional")} | bono: ${context.contains("bono")} | .cu: ${context.contains(".cu")}")
+        }
+
+        val parsed2 = parser.parseMessage(body2, 1000L)
+        println("Parsed - Type: ${parsed2.tipo}, Balance: ${parsed2.saldoCUP}, DatosMB: ${parsed2.datosMB}, BonoMB: ${parsed2.bonoDatosMB}")
+        assertEquals("bono_datos", parsed2.tipo)
+        assertEquals(2457.6, parsed2.datosMB, 0.01) // 2.4 * 1024 = 2457.6
+        assertEquals(300.0, parsed2.bonoDatosMB, 0.01)
+        assertEquals("25/11/2026", parsed2.fechaVencimiento)
+
+        // Test Case 3: ETECSA Promotion
+        val body3 = "ETECSA Promocion Internacional: Del 5 al 9 de agosto, si recargas desde el exterior recibes 25 GB + Datos ilimitados de 12 a 7 am!"
+        val parsed3 = parser.parseMessage(body3, 1000L)
+        assertEquals("promocion", parsed3.tipo)
+        assertTrue(parsed3.descripcion.contains("Promocion Internacional"))
+    }
 }

@@ -86,7 +86,8 @@ enum class SubScreen {
     CATALOG,
     CHAT_LIST,
     CHAT_DETAIL,
-    ADVANCED_SETTINGS
+    ADVANCED_SETTINGS,
+    DATA_USAGE
 }
 
 @Composable
@@ -166,6 +167,10 @@ fun MoneyMainApp(viewModel: MoneyViewModel) {
                         viewModel = viewModel,
                         onBack = { activeSubScreen = SubScreen.NONE }
                     )
+                    SubScreen.DATA_USAGE -> com.example.ui.screens.DataUsageScreen(
+                        viewModel = viewModel,
+                        onBack = { activeSubScreen = SubScreen.NONE }
+                    )
                     SubScreen.NONE -> {}
                 }
             } else if (appMode == AppMode.WORK_EMPLOYER) {
@@ -209,7 +214,8 @@ fun MoneyMainApp(viewModel: MoneyViewModel) {
                         NavTab.Profile -> ProfileScreen(
                             viewModel = viewModel,
                             onOpenCatalog = { activeSubScreen = SubScreen.CATALOG },
-                            onOpenAdvancedSettings = { activeSubScreen = SubScreen.ADVANCED_SETTINGS }
+                            onOpenAdvancedSettings = { activeSubScreen = SubScreen.ADVANCED_SETTINGS },
+                            onOpenDataUsage = { activeSubScreen = SubScreen.DATA_USAGE }
                         )
                     }
                 }
