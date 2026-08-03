@@ -2,6 +2,7 @@ package com.example.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.security.MessageDigest
 
 @Entity(tableName = "productos")
 data class Producto(
@@ -102,10 +103,21 @@ data class DespachoDistribuidor(
     val timestamp: Long = System.currentTimeMillis()
 )
 
+@Entity(tableName = "company_branches")
 data class BranchInfo(
-    val id: Int,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     val name: String,
     val address: String,
     val isMain: Boolean = false,
     val managerName: String = "Administrador"
 )
+
+object PinHasher {
+    private const val SALT = "CubaFinanzasSalt2026"
+    fun hash(pin: String): String {
+        val digest = MessageDigest.getInstance("SHA-256")
+        val hashBytes = digest.digest((pin + SALT).toByteArray(Charsets.UTF_8))
+        return hashBytes.joinToString("") { "%02x".format(it) }
+    }
+}

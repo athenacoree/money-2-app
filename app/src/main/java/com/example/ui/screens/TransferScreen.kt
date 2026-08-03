@@ -91,6 +91,7 @@ fun TransferScreen(
     val amount by viewModel.transferAmount.collectAsState()
     val contacts by viewModel.conversations.collectAsState()
     val employerNumber by viewModel.employerTransfermovilNumber.collectAsState()
+    val localTransferError by viewModel.localTransferError.collectAsState()
 
     var activeTab by remember { mutableStateOf(TransferTabType.QVAPAY_P2P) }
 
@@ -1166,6 +1167,17 @@ fun TransferScreen(
                                 enabled = phone.isNotBlank() && (amount.toDoubleOrNull() ?: 0.0) > 0,
                                 modifier = Modifier.fillMaxWidth()
                             )
+
+                            if (localTransferError != null) {
+                                Spacer(modifier = Modifier.height(10.dp))
+                                Text(
+                                    text = localTransferError!!,
+                                    color = ExpenseRed,
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    modifier = Modifier.testTag("transfer_error_text")
+                                )
+                            }
                         }
                     }
                 }

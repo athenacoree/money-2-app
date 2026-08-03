@@ -14,5 +14,6 @@ data class Transaction(
     val fecha: Long, // timestamp
     val hora: String, // "HH:mm"
     val metodo_pago: String, // "Transfermóvil", "EnZona", "Efectivo", "Otro"
-    val es_empleador: Boolean // true si es del negocio, false si es personal
+    val es_empleador: Boolean, // true si es del negocio, false si es personal
+    val moneda: String = "CUP" // CUP or MLC
 )

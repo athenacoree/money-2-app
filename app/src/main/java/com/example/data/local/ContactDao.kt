@@ -12,6 +12,8 @@ import com.example.data.model.Mensaje
 import com.example.data.model.Configuracion
 import com.example.data.model.AuditoriaStock
 import com.example.data.model.PropuestaCambio
+import com.example.data.model.BranchInfo
+import com.example.data.model.DespachoDistribuidor
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -126,4 +128,40 @@ interface PropuestaCambioDao {
 
     @Query("DELETE FROM propuestas_cambio")
     suspend fun deleteAllPropuestas()
+}
+
+@Dao
+interface BranchDao {
+    @Query("SELECT * FROM company_branches ORDER BY id ASC")
+    fun getAllBranches(): Flow<List<BranchInfo>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertBranch(branch: BranchInfo): Long
+
+    @Update
+    suspend fun updateBranch(branch: BranchInfo)
+
+    @Query("DELETE FROM company_branches WHERE id = :id")
+    suspend fun deleteBranch(id: Int)
+
+    @Query("DELETE FROM company_branches")
+    suspend fun deleteAllBranches()
+}
+
+@Dao
+interface DespachoDistribuidorDao {
+    @Query("SELECT * FROM despachos_distribuidor ORDER BY timestamp DESC")
+    fun getAllDespachos(): Flow<List<DespachoDistribuidor>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertDespacho(despacho: DespachoDistribuidor): Long
+
+    @Update
+    suspend fun updateDespacho(despacho: DespachoDistribuidor)
+
+    @Query("DELETE FROM despachos_distribuidor WHERE id = :id")
+    suspend fun deleteDespacho(id: Long)
+
+    @Query("DELETE FROM despachos_distribuidor")
+    suspend fun deleteAllDespachos()
 }

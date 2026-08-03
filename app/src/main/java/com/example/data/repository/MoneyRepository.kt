@@ -8,6 +8,8 @@ import com.example.data.local.MensajeDao
 import com.example.data.local.ConfiguracionDao
 import com.example.data.local.AuditoriaStockDao
 import com.example.data.local.PropuestaCambioDao
+import com.example.data.local.BranchDao
+import com.example.data.local.DespachoDistribuidorDao
 import com.example.data.model.Transaction
 import com.example.data.model.Producto
 import com.example.data.model.Empleado
@@ -16,6 +18,8 @@ import com.example.data.model.Mensaje
 import com.example.data.model.Configuracion
 import com.example.data.model.AuditoriaStock
 import com.example.data.model.PropuestaCambio
+import com.example.data.model.BranchInfo
+import com.example.data.model.DespachoDistribuidor
 import kotlinx.coroutines.flow.Flow
 import java.util.Calendar
 
@@ -27,8 +31,48 @@ class MoneyRepository(
     private val mensajeDao: MensajeDao,
     private val configuracionDao: ConfiguracionDao,
     private val auditoriaStockDao: AuditoriaStockDao,
-    private val propuestaCambioDao: PropuestaCambioDao
+    private val propuestaCambioDao: PropuestaCambioDao,
+    private val branchDao: BranchDao,
+    private val despachoDistribuidorDao: DespachoDistribuidorDao
 ) {
+    // Branches
+    val allBranches: Flow<List<BranchInfo>> = branchDao.getAllBranches()
+
+    suspend fun insertBranch(branch: BranchInfo): Long {
+        return branchDao.insertBranch(branch)
+    }
+
+    suspend fun updateBranch(branch: BranchInfo) {
+        branchDao.updateBranch(branch)
+    }
+
+    suspend fun deleteBranch(id: Int) {
+        branchDao.deleteBranch(id)
+    }
+
+    suspend fun deleteAllBranches() {
+        branchDao.deleteAllBranches()
+    }
+
+    // Distributor Dispatches
+    val allDespachos: Flow<List<DespachoDistribuidor>> = despachoDistribuidorDao.getAllDespachos()
+
+    suspend fun insertDespacho(despacho: DespachoDistribuidor): Long {
+        return despachoDistribuidorDao.insertDespacho(despacho)
+    }
+
+    suspend fun updateDespacho(despacho: DespachoDistribuidor) {
+        despachoDistribuidorDao.updateDespacho(despacho)
+    }
+
+    suspend fun deleteDespacho(id: Long) {
+        despachoDistribuidorDao.deleteDespacho(id)
+    }
+
+    suspend fun deleteAllDespachos() {
+        despachoDistribuidorDao.deleteAllDespachos()
+    }
+
     // Transactions
     val allTransactions: Flow<List<Transaction>> = transactionDao.getAllTransactions()
 

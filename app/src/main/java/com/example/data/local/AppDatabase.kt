@@ -12,6 +12,8 @@ import com.example.data.model.Mensaje
 import com.example.data.model.Configuracion
 import com.example.data.model.AuditoriaStock
 import com.example.data.model.PropuestaCambio
+import com.example.data.model.BranchInfo
+import com.example.data.model.DespachoDistribuidor
 
 @Database(
     entities = [
@@ -22,9 +24,11 @@ import com.example.data.model.PropuestaCambio
         Mensaje::class,
         Configuracion::class,
         AuditoriaStock::class,
-        PropuestaCambio::class
+        PropuestaCambio::class,
+        BranchInfo::class,
+        DespachoDistribuidor::class
     ],
-    version = 6,
+    version = 7,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -36,6 +40,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun configuracionDao(): ConfiguracionDao
     abstract fun auditoriaStockDao(): AuditoriaStockDao
     abstract fun propuestaCambioDao(): PropuestaCambioDao
+    abstract fun branchDao(): BranchDao
+    abstract fun despachoDistribuidorDao(): DespachoDistribuidorDao
 
     companion object {
         @Volatile

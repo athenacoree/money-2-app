@@ -42,11 +42,38 @@ class SmsReceiver : BroadcastReceiver() {
     }
 
     private fun processSms(context: Context, sender: String, body: String, timestamp: Long, isEnZona: Boolean) {
-        val amountPattern = Pattern.compile("(?i)(\\d+(?:\\.\\d+)?)\\s*(?:CUP)?")
-        val matcher = amountPattern.matcher(body)
+        // 1. Extract and ignore phone number
+        var cleanedBody = body
+        val phoneRegex = Pattern.compile("(?i)(?:\\+53\\s*)?\\b([56]\\d{7})\\b")
+        val phoneMatcher = phoneRegex.matcher(body)
+        var extractedPhone: String? = null
+        if (phoneMatcher.find()) {
+            extractedPhone = phoneMatcher.group(1)
+            cleanedBody = phoneMatcher.replaceAll("[PHONE]")
+        }
+
+        // 2. Extract amount next to "CUP" or "MLC"
+        val amountCurrencyRegex = Pattern.compile("(?i)(?:(CUP|MLC)\\s*(\\d+(?:\\.\\d+)?))|(?:(\\d+(?:\\.\\d+)?)\\s*(CUP|MLC))")
+        val acMatcher = amountCurrencyRegex.matcher(cleanedBody)
         var amount: Double? = null
-        if (matcher.find()) {
-            amount = matcher.group(1)?.toDoubleOrNull()
+        var currency = "CUP"
+        if (acMatcher.find()) {
+            if (acMatcher.group(2) != null) {
+                amount = acMatcher.group(2).toDoubleOrNull()
+                currency = acMatcher.group(1).uppercase()
+            } else if (acMatcher.group(3) != null) {
+                amount = acMatcher.group(3).toDoubleOrNull()
+                currency = acMatcher.group(4).uppercase()
+            }
+        }
+
+        // Fallback to first decimal/number if not found next to CUP/MLC
+        if (amount == null) {
+            val fallbackPattern = Pattern.compile("(\\d+(?:\\.\\d+)?)")
+            val fallbackMatcher = fallbackPattern.matcher(cleanedBody)
+            if (fallbackMatcher.find()) {
+                amount = fallbackMatcher.group(1).toDoubleOrNull()
+            }
         }
 
         if (amount == null || amount <= 0) {
@@ -54,11 +81,29 @@ class SmsReceiver : BroadcastReceiver() {
             return
         }
 
+        // 3. Classify incoming vs outgoing based on detailed structure
         val lowerBody = body.lowercase()
-        val tipo = if (lowerBody.contains("recibido") || lowerBody.contains("recibi") || lowerBody.contains("ingreso")) {
-            "ingreso"
-        } else {
-            "gasto"
+        val tipo = when {
+            // Incoming transfers/payments/deposits
+            lowerBody.contains("recibido") ||
+            lowerBody.contains("recibi") ||
+            lowerBody.contains("ingreso") ||
+            lowerBody.contains("acreditado") ||
+            lowerBody.contains("acred") ||
+            lowerBody.contains("depósito") ||
+            lowerBody.contains("deposito") -> "ingreso"
+
+            // Outgoing transfers/payments/purchases
+            lowerBody.contains("realizado") ||
+            lowerBody.contains("envió") ||
+            lowerBody.contains("envio") ||
+            lowerBody.contains("pagado") ||
+            lowerBody.contains("pago realizado") ||
+            lowerBody.contains("debited") ||
+            lowerBody.contains("debitado") ||
+            lowerBody.contains("db") -> "gasto"
+
+            else -> "gasto" // Default fallback
         }
 
         val paymentMethod = if (isEnZona) "EnZona" else "Transfermóvil"
@@ -68,7 +113,13 @@ class SmsReceiver : BroadcastReceiver() {
         val hora = dateFormater.format(calendar.time)
 
         val category = if (tipo == "ingreso") "Ventas" else "Servicios"
-        val description = "SMS Auto: $body"
+
+        // Append phone to description if found
+        val description = if (extractedPhone != null) {
+            "SMS Auto: $body [Tel Ref: $extractedPhone]"
+        } else {
+            "SMS Auto: $body"
+        }
 
         val transaction = Transaction(
             tipo = tipo,
@@ -78,21 +129,31 @@ class SmsReceiver : BroadcastReceiver() {
             fecha = timestamp,
             hora = hora,
             metodo_pago = paymentMethod,
-            es_empleador = false
+            es_empleador = false,
+            moneda = currency
         )
 
         val db = AppDatabase.getDatabase(context)
         CoroutineScope(Dispatchers.IO).launch {
             try {
+                // Check duplicate within 5 seconds window
+                val minTime = timestamp - 5000
+                val maxTime = timestamp + 5000
+                val exists = db.transactionDao().countTransactionsNearTime(amount, paymentMethod, minTime, maxTime) > 0
+                if (exists) {
+                    Log.d("SmsReceiver", "Duplicate transaction detected (same amount $amount, method $paymentMethod near $timestamp), ignoring.")
+                    return@launch
+                }
+
                 db.transactionDao().insertTransaction(transaction)
-                showNotification(context, tipo, amount, paymentMethod)
+                showNotification(context, tipo, amount, currency, paymentMethod)
             } catch (e: Exception) {
                 Log.e("SmsReceiver", "Error saving transaction from SMS", e)
             }
         }
     }
 
-    private fun showNotification(context: Context, tipo: String, amount: Double, method: String) {
+    private fun showNotification(context: Context, tipo: String, amount: Double, currency: String, method: String) {
         val channelId = "sms_transactions"
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -108,7 +169,7 @@ class SmsReceiver : BroadcastReceiver() {
         }
 
         val title = if (tipo == "ingreso") "¡Nuevo Ingreso Registrado!" else "¡Nuevo Gasto Registrado!"
-        val content = "Se registró un $tipo de $amount CUP vía $method automáticamente."
+        val content = "Se registró un $tipo de $amount $currency vía $method automáticamente."
 
         val notification = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(android.R.drawable.ic_dialog_info)
