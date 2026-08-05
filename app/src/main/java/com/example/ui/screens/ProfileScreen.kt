@@ -37,6 +37,7 @@ import androidx.compose.material.icons.filled.PhotoCamera
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Store
 import androidx.compose.material.icons.filled.Tune
+import androidx.compose.material.icons.filled.SignalCellularAlt
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -77,6 +78,7 @@ fun ProfileScreen(
     onOpenAdvancedSettings: () -> Unit = {},
     onOpenRanking: () -> Unit = {},
     onOpenContactRequests: () -> Unit = {},
+    onOpenDataUsage: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val userProfile by viewModel.userProfile.collectAsState()
@@ -270,6 +272,24 @@ fun ProfileScreen(
                             )
                         },
                         testTag = "option_my_data"
+                    )
+
+                    ProfileOptionCard(
+                        title = "Consumo de Datos Móviles",
+                        icon = Icons.Default.SignalCellularAlt,
+                        iconTint = PurplePrimary,
+                        onClick = onOpenDataUsage,
+                        onLongClick = {
+                            viewModel.openPeekPreview(
+                                com.example.ui.components.PeekPreviewType.FunctionInfo(
+                                    title = "Consumo de Datos Móviles",
+                                    description = "Mide el consumo real de datos de tu teléfono móvil, consulta tu saldo Cubacel vía USSD o ingresa de forma manual.",
+                                    icon = Icons.Default.SignalCellularAlt,
+                                    tips = listOf("La consulta automática USSD requiere Android 8.0+", "El gráfico se actualiza con los últimos SMS de ETECSA recibidos")
+                                )
+                            )
+                        },
+                        testTag = "option_data_usage"
                     )
 
                     ProfileOptionCard(
