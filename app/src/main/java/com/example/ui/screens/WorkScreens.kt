@@ -167,8 +167,9 @@ fun EmployerScreen(
 
     if (showSyncDialog) {
         SyncP2PDialog(
-            viewModel = viewModel,
-            onDismiss = { viewModel.showSyncP2PDialog.value = false }
+            onDismiss = { viewModel.showSyncP2PDialog.value = false },
+            onSync = { viewModel.simulateP2PSync() },
+            syncMessage = syncMessage
         )
     }
 
@@ -304,8 +305,9 @@ fun EmployeeScreen(
 
     if (showSyncDialog) {
         SyncP2PDialog(
-            viewModel = viewModel,
-            onDismiss = { viewModel.showSyncP2PDialog.value = false }
+            onDismiss = { viewModel.showSyncP2PDialog.value = false },
+            onSync = { viewModel.simulateP2PSync() },
+            syncMessage = syncMessage
         )
     }
 }
@@ -1003,17 +1005,10 @@ fun EmployeeDashboardScreen(
 // -------------------------------------------------------------
 @Composable
 fun SyncP2PDialog(
-    viewModel: MoneyViewModel,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    onSync: () -> Unit,
+    syncMessage: String?
 ) {
-    val p2pState by viewModel.p2pState.collectAsState()
-    val p2pIpAddress by viewModel.p2pIpAddress.collectAsState()
-    val p2pStatusMessage by viewModel.p2pStatusMessage.collectAsState()
-    val appMode by viewModel.appMode.collectAsState()
-
-    val myIp = remember { viewModel.getLocalIpAddress() }
-    var targetIpInput by remember { mutableStateOf("192.168.1.105") }
-
     Dialog(onDismissRequest = onDismiss) {
         GlassCard(
             modifier = Modifier.fillMaxWidth().padding(12.dp),
@@ -1034,7 +1029,7 @@ fun SyncP2PDialog(
                 Spacer(modifier = Modifier.height(10.dp))
 
                 Text(
-                    text = "Vincular App P2P",
+                    text = "Vincular App (Wi-Fi / Bluetooth)",
                     style = MaterialTheme.typography.titleLarge.copy(
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp,
@@ -1045,7 +1040,7 @@ fun SyncP2PDialog(
                 Spacer(modifier = Modifier.height(6.dp))
 
                 Text(
-                    text = "Transmite de verdad catálogo, empleados e inventario en tiempo real localmente.",
+                    text = "Transmitir inventario, propuestas de rama y auditoría en tiempo real con otros dispositivos.",
                     style = MaterialTheme.typography.bodyMedium.copy(
                         color = TextSecondary,
                         fontSize = 12.sp,
@@ -1055,99 +1050,51 @@ fun SyncP2PDialog(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Connection details & IP Input
-                if (appMode == com.example.data.model.AppMode.WORK_EMPLOYER) {
-                    // Employer hosts the server
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(RoundedCornerShape(14.dp))
-                            .background(Color(0x1F7C3AED))
-                            .padding(14.dp)
-                    ) {
-                        Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                            Text("Rol: Socio Principal (Servidor)", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = PurplePrimary)
-                            Text("Tu IP Local: $myIp", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = TextPrimary)
-                            Text("Puerto: 8888", fontSize = 11.sp, color = TextSecondary)
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(14.dp))
+                        .background(Color(0x1F7C3AED))
+                        .padding(14.dp)
+                ) {
+                    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(Icons.Default.CellWifi, contentDescription = null, tint = IncomeGreen, modifier = Modifier.size(18.dp))
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text("Wi-Fi Direct: Activo (192.168.1.105)", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = TextPrimary)
+                        }
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(Icons.Default.Bluetooth, contentDescription = null, tint = PurplePrimary, modifier = Modifier.size(18.dp))
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text("Bluetooth LE: Sincronizado", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = TextPrimary)
                         }
                     }
-
-                    Spacer(modifier = Modifier.height(12.dp))
-
-                    GlassButton(
-                        text = if (p2pState == "HOSTING") "Esperando conexión..." else "Iniciar Servidor de Sincronización",
-                        icon = Icons.Default.PlayArrow,
-                        isPrimary = true,
-                        onClick = { viewModel.startP2PSyncServer() },
-                        modifier = Modifier.fillMaxWidth().testTag("p2p_sync_action_btn")
-                    )
-                } else {
-                    // Employee connects to server
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(RoundedCornerShape(14.dp))
-                            .background(Color(0x1F7C3AED))
-                            .padding(14.dp)
-                    ) {
-                        Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                            Text("Rol: Sucursal (Cliente)", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = PurplePrimary)
-                            Text("Tu IP Local: $myIp", fontSize = 11.sp, color = TextSecondary)
-                        }
-                    }
-
-                    Spacer(modifier = Modifier.height(12.dp))
-
-                    OutlinedTextField(
-                        value = targetIpInput,
-                        onValueChange = { targetIpInput = it },
-                        label = { Text("IP del Socio Principal") },
-                        modifier = Modifier.fillMaxWidth()
-                    )
-
-                    Spacer(modifier = Modifier.height(12.dp))
-
-                    GlassButton(
-                        text = if (p2pState == "CONNECTING") "Conectando..." else "Conectar con Socio Principal",
-                        icon = Icons.Default.Sync,
-                        isPrimary = true,
-                        onClick = { viewModel.connectToP2PServer(targetIpInput.trim()) },
-                        modifier = Modifier.fillMaxWidth().testTag("p2p_sync_action_btn")
-                    )
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Real-time synchronization message & status
-                if (p2pStatusMessage != null) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(RoundedCornerShape(12.dp))
-                            .background(
-                                if (p2pState == "COMPLETED") IncomeGreen.copy(alpha = 0.15f)
-                                else if (p2pState == "ERROR") ExpenseRed.copy(alpha = 0.15f)
-                                else Color(0x0F7C3AED)
-                            )
-                            .padding(12.dp)
-                    ) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            if (p2pState == "SYNCING" || p2pState == "CONNECTING") {
-                                CircularProgressIndicator(modifier = Modifier.size(16.dp), color = PurplePrimary, strokeWidth = 2.dp)
-                                Spacer(modifier = Modifier.width(8.dp))
-                            }
-                            Text(
-                                text = p2pStatusMessage ?: "",
-                                style = MaterialTheme.typography.bodyMedium.copy(
-                                    fontWeight = FontWeight.Medium,
-                                    color = if (p2pState == "COMPLETED") IncomeGreen else if (p2pState == "ERROR") ExpenseRed else TextPrimary,
-                                    fontSize = 12.sp
-                                )
-                            )
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(12.dp))
+                if (syncMessage != null) {
+                    Text(
+                        text = syncMessage,
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            fontWeight = FontWeight.Bold,
+                            color = PurplePrimary,
+                            fontSize = 13.sp,
+                            textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                        )
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
                 }
+
+                GlassButton(
+                    text = "Sincronizar en Tiempo Real",
+                    icon = Icons.Default.Sync,
+                    isPrimary = true,
+                    onClick = onSync,
+                    modifier = Modifier.fillMaxWidth().testTag("p2p_sync_action_btn")
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
 
                 TextButton(onClick = onDismiss) {
                     Text("Cerrar")

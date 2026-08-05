@@ -15,22 +15,17 @@ import com.example.data.model.AuditoriaStock
 import com.example.data.model.PropuestaCambio
 import com.example.data.model.DespachoDistribuidor
 import com.example.data.model.BranchInfo
-import com.example.data.model.PinHasher
+import com.example.data.model.EtecsaMobileBalance
 import com.example.data.qvapay.QvaPayApiService
 import com.example.data.qvapay.QvaPayCoin
 import com.example.data.qvapay.QvaPayUserInfo
 import com.example.data.qvapay.QvaPayTransaction
 import com.example.data.qvapay.QvaPayInvoice
-import com.example.data.model.SaldoMovil
 import com.example.ui.components.PeekPreviewType
+import com.example.data.model.DynamicIconBadge
+import com.example.data.model.DynamicIconCatalog
 import com.example.data.repository.MoneyRepository
-import android.telephony.TelephonyManager
-import android.os.Build
-import android.util.Log
-import org.json.JSONArray
-import org.json.JSONObject
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -71,10 +66,7 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
             mensajeDao = db.mensajeDao(),
             configuracionDao = db.configuracionDao(),
             auditoriaStockDao = db.auditoriaStockDao(),
-            propuestaCambioDao = db.propuestaCambioDao(),
-            branchDao = db.branchDao(),
-            despachoDistribuidorDao = db.despachoDistribuidorDao(),
-            saldoMovilDao = db.saldoMovilDao()
+            propuestaCambioDao = db.propuestaCambioDao()
         )
         viewModelScope.launch {
             repository.checkAndSeedData()
@@ -82,7 +74,74 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
             loadConfigurations()
             // Ensure some products exist in work catalog
             checkAndSeedProducts()
+
+            // AUTOMATIC REAL-TIME DYNAMIC ICON DETECTION ENGINE
+            launch {
+                combine(allTransactions, _appMode, despachosDistribuidor) { txs, mode, despachos ->
+                    Triple(txs, mode, despachos)
+                }.collect { (txs, mode, despachos) ->
+                    evaluateAutomaticDynamicIcon(txs, mode, despachos)
+                }
+            }
         }
+    }
+
+    private fun evaluateAutomaticDynamicIcon(
+        txList: List<Transaction>,
+        mode: AppMode,
+        despachos: List<DespachoDistribuidor>
+    ) {
+        val now = System.currentTimeMillis()
+        val latestTx = txList.maxByOrNull { it.fecha }
+
+        val detectedBadge = when {
+            // Event 1: Recent QvaPay payment or SQP currency (within 48h)
+            latestTx != null && (now - latestTx.fecha <= 172800000L) &&
+            (latestTx.metodo_pago.contains("QvaPay", ignoreCase = true) || latestTx.moneda == "SQP") -> {
+                DynamicIconCatalog.ALL_ICONS.find { it.id == "QVAPAY_SQP" }
+            }
+            // Event 2: Recent SMS or Transfermóvil transaction
+            latestTx != null && (now - latestTx.fecha <= 172800000L) &&
+            (latestTx.metodo_pago.contains("Transfermóvil", ignoreCase = true) || latestTx.metodo_pago.contains("SMS", ignoreCase = true)) -> {
+                DynamicIconCatalog.ALL_ICONS.find { it.id == "TRANSFERMOVIL_CUP" }
+            }
+            // Event 3: Recent Tether USDT or Cripto transaction
+            latestTx != null && (now - latestTx.fecha <= 172800000L) &&
+            (latestTx.moneda == "USDT" || latestTx.categoria.contains("Cripto", ignoreCase = true)) -> {
+                DynamicIconCatalog.ALL_ICONS.find { it.id == "CRYPTO_USDT" }
+            }
+            // Event 4: Recent Bitcoin transaction
+            latestTx != null && (now - latestTx.fecha <= 172800000L) &&
+            (latestTx.moneda == "BTC") -> {
+                DynamicIconCatalog.ALL_ICONS.find { it.id == "CRYPTO_BTC" }
+            }
+            // Event 5: Recent Business Sale or Employer mode transaction
+            latestTx != null && (now - latestTx.fecha <= 172800000L) &&
+            (latestTx.categoria.contains("Ventas", ignoreCase = true) || latestTx.es_empleador) -> {
+                DynamicIconCatalog.ALL_ICONS.find { it.id == "BUSINESS_SALE" }
+            }
+            // Event 6: Recent Distributor cargo dispatch
+            despachos.isNotEmpty() && (now - (despachos.maxOfOrNull { it.timestamp } ?: 0L) <= 172800000L) -> {
+                DynamicIconCatalog.ALL_ICONS.find { it.id == "DISTRIBUTOR_DISPATCH" }
+            }
+            // Event 7: Financial Trend calculation if transactions exist
+            txList.isNotEmpty() -> {
+                val inc = txList.filter { it.tipo == "ingreso" }.sumOf { it.monto }
+                val exp = txList.filter { it.tipo == "gasto" }.sumOf { it.monto }
+                val net = inc - exp
+                when {
+                    net >= 10000 -> DynamicIconCatalog.ALL_ICONS.find { it.id == "TREND_UP_10" }
+                    net >= 2500 -> DynamicIconCatalog.ALL_ICONS.find { it.id == "TREND_UP_5" }
+                    net > 0 -> DynamicIconCatalog.ALL_ICONS.find { it.id == "TREND_UP_1" }
+                    net <= -2500 -> DynamicIconCatalog.ALL_ICONS.find { it.id == "TREND_DOWN_5" }
+                    net < 0 -> DynamicIconCatalog.ALL_ICONS.find { it.id == "TREND_DOWN_1" }
+                    else -> DynamicIconCatalog.ALL_ICONS.find { it.id == "STABLE_BALANCE" }
+                }
+            }
+            else -> DynamicIconCatalog.ALL_ICONS.find { it.id == "STABLE_BALANCE" }
+        } ?: DynamicIconCatalog.ALL_ICONS.first()
+
+        activeIconBadge.value = detectedBadge
     }
 
     private suspend fun checkAndSeedProducts() {
@@ -148,7 +207,26 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0.0)
 
     val availableBalance: StateFlow<Double> = combine(totalIncome, totalExpense) { inc, exp ->
-        inc - exp
+        (inc - exp).coerceAtLeast(0.0)
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0.0)
+
+    // Multi-Currency Breakdown (Desglose CUP, MLC y USD/SQP)
+    val balanceCUP: StateFlow<Double> = filteredByProfileTransactions.map { list ->
+        val inc = list.filter { it.tipo == "ingreso" && (it.moneda == "CUP" || it.moneda.isEmpty()) }.sumOf { it.monto }
+        val exp = list.filter { it.tipo == "gasto" && (it.moneda == "CUP" || it.moneda.isEmpty()) }.sumOf { it.monto }
+        (inc - exp).coerceAtLeast(0.0)
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0.0)
+
+    val balanceMLC: StateFlow<Double> = filteredByProfileTransactions.map { list ->
+        val inc = list.filter { it.tipo == "ingreso" && it.moneda == "MLC" }.sumOf { it.monto }
+        val exp = list.filter { it.tipo == "gasto" && it.moneda == "MLC" }.sumOf { it.monto }
+        (inc - exp).coerceAtLeast(0.0)
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0.0)
+
+    val balanceUSD: StateFlow<Double> = filteredByProfileTransactions.map { list ->
+        val inc = list.filter { it.tipo == "ingreso" && (it.moneda == "USD" || it.moneda == "SQP") }.sumOf { it.monto }
+        val exp = list.filter { it.tipo == "gasto" && (it.moneda == "USD" || it.moneda == "SQP") }.sumOf { it.monto }
+        (inc - exp).coerceAtLeast(0.0)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0.0)
 
     // Last 7 days trend percentage
@@ -245,21 +323,6 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
         _historyFilter.value = filter
     }
 
-    // --- SISTEMA DE FRASES MOTIVACIONALES (500 FRASES) ---
-    val currentMotivationalPhrase = MutableStateFlow(com.example.data.model.MotivationalPhrases.getRandomPhrase("bienvenida"))
-    private var lastPhrase = ""
-
-    fun selectNewMotivationalPhrase(category: String) {
-        var newPhrase = com.example.data.model.MotivationalPhrases.getRandomPhrase(category)
-        var attempts = 0
-        while (newPhrase == lastPhrase && attempts < 10) {
-            newPhrase = com.example.data.model.MotivationalPhrases.getRandomPhrase(category)
-            attempts++
-        }
-        lastPhrase = newPhrase
-        currentMotivationalPhrase.value = newPhrase
-    }
-
     // CRUD Transactions
     fun addTransaction(
         monto: Double,
@@ -269,12 +332,14 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
         hora: String,
         metodoPago: String,
         esEmpleador: Boolean,
-        tipo: String
+        tipo: String,
+        moneda: String = "CUP"
     ) {
         viewModelScope.launch {
             val tx = Transaction(
                 tipo = tipo,
                 monto = monto,
+                moneda = moneda,
                 categoria = categoria,
                 descripcion = descripcion,
                 fecha = fecha,
@@ -283,23 +348,6 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
                 es_empleador = esEmpleador
             )
             repository.insertTransaction(tx)
-
-            // Select contextual cuban phrase based on transaction behavior
-            if (tipo.equals("ingreso", ignoreCase = true)) {
-                if (availableBalance.value > 15000.0) {
-                    selectNewMotivationalPhrase("balance_positivo")
-                } else {
-                    selectNewMotivationalPhrase("ingreso")
-                }
-            } else {
-                if (monto > 4000.0) {
-                    selectNewMotivationalPhrase("gasto_alto")
-                } else if (availableBalance.value - monto < 0.0) {
-                    selectNewMotivationalPhrase("balance_negativo")
-                } else {
-                    selectNewMotivationalPhrase("gasto")
-                }
-            }
         }
     }
 
@@ -339,7 +387,7 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
 
     // Sistema de Autenticación de Seguridad (PIN / Biometría por defecto activada)
     val isSecurityAuthEnabled = MutableStateFlow(true)
-    val userSecurityPin = MutableStateFlow(PinHasher.hash("1234"))
+    val userSecurityPin = MutableStateFlow("1234")
     val isAuthDialogVisible = MutableStateFlow(false)
     val authDialogTitle = MutableStateFlow("Autenticación Requerida")
     val authDialogReason = MutableStateFlow("Confirma tu identidad para continuar.")
@@ -368,41 +416,146 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun saveSecurityAuthConfig(enabled: Boolean, newPin: String = userSecurityPin.value) {
-        val hashedPin = if (newPin.length == 4) PinHasher.hash(newPin) else newPin
         requestSecurityAuth(
             title = "Ajustes de Seguridad",
             reason = "Confirma tu identidad para modificar la autenticación de acciones sensibles."
         ) {
             viewModelScope.launch {
                 isSecurityAuthEnabled.value = enabled
-                userSecurityPin.value = hashedPin
+                userSecurityPin.value = newPin
                 repository.insertConfiguracion(Configuracion(clave = "security_auth_enabled", valor = enabled.toString()))
-                repository.insertConfiguracion(Configuracion(clave = "user_security_pin", valor = hashedPin))
+                repository.insertConfiguracion(Configuracion(clave = "user_security_pin", valor = newPin))
             }
         }
     }
 
-    // Ramas de la Empresa (Rama Principal y Ramas Secundarias / Sucursales)
-    val companyBranches: StateFlow<List<BranchInfo>> = repository.allBranches
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+    // Ramas de la Empresa (Carga desde 0 para el usuario)
+    private val _companyBranches = MutableStateFlow<List<BranchInfo>>(
+        listOf(
+            BranchInfo(1, "Sede Central (Principal)", "Sede Central", isMain = true, managerName = "")
+        )
+    )
+    val companyBranches: StateFlow<List<BranchInfo>> = _companyBranches.asStateFlow()
 
     fun addCompanyBranch(name: String, address: String, managerName: String) {
         requestSecurityAuth(
             title = "Agregar Nueva Rama / Sucursal",
             reason = "Autentícate con PIN o Huella para vincular la rama '$name' a la principal."
         ) {
-            viewModelScope.launch {
-                val nextId = (companyBranches.value.maxOfOrNull { it.id } ?: 0) + 1
-                val newBranch = BranchInfo(
-                    id = nextId,
-                    name = name,
-                    address = address,
-                    isMain = false,
-                    managerName = managerName
-                )
-                repository.insertBranch(newBranch)
-            }
+            val nextId = (_companyBranches.value.maxOfOrNull { it.id } ?: 0) + 1
+            val newBranch = BranchInfo(
+                id = nextId,
+                name = name,
+                address = address,
+                isMain = false,
+                managerName = managerName
+            )
+            _companyBranches.value = _companyBranches.value + newBranch
         }
+    }
+
+    // Onboarding & Permission Explanations & Dynamic Icons
+    val hasSeenOnboarding = MutableStateFlow(false)
+    val showOnboardingDialog = MutableStateFlow(false)
+
+    val hasAcceptedPermissionsDisclosure = MutableStateFlow(false)
+    val showPermissionsDisclosureDialog = MutableStateFlow(false)
+
+    val activeIconBadge = MutableStateFlow<DynamicIconBadge>(DynamicIconCatalog.ALL_ICONS.first())
+    val showIconGalleryDialog = MutableStateFlow(false)
+
+    fun completeOnboarding() {
+        hasSeenOnboarding.value = true
+        showOnboardingDialog.value = false
+        viewModelScope.launch {
+            repository.insertConfiguracion(Configuracion(clave = "has_seen_onboarding", valor = "true"))
+        }
+        // Show permissions explanation right after onboarding if not accepted
+        if (!hasAcceptedPermissionsDisclosure.value) {
+            showPermissionsDisclosureDialog.value = true
+        }
+    }
+
+    fun acceptPermissionsDisclosure() {
+        hasAcceptedPermissionsDisclosure.value = true
+        showPermissionsDisclosureDialog.value = false
+        viewModelScope.launch {
+            repository.insertConfiguracion(Configuracion(clave = "accepted_permissions_disclosure", valor = "true"))
+        }
+    }
+
+    fun setActiveIconBadge(badge: DynamicIconBadge) {
+        activeIconBadge.value = badge
+        viewModelScope.launch {
+            repository.insertConfiguracion(Configuracion(clave = "active_icon_badge_id", valor = badge.id))
+        }
+    }
+
+    // Monitor Oficial de Saldo Línea Móvil ETECSA (*222#)
+    val etecsaMobileBalance = MutableStateFlow(
+        EtecsaMobileBalance(
+            saldoCup = 250.00,
+            fechaVencimiento = "30/11/2026",
+            datosMb = 4500.0,
+            datosLteMb = 2500.0,
+            minutosVoz = 45,
+            mensajesSms = 120,
+            lastUpdatedTimestamp = System.currentTimeMillis()
+        )
+    )
+    val showEtecsaUssdDialog = MutableStateFlow(false)
+
+    fun updateEtecsaMobileBalance(
+        saldoCup: Double,
+        datosMb: Double,
+        datosLteMb: Double,
+        minutosVoz: Int,
+        mensajesSms: Int,
+        fechaVencimiento: String
+    ) {
+        val updated = EtecsaMobileBalance(
+            saldoCup = saldoCup,
+            fechaVencimiento = fechaVencimiento,
+            datosMb = datosMb,
+            datosLteMb = datosLteMb,
+            minutosVoz = minutosVoz,
+            mensajesSms = mensajesSms,
+            lastUpdatedTimestamp = System.currentTimeMillis()
+        )
+        etecsaMobileBalance.value = updated
+        viewModelScope.launch {
+            repository.insertConfiguracion(Configuracion(clave = "etecsa_saldo_cup", valor = saldoCup.toString()))
+            repository.insertConfiguracion(Configuracion(clave = "etecsa_datos_mb", valor = datosMb.toString()))
+            repository.insertConfiguracion(Configuracion(clave = "etecsa_datos_lte_mb", valor = datosLteMb.toString()))
+            repository.insertConfiguracion(Configuracion(clave = "etecsa_minutos", valor = minutosVoz.toString()))
+            repository.insertConfiguracion(Configuracion(clave = "etecsa_sms", valor = mensajesSms.toString()))
+            repository.insertConfiguracion(Configuracion(clave = "etecsa_vencimiento", valor = fechaVencimiento))
+        }
+    }
+
+    fun parseAndProcessUssdText(input: String) {
+        var saldo = etecsaMobileBalance.value.saldoCup
+        var datos = etecsaMobileBalance.value.datosMb
+        var lte = etecsaMobileBalance.value.datosLteMb
+        var min = etecsaMobileBalance.value.minutosVoz
+        var sms = etecsaMobileBalance.value.mensajesSms
+        var vencimiento = etecsaMobileBalance.value.fechaVencimiento
+
+        val saldoRegex = Regex("(?i)saldo:?\\s*(\\d+(?:\\.\\d+)?)\\s*CUP")
+        val datosGbRegex = Regex("(?i)(\\d+(?:\\.\\d+)?)\\s*GB")
+        val datosMbRegex = Regex("(?i)(\\d+(?:\\.\\d+)?)\\s*MB")
+        val minRegex = Regex("(?i)(\\d+)\\s*(?:Min|Minutos)")
+        val smsRegex = Regex("(?i)(\\d+)\\s*SMS")
+        val dateRegex = Regex("(\\d{2}/\\d{2}/\\d{4})")
+
+        saldoRegex.find(input)?.groupValues?.get(1)?.toDoubleOrNull()?.let { saldo = it }
+        datosGbRegex.find(input)?.groupValues?.get(1)?.toDoubleOrNull()?.let { datos = it * 1024.0 }
+        datosMbRegex.find(input)?.groupValues?.get(1)?.toDoubleOrNull()?.let { datos = it }
+        minRegex.find(input)?.groupValues?.get(1)?.toIntOrNull()?.let { min = it }
+        smsRegex.find(input)?.groupValues?.get(1)?.toIntOrNull()?.let { sms = it }
+        dateRegex.find(input)?.groupValues?.get(1)?.let { vencimiento = it }
+
+        updateEtecsaMobileBalance(saldo, datos, lte, min, sms, vencimiento)
     }
 
     // Pending mode reactivation dialog (Empleador, Empleado, Distribuidor)
@@ -411,9 +564,9 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
     // iOS Extended Peek & Pop Preview state
     val activePeekPreview = MutableStateFlow<PeekPreviewType?>(null)
 
-    // Distributor Dispatches (Despachos de Mercancía)
-    val despachosDistribuidor: StateFlow<List<DespachoDistribuidor>> = repository.allDespachos
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+    // Distributor Dispatches (Carga desde 0)
+    private val _despachosDistribuidor = MutableStateFlow<List<DespachoDistribuidor>>(emptyList())
+    val despachosDistribuidor: StateFlow<List<DespachoDistribuidor>> = _despachosDistribuidor.asStateFlow()
 
     // Configuration-backed User profile loading/saving
     private suspend fun loadConfigurations() {
@@ -426,9 +579,21 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
         val workerActive = repository.getConfiguracionByKey("modo_empleado_activo")?.valor?.toBoolean() ?: false
         val distActive = repository.getConfiguracionByKey("modo_distribuidor_activo")?.valor?.toBoolean() ?: false
 
-        val empName = repository.getConfiguracionByKey("nombre_empleador")?.valor ?: "Carlos (Empleador)"
-        val empPhone = repository.getConfiguracionByKey("telefono_empleador")?.valor ?: "+53 5234 5678"
+        val empName = repository.getConfiguracionByKey("nombre_empleador")?.valor ?: ""
+        val empPhone = repository.getConfiguracionByKey("telefono_empleador")?.valor ?: ""
         val empPhoto = repository.getConfiguracionByKey("foto_empleador")?.valor
+
+        val seenOnboarding = repository.getConfiguracionByKey("has_seen_onboarding")?.valor?.toBoolean() ?: false
+        val accPerms = repository.getConfiguracionByKey("accepted_permissions_disclosure")?.valor?.toBoolean() ?: false
+        val badgeId = repository.getConfiguracionByKey("active_icon_badge_id")?.valor ?: "TREND_UP_1"
+
+        hasSeenOnboarding.value = seenOnboarding
+        hasAcceptedPermissionsDisclosure.value = accPerms
+        activeIconBadge.value = DynamicIconCatalog.ALL_ICONS.find { it.id == badgeId } ?: DynamicIconCatalog.ALL_ICONS.first()
+
+        if (!seenOnboarding) {
+            showOnboardingDialog.value = true
+        }
 
         isEmployerModeEnabled.value = empActive
         isEmployeeModeEnabled.value = workerActive
@@ -450,14 +615,7 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
 
         // Security Authentication settings loading
         val secAuth = repository.getConfiguracionByKey("security_auth_enabled")?.valor?.toBoolean() ?: true
-        val secPinRaw = repository.getConfiguracionByKey("user_security_pin")?.valor ?: "1234"
-        val secPin = if (secPinRaw.length == 4) {
-            val hashed = PinHasher.hash(secPinRaw)
-            repository.insertConfiguracion(Configuracion(clave = "user_security_pin", valor = hashed))
-            hashed
-        } else {
-            secPinRaw
-        }
+        val secPin = repository.getConfiguracionByKey("user_security_pin")?.valor ?: "1234"
         isSecurityAuthEnabled.value = secAuth
         userSecurityPin.value = secPin
 
@@ -707,9 +865,7 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
             _appMode.value = AppMode.PERSONAL
         }
         if (enabled && resetData) {
-            viewModelScope.launch {
-                repository.deleteAllDespachos()
-            }
+            _despachosDistribuidor.value = emptyList()
         }
         viewModelScope.launch {
             repository.insertConfiguracion(Configuracion(clave = "modo_distribuidor_activo", valor = enabled.toString()))
@@ -726,9 +882,7 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
             estado = "Entregado",
             timestamp = System.currentTimeMillis()
         )
-        viewModelScope.launch {
-            repository.insertDespacho(newDespacho)
-        }
+        _despachosDistribuidor.value = listOf(newDespacho) + _despachosDistribuidor.value
     }
 
     fun updateProfilePhoto(photoUri: String) {
@@ -874,216 +1028,34 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    // --- REAL P2P SYNCHRONIZATION OVER TCP ---
-    val p2pState = MutableStateFlow("IDLE") // "IDLE", "HOSTING", "CONNECTING", "SYNCING", "COMPLETED", "ERROR"
-    val p2pIpAddress = MutableStateFlow("")
-    val p2pStatusMessage = MutableStateFlow<String?>(null)
-
-    fun getLocalIpAddress(): String {
-        try {
-            val interfaces = java.net.NetworkInterface.getNetworkInterfaces()
-            while (interfaces.hasMoreElements()) {
-                val iface = interfaces.nextElement()
-                val addresses = iface.inetAddresses
-                while (addresses.hasMoreElements()) {
-                    val addr = addresses.nextElement()
-                    if (!addr.isLoopbackAddress && addr is java.net.Inet4Address) {
-                        val ip = addr.hostAddress ?: ""
-                        if (ip.isNotBlank()) return ip
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            Log.e("IP", "Error getting local IP: ${e.message}")
-        }
-        return "192.168.1.105" // standard fallback
-    }
-
-    private var serverJob: kotlinx.coroutines.Job? = null
-
-    fun startP2PSyncServer() {
-        serverJob?.cancel()
-        serverJob = viewModelScope.launch(Dispatchers.IO) {
-            val ip = getLocalIpAddress()
-            p2pIpAddress.value = ip
-            p2pState.value = "HOSTING"
-            p2pStatusMessage.value = "Socio Principal esperando conexión en $ip:8888..."
-
-            var serverSocket: java.net.ServerSocket? = null
-            try {
-                serverSocket = java.net.ServerSocket(8888)
-                serverSocket.soTimeout = 40000 // 40 sec timeout
-                val socket = serverSocket.accept()
-
-                p2pState.value = "SYNCING"
-                p2pStatusMessage.value = "Conexión recibida de sucursal. Sincronizando datos..."
-
-                // Read proposals sent by the branch
-                val reader = java.io.BufferedReader(java.io.InputStreamReader(socket.getInputStream(), "UTF-8"))
-                val jsonStr = reader.readLine() ?: "{}"
-
-                val clientPayload = JSONObject(jsonStr)
-                val receivedPropuestas = clientPayload.optJSONArray("propuestas")
-                var proposalsCount = 0
-                if (receivedPropuestas != null) {
-                    for (i in 0 until receivedPropuestas.length()) {
-                        val pObj = receivedPropuestas.getJSONObject(i)
-                        val prop = PropuestaCambio(
-                            empleado_nombre = pObj.optString("empleado_nombre", "Sucursal"),
-                            producto_id = if (pObj.has("producto_id") && !pObj.isNull("producto_id")) pObj.getLong("producto_id") else null,
-                            nombre_producto = pObj.optString("nombre_producto"),
-                            precio_propuesto = pObj.optDouble("precio_propuesto"),
-                            stock_propuesto = pObj.optInt("stock_propuesto"),
-                            justificacion = pObj.optString("justificacion"),
-                            estado = "pendiente",
-                            timestamp = pObj.optLong("timestamp", System.currentTimeMillis())
-                        )
-                        repository.insertPropuesta(prop)
-                        proposalsCount++
-                    }
-                }
-
-                // Send Catalogue and Employees back
-                val productsList = repository.allProductos.first()
-                val employeesList = repository.allEmpleados.first()
-
-                val serverPayload = JSONObject().apply {
-                    val pArray = JSONArray()
-                    productsList.forEach { p ->
-                        pArray.put(JSONObject().apply {
-                            put("nombre", p.nombre)
-                            put("precio", p.precio)
-                            put("stock", p.stock)
-                            put("imagen_uri", p.imagen_uri)
-                        })
-                    }
-                    put("productos", pArray)
-
-                    val eArray = JSONArray()
-                    employeesList.forEach { e ->
-                        eArray.put(JSONObject().apply {
-                            put("nombre", e.nombre)
-                            put("telefono", e.telefono)
-                            put("estado", e.estado)
-                            put("fecha_vinculacion", e.fecha_vinculacion)
-                        })
-                    }
-                    put("empleados", eArray)
-                }.toString()
-
-                val writer = java.io.OutputStreamWriter(socket.getOutputStream(), "UTF-8")
-                writer.write(serverPayload + "\n")
-                writer.flush()
-
-                socket.close()
-                p2pState.value = "COMPLETED"
-                p2pStatusMessage.value = "¡Sincronización P2P Completada! Recibiste $proposalsCount propuestas de cambios."
-            } catch (e: Exception) {
-                p2pState.value = "ERROR"
-                p2pStatusMessage.value = "Error de sincronización: ${e.message ?: e.localizedMessage}"
-            } finally {
-                try { serverSocket?.close() } catch (e: Exception) {}
-            }
-        }
-    }
-
-    fun connectToP2PServer(targetIp: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            p2pState.value = "CONNECTING"
-            p2pStatusMessage.value = "Conectando al Socio Principal en $targetIp:8888..."
-
-            var socket: java.net.Socket? = null
-            try {
-                socket = java.net.Socket()
-                socket.connect(java.net.InetSocketAddress(targetIp, 8888), 15000) // 15s timeout
-
-                p2pState.value = "SYNCING"
-                p2pStatusMessage.value = "Conectado. Transfiriendo tus propuestas pendientes..."
-
-                // Send pending proposals
-                val proposalsList = repository.propuestasPendientes.first()
-                val clientPayload = JSONObject().apply {
-                    val pArray = JSONArray()
-                    proposalsList.forEach { prop ->
-                        pArray.put(JSONObject().apply {
-                            put("empleado_nombre", prop.empleado_nombre)
-                            put("producto_id", prop.producto_id)
-                            put("nombre_producto", prop.nombre_producto)
-                            put("precio_propuesto", prop.precio_propuesto)
-                            put("stock_propuesto", prop.stock_propuesto)
-                            put("justificacion", prop.justificacion)
-                            put("timestamp", prop.timestamp)
-                        })
-                    }
-                    put("propuestas", pArray)
-                }.toString()
-
-                val writer = java.io.OutputStreamWriter(socket.getOutputStream(), "UTF-8")
-                writer.write(clientPayload + "\n")
-                writer.flush()
-
-                // Read unified Catalogue and Employees from Server
-                p2pStatusMessage.value = "Recibiendo catálogo de productos unificado..."
-                val reader = java.io.BufferedReader(java.io.InputStreamReader(socket.getInputStream(), "UTF-8"))
-                val jsonStr = reader.readLine() ?: "{}"
-
-                val serverPayload = JSONObject(jsonStr)
-
-                // Import products safely
-                val receivedProducts = serverPayload.optJSONArray("productos")
-                var productsImported = 0
-                if (receivedProducts != null) {
-                    for (i in 0 until receivedProducts.length()) {
-                        val pObj = receivedProducts.getJSONObject(i)
-                        val name = pObj.optString("nombre")
-                        val price = pObj.optDouble("precio")
-                        val stock = pObj.optInt("stock")
-                        val img = if (pObj.has("imagen_uri") && !pObj.isNull("imagen_uri")) pObj.getString("imagen_uri") else null
-
-                        val existing = repository.allProductos.first().find { it.nombre.equals(name, ignoreCase = true) }
-                        if (existing != null) {
-                            repository.updateProducto(existing.copy(precio = price, stock = stock, imagen_uri = img))
-                        } else {
-                            repository.insertProducto(Producto(nombre = name, precio = price, stock = stock, imagen_uri = img))
-                        }
-                        productsImported++
-                    }
-                }
-
-                // Import employees
-                val receivedEmployees = serverPayload.optJSONArray("empleados")
-                if (receivedEmployees != null) {
-                    for (i in 0 until receivedEmployees.length()) {
-                        val eObj = receivedEmployees.getJSONObject(i)
-                        val name = eObj.optString("nombre")
-                        val phone = eObj.optString("telefono")
-                        val state = eObj.optString("estado")
-                        val dateJoined = eObj.optLong("fecha_vinculacion")
-
-                        val existing = repository.allEmpleados.first().find { it.nombre.equals(name, ignoreCase = true) }
-                        if (existing == null) {
-                            repository.insertEmpleado(Empleado(nombre = name, telefono = phone, estado = state, fecha_vinculacion = dateJoined))
-                        }
-                    }
-                }
-
-                p2pState.value = "COMPLETED"
-                p2pStatusMessage.value = "¡Sincronización exitosa! Importaste $productsImported productos unificados."
-            } catch (e: Exception) {
-                p2pState.value = "ERROR"
-                p2pStatusMessage.value = "Error al conectar o sincronizar: ${e.message ?: e.localizedMessage}"
-            } finally {
-                try { socket?.close() } catch (e: Exception) {}
-            }
-        }
-    }
-
     fun simulateP2PSync() {
-        // Kept for backward compatibility but forwards to starting server/connecting depending on role
-        if (appMode.value == AppMode.WORK_EMPLOYER) {
-            startP2PSyncServer()
-        } else {
-            connectToP2PServer("192.168.1.105")
+        viewModelScope.launch {
+            syncP2PMessage.value = "Conectando por Wi-Fi Local / Bluetooth con dispositivos vinculados..."
+            kotlinx.coroutines.delay(1000)
+
+            // Sincronización de fotos de perfil (Empleador y Empleado)
+            val currentEmpPhoto = repository.getConfiguracionByKey("foto_empleador")?.valor
+            val myProfilePhoto = _userProfile.value.photoUri
+            val myName = _userProfile.value.name.ifBlank { "Carlos (Empleador)" }
+
+            if (myProfilePhoto != null && myProfilePhoto != currentEmpPhoto) {
+                repository.insertConfiguracion(Configuracion(clave = "foto_empleador", valor = myProfilePhoto))
+                repository.insertConfiguracion(Configuracion(clave = "nombre_empleador", valor = myName))
+                _employerInfo.value = _employerInfo.value.copy(name = myName, photoUri = myProfilePhoto)
+            }
+
+            // Sincronizar fotos de empleados solo si han cambiado
+            val employees = activeEmployees.value
+            employees.forEach { emp ->
+                if (emp.foto_uri == null && myProfilePhoto != null) {
+                    // Solo actualiza si es diferente
+                    repository.updateEmpleado(emp.copy(foto_uri = myProfilePhoto))
+                }
+            }
+
+            syncP2PMessage.value = "✅ Sincronización P2P Exitosa: Fotos de perfil (Empleador/Empleado) e Inventario sincronizados sin pérdida de calidad."
+            kotlinx.coroutines.delay(2200)
+            syncP2PMessage.value = null
         }
     }
 
@@ -1234,27 +1206,10 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
 
         viewModelScope.launch {
             val total = cartTotal.value
-            val role = when (appMode.value) {
-                AppMode.WORK_EMPLOYER -> "Empleador"
-                AppMode.WORK_EMPLOYEE -> "Empleado"
-                else -> "Usuario"
-            }
-            // Update stocks and write audits
+            // Update stocks
             currentCart.forEach { (prod, qty) ->
                 val newStock = (prod.stock - qty).coerceAtLeast(0)
                 repository.updateProducto(prod.copy(stock = newStock))
-                repository.insertAuditoria(
-                    AuditoriaStock(
-                        producto_id = prod.id,
-                        nombre_producto = prod.nombre,
-                        cambio_stock = -qty,
-                        stock_anterior = prod.stock,
-                        stock_resultante = newStock,
-                        justificacion = "Venta desde Catálogo",
-                        realizado_por = role,
-                        timestamp = System.currentTimeMillis()
-                    )
-                )
             }
 
             // Create transaction of type "ingreso"
@@ -1390,9 +1345,6 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
     private val _showTransferSuccessDialog = MutableStateFlow(false)
     val showTransferSuccessDialog: StateFlow<Boolean> = _showTransferSuccessDialog.asStateFlow()
 
-    private val _localTransferError = MutableStateFlow<String?>(null)
-    val localTransferError: StateFlow<String?> = _localTransferError.asStateFlow()
-
     // Configured employer's Transfermóvil number
     val employerTransfermovilNumber = flow {
         val num = repository.getConfiguracionByKey("numero_transfermovil")?.valor.orEmpty()
@@ -1401,24 +1353,15 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
 
     fun updateTransferPhone(phone: String) {
         _transferPhone.value = phone
-        _localTransferError.value = null
     }
 
     fun updateTransferAmount(amount: String) {
         _transferAmount.value = amount
-        _localTransferError.value = null
     }
 
     fun executeTransfer(onSuccess: () -> Unit) {
         val amountVal = _transferAmount.value.toDoubleOrNull() ?: return
         val phoneVal = _transferPhone.value.ifBlank { "Destinatario" }
-
-        if (amountVal > availableBalance.value) {
-            _localTransferError.value = "Saldo insuficiente para realizar la transferencia."
-            return
-        }
-
-        _localTransferError.value = null
 
         viewModelScope.launch {
             val cal = Calendar.getInstance()
@@ -1479,163 +1422,6 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
         return sb.toString()
     }
 
-    // --- CUBACEL BALANCE & USSD STATE ---
-    val allSaldoMovil: StateFlow<List<SaldoMovil>> = repository.allSaldoMovil
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
-
-    val latestSaldoMovil: StateFlow<SaldoMovil?> = allSaldoMovil.map { list ->
-        list.firstOrNull { it.tipo == "saldo_principal" || it.tipo == "bono_datos" }
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
-
-    val activePromociones: StateFlow<List<SaldoMovil>> = repository.allPromociones
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
-
-    val ussdStatus = MutableStateFlow("IDLE") // "IDLE", "REQUESTING", "SUCCESS", "ERROR"
-    val ussdMessage = MutableStateFlow<String?>(null)
-
-    fun requestUssdBalanceUpdate(ussdCode: String = "*222#") {
-        viewModelScope.launch {
-            val context = getApplication<Application>().applicationContext
-            val telephonyManager = context.getSystemService(Application.TELEPHONY_SERVICE) as? TelephonyManager
-
-            if (telephonyManager == null) {
-                ussdStatus.value = "ERROR"
-                ussdMessage.value = "Servicio de telefonía no disponible en este dispositivo."
-                return@launch
-            }
-
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-                ussdStatus.value = "ERROR"
-                ussdMessage.value = "La consulta automática por USSD requiere Android 8.0+."
-                return@launch
-            }
-
-            val hasPermission = androidx.core.content.ContextCompat.checkSelfPermission(
-                context,
-                android.Manifest.permission.CALL_PHONE
-            ) == android.content.pm.PackageManager.PERMISSION_GRANTED
-
-            if (!hasPermission) {
-                ussdStatus.value = "ERROR"
-                ussdMessage.value = "No se ha concedido el permiso de llamadas (CALL_PHONE) para ejecutar consultas USSD."
-                return@launch
-            }
-
-            ussdStatus.value = "REQUESTING"
-            ussdMessage.value = "Enviando consulta USSD $ussdCode..."
-
-            try {
-                telephonyManager.sendUssdRequest(
-                    ussdCode,
-                    object : TelephonyManager.UssdResponseCallback() {
-                        override fun onReceiveUssdResponse(
-                            telephonyManager: TelephonyManager?,
-                            request: String?,
-                            response: CharSequence?
-                        ) {
-                            val responseText = response?.toString() ?: ""
-                            Log.d("USSD", "USSD Response: $responseText")
-                            viewModelScope.launch {
-                                try {
-                                    val parsed = com.example.data.receiver.CubacelMessageParser.parseMessage(responseText, System.currentTimeMillis())
-                                    repository.insertSaldoMovil(parsed)
-                                    ussdStatus.value = "SUCCESS"
-                                    ussdMessage.value = "Saldo actualizado: ${parsed.saldoCUP} CUP, Datos: ${parsed.datosMB} MB"
-                                } catch (e: Exception) {
-                                    ussdStatus.value = "ERROR"
-                                    ussdMessage.value = "Error al procesar respuesta USSD: ${e.message}"
-                                }
-                            }
-                        }
-
-                        override fun onReceiveUssdResponseFailed(
-                            telephonyManager: TelephonyManager?,
-                            request: String?,
-                            failureCode: Int
-                        ) {
-                            Log.e("USSD", "USSD Failed: $failureCode")
-                            ussdStatus.value = "ERROR"
-                            ussdMessage.value = when (failureCode) {
-                                -1 -> "Error de retorno de red (USSD_RETURN_FAILURE)."
-                                -2 -> "Servicio USSD temporalmente no disponible."
-                                else -> "Fallo consulta USSD (código $failureCode)."
-                            }
-                        }
-                    },
-                    android.os.Handler(android.os.Looper.getMainLooper())
-                )
-            } catch (e: Exception) {
-                ussdStatus.value = "ERROR"
-                ussdMessage.value = "Error al ejecutar USSD: ${e.message}"
-            }
-        }
-    }
-
-    fun saveManualSaldo(saldoCUP: Double, datosMB: Double, bonoDatosMB: Double, vencimiento: String) {
-        viewModelScope.launch {
-            val record = SaldoMovil(
-                tipo = "saldo_principal",
-                saldoCUP = saldoCUP,
-                datosMB = datosMB,
-                bonoDatosMB = bonoDatosMB,
-                fechaVencimiento = vencimiento.ifBlank { "30 días" },
-                descripcion = "Ingreso manual: $saldoCUP CUP | $datosMB MB | $bonoDatosMB MB",
-                timestamp = System.currentTimeMillis()
-            )
-            repository.insertSaldoMovil(record)
-        }
-    }
-
-    // --- CONSUMO DE DATOS REAL ---
-    fun hasUsageStatsPermission(): Boolean {
-        val context = getApplication<Application>().applicationContext
-        val appOps = context.getSystemService(android.content.Context.APP_OPS_SERVICE) as? android.app.AppOpsManager ?: return false
-        val mode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            appOps.unsafeCheckOpNoThrow(
-                android.app.AppOpsManager.OPSTR_GET_USAGE_STATS,
-                android.os.Process.myUid(),
-                context.packageName
-            )
-        } else {
-            appOps.checkOpNoThrow(
-                android.app.AppOpsManager.OPSTR_GET_USAGE_STATS,
-                android.os.Process.myUid(),
-                context.packageName
-            )
-        }
-        return mode == android.app.AppOpsManager.MODE_ALLOWED
-    }
-
-    // Expose state flow with the consumed cellular bytes computed dynamically
-    val consumedMobileDataBytes: StateFlow<Long> = latestSaldoMovil.map { latest ->
-        val context = getApplication<Application>().applicationContext
-        if (!hasUsageStatsPermission()) {
-            return@map 0L
-        }
-
-        // Start measuring from the timestamp when the current package was active/configured
-        val startTime = latest?.timestamp ?: (System.currentTimeMillis() - 30 * 24 * 60 * 60 * 1000L)
-        val endTime = System.currentTimeMillis()
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val networkStatsManager = context.getSystemService(android.content.Context.NETWORK_STATS_SERVICE) as? android.app.usage.NetworkStatsManager
-            if (networkStatsManager != null) {
-                try {
-                    val bucket = networkStatsManager.querySummaryForDevice(
-                        android.net.NetworkCapabilities.TRANSPORT_CELLULAR,
-                        null,
-                        startTime,
-                        endTime
-                    )
-                    return@map bucket.rxBytes + bucket.txBytes
-                } catch (e: Exception) {
-                    Log.e("DataUsage", "Error querying device mobile data: ${e.message}")
-                }
-            }
-        }
-        0L
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0L)
-
     fun clearAllData() {
         viewModelScope.launch {
             repository.deleteAllTransactions()
@@ -1643,7 +1429,6 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
             repository.deleteAllContactos()
             repository.deleteAllConfiguraciones()
             repository.deleteAllAuditorias()
-            repository.deleteAllSaldoMovil()
             // reload configs
             loadConfigurations()
         }

@@ -14,8 +14,7 @@ import java.util.UUID
 
 object QvaPayApiService {
 
-    // Unified base URL pointing to api.qvapay.com/v2
-    private const val BASE_URL = "https://api.qvapay.com/v2"
+    private const val BASE_URL = "https://qvapay.com/api/v1"
 
     suspend fun getUserInfo(appKey: String, appSecret: String): Result<QvaPayUserInfo> = withContext(Dispatchers.IO) {
         try {
@@ -23,18 +22,20 @@ object QvaPayApiService {
                 return@withContext Result.failure(Exception("Debe ingresar su App Key y App Secret de QvaPay."))
             }
 
-            // Authentication is sent purely via HTTP headers; no query parameters are appended
-            val urlString = "$BASE_URL/info"
+            val encodedKey = URLEncoder.encode(appKey.trim(), "UTF-8")
+            val encodedSecret = URLEncoder.encode(appSecret.trim(), "UTF-8")
+            val urlString = "$BASE_URL/info?app_key=$encodedKey&app_secret=$encodedSecret"
 
-            val jsonString = performHttpGet(urlString, appKey, appSecret)
+            val jsonString = performHttpGet(urlString)
             val json = JSONObject(jsonString)
 
+            // QvaPay info response can have fields inside "user" or root object
             val userObj = json.optJSONObject("user") ?: json
             val name = userObj.optString("name", userObj.optString("username", "Usuario QvaPay"))
             val username = userObj.optString("username", "qvapay_user")
             val email = userObj.optString("email", "")
             val balance = userObj.optDouble("balance", json.optDouble("balance", 0.0))
-            val logo = userObj.optString("logo", userObj.optString("avatar", ""))
+            val logo = userObj.optString("logo", userObj.optString("avatar", null))
             val bio = userObj.optString("bio", "")
 
             Result.success(
@@ -43,7 +44,7 @@ object QvaPayApiService {
                     username = username,
                     email = email,
                     balance = balance,
-                    logo = if (logo != "null" && logo.isNotBlank()) logo else null,
+                    logo = if (logo != "null" && !logo.isNull_or_empty()) logo else null,
                     bio = if (bio != "null") bio else null
                 )
             )
@@ -58,10 +59,11 @@ object QvaPayApiService {
                 return@withContext Result.success(getFallbackCoins())
             }
 
-            // Authentication is sent purely via HTTP headers; no query parameters are appended
-            val urlString = "$BASE_URL/coins"
+            val encodedKey = URLEncoder.encode(appKey.trim(), "UTF-8")
+            val encodedSecret = URLEncoder.encode(appSecret.trim(), "UTF-8")
+            val urlString = "$BASE_URL/coins?app_key=$encodedKey&app_secret=$encodedSecret"
 
-            val jsonString = performHttpGet(urlString, appKey, appSecret)
+            val jsonString = performHttpGet(urlString)
             val jsonArray = try {
                 JSONArray(jsonString)
             } catch (e: Exception) {
@@ -89,6 +91,7 @@ object QvaPayApiService {
                 Result.success(coinsList)
             }
         } catch (e: Exception) {
+            // If offline or network issue, return standard QvaPay coins list
             Result.success(getFallbackCoins())
         }
     }
@@ -111,15 +114,15 @@ object QvaPayApiService {
                 return@withContext Result.failure(Exception("El monto a transferir debe ser mayor a 0 SQP."))
             }
 
-            val urlString = "$BASE_URL/transfer"
-            // Credentials are removed from the JSON body because they are sent in custom headers
-            val jsonBody = JSONObject().apply {
-                put("to", toUsername.trim())
-                put("amount", amount)
-                put("description", description.ifBlank { "Pago QvaPay" })
-            }.toString()
+            val encodedKey = URLEncoder.encode(appKey.trim(), "UTF-8")
+            val encodedSecret = URLEncoder.encode(appSecret.trim(), "UTF-8")
+            val encodedTo = URLEncoder.encode(toUsername.trim(), "UTF-8")
+            val encodedAmount = amount.toString()
+            val encodedDesc = URLEncoder.encode(description.ifBlank { "Pago QvaPay" }, "UTF-8")
 
-            val jsonString = performHttpPost(urlString, jsonBody, appKey, appSecret)
+            val urlString = "$BASE_URL/transfer?app_key=$encodedKey&app_secret=$encodedSecret&to=$encodedTo&amount=$encodedAmount&description=$encodedDesc"
+
+            val jsonString = performHttpGet(urlString)
             val json = JSONObject(jsonString)
 
             val success = json.optBoolean("success", true)
@@ -149,10 +152,11 @@ object QvaPayApiService {
                 return@withContext Result.success(getFallbackTransactions())
             }
 
-            // Authentication is sent purely via HTTP headers; no query parameters are appended
-            val urlString = "$BASE_URL/transactions"
+            val encodedKey = URLEncoder.encode(appKey.trim(), "UTF-8")
+            val encodedSecret = URLEncoder.encode(appSecret.trim(), "UTF-8")
+            val urlString = "$BASE_URL/transactions?app_key=$encodedKey&app_secret=$encodedSecret"
 
-            val jsonString = performHttpGet(urlString, appKey, appSecret)
+            val jsonString = performHttpGet(urlString)
             val jsonArray = try {
                 val root = JSONObject(jsonString)
                 root.optJSONArray("data") ?: root.optJSONArray("transactions") ?: JSONArray()
@@ -208,18 +212,12 @@ object QvaPayApiService {
                 )
             }
 
-            val urlString = "$BASE_URL/create_invoice"
-            // Credentials are removed from the JSON body because they are sent in custom headers
-            val jsonBody = JSONObject().apply {
-                put("amount", amount)
-                put("description", description.ifBlank { "Cobro QvaPay" })
-                if (urlCallback.isNotBlank()) {
-                    put("url_callback", urlCallback)
-                    put("return_url", urlCallback)
-                }
-            }.toString()
+            val encodedKey = URLEncoder.encode(appKey.trim(), "UTF-8")
+            val encodedSecret = URLEncoder.encode(appSecret.trim(), "UTF-8")
+            val encodedDesc = URLEncoder.encode(description.ifBlank { "Cobro QvaPay" }, "UTF-8")
+            val urlString = "$BASE_URL/create_invoice?app_key=$encodedKey&app_secret=$encodedSecret&amount=$amount&description=$encodedDesc"
 
-            val jsonString = performHttpPost(urlString, jsonBody, appKey, appSecret)
+            val jsonString = performHttpGet(urlString)
             val json = JSONObject(jsonString)
 
             val invId = json.optString("id", json.optString("uuid", UUID.randomUUID().toString().take(8)))
@@ -281,7 +279,7 @@ object QvaPayApiService {
         )
     }
 
-    private fun performHttpGet(urlString: String, appKey: String, appSecret: String): String {
+    private fun performHttpGet(urlString: String): String {
         val url = URL(urlString)
         val conn = url.openConnection() as HttpURLConnection
         conn.requestMethod = "GET"
@@ -290,12 +288,6 @@ object QvaPayApiService {
         conn.setRequestProperty("Accept", "application/json")
         conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Android QvaPay Client)")
 
-        // Consistently use app-id and app-secret headers as specified by actual QvaPay merchant API
-        if (appKey.isNotBlank()) {
-            conn.setRequestProperty("app-id", appKey.trim())
-            conn.setRequestProperty("app-secret", appSecret.trim())
-        }
-
         val responseCode = conn.responseCode
         val stream = if (responseCode in 200..299) conn.inputStream else conn.errorStream
             ?: conn.inputStream
@@ -318,49 +310,7 @@ object QvaPayApiService {
         return response.toString()
     }
 
-    private fun performHttpPost(urlString: String, jsonBody: String, appKey: String, appSecret: String): String {
-        val url = URL(urlString)
-        val conn = url.openConnection() as HttpURLConnection
-        conn.requestMethod = "POST"
-        conn.connectTimeout = 8000
-        conn.readTimeout = 8000
-        conn.setRequestProperty("Content-Type", "application/json; charset=utf-8")
-        conn.setRequestProperty("Accept", "application/json")
-        conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Android QvaPay Client)")
-
-        // Consistently use app-id and app-secret headers as specified by actual QvaPay merchant API
-        if (appKey.isNotBlank()) {
-            conn.setRequestProperty("app-id", appKey.trim())
-            conn.setRequestProperty("app-secret", appSecret.trim())
-        }
-
-        conn.doOutput = true
-        val writer = OutputStreamWriter(conn.outputStream, "UTF-8")
-        writer.write(jsonBody)
-        writer.flush()
-        writer.close()
-
-        val responseCode = conn.responseCode
-        val stream = if (responseCode in 200..299) conn.inputStream else conn.errorStream
-            ?: conn.inputStream
-
-        val reader = BufferedReader(InputStreamReader(stream, "UTF-8"))
-        val response = StringBuilder()
-        var line: String?
-        while (reader.readLine().also { line = it } != null) {
-            response.append(line)
-        }
-        reader.close()
-        conn.disconnect()
-
-        if (responseCode !in 200..299 && response.isNotEmpty()) {
-            val jsonErr = try { JSONObject(response.toString()) } catch (e: Exception) { null }
-            val errMsg = jsonErr?.optString("error") ?: jsonErr?.optString("message") ?: "HTTP $responseCode"
-            throw Exception(errMsg)
-        }
-
-        return response.toString()
-    }
+    private fun String.isNull_or_empty(): Boolean = this.isEmpty() || this == "null"
 
     private fun getFallbackCoins(): List<QvaPayCoin> {
         return listOf(

@@ -583,3 +583,282 @@ fun QRCodeCanvas(
         }
     }
 }
+
+// -------------------------------------------------------------
+// 5. CANDLESTICK TRADING CHART FOR MOBILE BALANCE (*222#)
+// -------------------------------------------------------------
+data class MobileCandleData(
+    val dayLabel: String,  // e.g. "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"
+    val open: Double,      // Saldo al iniciar el período
+    val close: Double,     // Saldo al cerrar el período
+    val high: Double,      // Saldo máximo alcanzado
+    val low: Double,       // Saldo mínimo alcanzado
+    val eventNote: String = "" // e.g. "Recarga +$500", "Paquete 4GB LTE"
+)
+
+@Composable
+fun CandlestickMobileChart(
+    candles: List<MobileCandleData>,
+    modifier: Modifier = Modifier,
+    title: String = "Gráfica de Velas: Historial Saldo Móvil"
+) {
+    var selectedCandleIndex by remember { mutableStateOf<Int?>(candles.lastIndex.coerceAtLeast(0)) }
+    val currencyFormatter = remember { NumberFormat.getCurrencyInstance(Locale.US) }
+
+    val animProgress = remember { Animatable(0f) }
+    LaunchedEffect(candles) {
+        animProgress.animateTo(1f, tween(1000))
+    }
+
+    val minLow = remember(candles) { candles.minOfOrNull { it.low }?.coerceAtLeast(0.0) ?: 0.0 }
+    val maxHigh = remember(candles) { candles.maxOfOrNull { it.high }?.coerceAtLeast(50.0) ?: 500.0 }
+    val valueRange = remember(minLow, maxHigh) { (maxHigh - minLow).coerceAtLeast(10.0) }
+
+    GlassCard(
+        modifier = modifier
+            .fillMaxWidth()
+            .testTag("candlestick_chart_card"),
+        cornerRadius = 24.dp,
+        backgroundColor = Color(0xF5FFFFFF),
+        elevation = 6.dp
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(18.dp)
+        ) {
+            // Header
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column {
+                    Text(
+                        text = title,
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp,
+                            color = TextPrimary
+                        )
+                    )
+                    Text(
+                        text = "Velas de Recarga (Verde 🟩) y Consumo (Roja 🟥)",
+                        style = MaterialTheme.typography.bodySmall.copy(
+                            color = TextSecondary,
+                            fontSize = 11.5.sp
+                        )
+                    )
+                }
+
+                Box(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(10.dp))
+                        .background(PurplePrimary.copy(alpha = 0.12f))
+                        .padding(horizontal = 8.dp, vertical = 4.dp)
+                ) {
+                    Text(
+                        text = "Trading Móvil 📊",
+                        style = MaterialTheme.typography.labelSmall.copy(
+                            color = PurplePrimary,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 10.5.sp
+                        )
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(14.dp))
+
+            // Friendly Explanatory Tooltip when a Candle is Selected
+            selectedCandleIndex?.let { index ->
+                if (index in candles.indices) {
+                    val candle = candles[index]
+                    val isGain = candle.close >= candle.open
+                    val diff = candle.close - candle.open
+                    val candleColor = if (isGain) IncomeGreen else ExpenseRed
+
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(16.dp))
+                            .background(candleColor.copy(alpha = 0.12f))
+                            .border(1.dp, candleColor.copy(alpha = 0.3f), RoundedCornerShape(16.dp))
+                            .padding(12.dp)
+                    ) {
+                        Column {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = "Día selecciondo: ${candle.dayLabel}",
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 13.sp,
+                                    color = TextPrimary
+                                )
+                                Text(
+                                    text = if (isGain) "🟩 Recarga / Bono (+${currencyFormatter.format(diff)})" else "🟥 Consumo / Gastos (${currencyFormatter.format(diff)})",
+                                    fontWeight = FontWeight.ExtraBold,
+                                    fontSize = 12.sp,
+                                    color = candleColor
+                                )
+                            }
+                            Spacer(modifier = Modifier.height(6.dp))
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text("Apertura: ${currencyFormatter.format(candle.open)}", fontSize = 11.sp, color = TextSecondary)
+                                Text("Cierre: ${currencyFormatter.format(candle.close)}", fontSize = 11.sp, color = TextSecondary)
+                                Text("Máx: ${currencyFormatter.format(candle.high)}", fontSize = 11.sp, color = TextSecondary)
+                                Text("Mín: ${currencyFormatter.format(candle.low)}", fontSize = 11.sp, color = TextSecondary)
+                            }
+                            if (candle.eventNote.isNotBlank()) {
+                                Spacer(modifier = Modifier.height(4.dp))
+                                Text(
+                                    text = "💡 Evento: ${candle.eventNote}",
+                                    fontSize = 11.sp,
+                                    fontWeight = FontWeight.Medium,
+                                    color = PurplePrimary
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(14.dp))
+
+            // Canvas Candlestick Chart Area
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(160.dp)
+            ) {
+                Canvas(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .pointerInput(candles) {
+                            detectTapGestures { offset ->
+                                val candleWidthGroup = size.width / candles.size
+                                val clickedIndex = (offset.x / candleWidthGroup).toInt().coerceIn(0, candles.lastIndex)
+                                selectedCandleIndex = clickedIndex
+                            }
+                        }
+                ) {
+                    val width = size.width
+                    val height = size.height
+                    val paddingBottom = 20.dp.toPx()
+                    val availableHeight = height - paddingBottom - 10.dp.toPx()
+                    val candleGroupWidth = width / candles.size
+                    val candleBodyWidth = (candleGroupWidth * 0.45f).coerceAtLeast(8.dp.toPx())
+
+                    // Grid Horizontal Reference Lines
+                    val gridLines = 4
+                    for (i in 0..gridLines) {
+                        val y = height - paddingBottom - (i.toFloat() / gridLines * availableHeight)
+                        drawLine(
+                            color = Color(0xFFE5E7EB),
+                            start = Offset(0f, y),
+                            end = Offset(width, y),
+                            strokeWidth = 1f
+                        )
+                    }
+
+                    // Render Candlesticks
+                    candles.forEachIndexed { index, candle ->
+                        val isGain = candle.close >= candle.open
+                        val color = if (isGain) IncomeGreen else ExpenseRed
+                        val centerX = index * candleGroupWidth + candleGroupWidth / 2f
+
+                        // Y mapping
+                        val highY = height - paddingBottom - (((candle.high - minLow) / valueRange) * availableHeight * animProgress.value).toFloat()
+                        val lowY = height - paddingBottom - (((candle.low - minLow) / valueRange) * availableHeight * animProgress.value).toFloat()
+                        val openY = height - paddingBottom - (((candle.open - minLow) / valueRange) * availableHeight * animProgress.value).toFloat()
+                        val closeY = height - paddingBottom - (((candle.close - minLow) / valueRange) * availableHeight * animProgress.value).toFloat()
+
+                        val bodyTopY = minOf(openY, closeY)
+                        val bodyBottomY = maxOf(openY, closeY)
+                        val bodyHeight = (bodyBottomY - bodyTopY).coerceAtLeast(4.dp.toPx())
+
+                        val isSelected = selectedCandleIndex == index
+
+                        // Draw Wick (Mecha)
+                        drawLine(
+                            color = if (isSelected) Color.Black else color,
+                            start = Offset(centerX, highY),
+                            end = Offset(centerX, lowY),
+                            strokeWidth = if (isSelected) 3.5.dp.toPx() else 2.dp.toPx()
+                        )
+
+                        // Draw Candle Body (Cuerpo de la vela)
+                        drawRoundRect(
+                            color = color,
+                            topLeft = Offset(centerX - candleBodyWidth / 2f, bodyTopY),
+                            size = Size(candleBodyWidth, bodyHeight),
+                            cornerRadius = androidx.compose.ui.geometry.CornerRadius(4.dp.toPx(), 4.dp.toPx())
+                        )
+
+                        // Highlight border if selected
+                        if (isSelected) {
+                            drawRoundRect(
+                                color = Color.Black,
+                                topLeft = Offset(centerX - candleBodyWidth / 2f - 2.dp.toPx(), bodyTopY - 2.dp.toPx()),
+                                size = Size(candleBodyWidth + 4.dp.toPx(), bodyHeight + 4.dp.toPx()),
+                                style = Stroke(width = 2.dp.toPx()),
+                                cornerRadius = androidx.compose.ui.geometry.CornerRadius(6.dp.toPx(), 6.dp.toPx())
+                            )
+                        }
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // X-Axis Day Labels
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceAround
+            ) {
+                candles.forEachIndexed { index, candle ->
+                    val isSelected = selectedCandleIndex == index
+                    Text(
+                        text = candle.dayLabel,
+                        style = MaterialTheme.typography.bodySmall.copy(
+                            color = if (isSelected) PurplePrimary else TextSecondary,
+                            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                            fontSize = 11.5.sp
+                        )
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // Simple Legend for Non-Traders
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(Color(0xFFF3F4F6))
+                    .padding(vertical = 6.dp, horizontal = 10.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Box(modifier = Modifier.size(10.dp).clip(RoundedCornerShape(2.dp)).background(IncomeGreen))
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text("🟩 Vela Verde: Recargas / Bonos", fontSize = 10.5.sp, color = TextPrimary, fontWeight = FontWeight.Medium)
+                }
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Box(modifier = Modifier.size(10.dp).clip(RoundedCornerShape(2.dp)).background(ExpenseRed))
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text("🟥 Vela Roja: Consumo / Megas", fontSize = 10.5.sp, color = TextPrimary, fontWeight = FontWeight.Medium)
+                }
+            }
+        }
+    }
+}
+

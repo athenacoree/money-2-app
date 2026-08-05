@@ -12,9 +12,6 @@ import com.example.data.model.Mensaje
 import com.example.data.model.Configuracion
 import com.example.data.model.AuditoriaStock
 import com.example.data.model.PropuestaCambio
-import com.example.data.model.BranchInfo
-import com.example.data.model.DespachoDistribuidor
-import com.example.data.model.SaldoMovil
 
 @Database(
     entities = [
@@ -25,12 +22,9 @@ import com.example.data.model.SaldoMovil
         Mensaje::class,
         Configuracion::class,
         AuditoriaStock::class,
-        PropuestaCambio::class,
-        BranchInfo::class,
-        DespachoDistribuidor::class,
-        SaldoMovil::class
+        PropuestaCambio::class
     ],
-    version = 8,
+    version = 7,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -42,9 +36,6 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun configuracionDao(): ConfiguracionDao
     abstract fun auditoriaStockDao(): AuditoriaStockDao
     abstract fun propuestaCambioDao(): PropuestaCambioDao
-    abstract fun branchDao(): BranchDao
-    abstract fun despachoDistribuidorDao(): DespachoDistribuidorDao
-    abstract fun saldoMovilDao(): SaldoMovilDao
 
     companion object {
         @Volatile
@@ -55,7 +46,7 @@ abstract class AppDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    "money_v6_clean.db"
+                    "money_v7_clean.db"
                 )
                 .fallbackToDestructiveMigration()
                 .build()

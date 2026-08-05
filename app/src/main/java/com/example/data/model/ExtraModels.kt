@@ -2,7 +2,6 @@ package com.example.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.security.MessageDigest
 
 @Entity(tableName = "productos")
 data class Producto(
@@ -103,34 +102,20 @@ data class DespachoDistribuidor(
     val timestamp: Long = System.currentTimeMillis()
 )
 
-@Entity(tableName = "company_branches")
 data class BranchInfo(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    val id: Int,
     val name: String,
     val address: String,
     val isMain: Boolean = false,
     val managerName: String = "Administrador"
 )
 
-object PinHasher {
-    private const val SALT = "CubaFinanzasSalt2026"
-    fun hash(pin: String): String {
-        val digest = MessageDigest.getInstance("SHA-256")
-        val hashBytes = digest.digest((pin + SALT).toByteArray(Charsets.UTF_8))
-        return hashBytes.joinToString("") { "%02x".format(it) }
-    }
-}
-
-@Entity(tableName = "saldo_movil")
-data class SaldoMovil(
-    @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
-    val tipo: String, // "saldo_principal", "bono_datos", "promocion", "alerta_consumo"
-    val saldoCUP: Double = 0.0,
-    val datosMB: Double = 0.0,
-    val bonoDatosMB: Double = 0.0,
-    val fechaVencimiento: String = "",
-    val descripcion: String = "",
-    val timestamp: Long = System.currentTimeMillis()
+data class EtecsaMobileBalance(
+    val saldoCup: Double = 150.00,
+    val fechaVencimiento: String = "30/11/2026",
+    val datosMb: Double = 3584.0, // MB totales
+    val datosLteMb: Double = 2048.0, // MB LTE
+    val minutosVoz: Int = 45, // Minutos
+    val mensajesSms: Int = 120, // Cantidad de SMS
+    val lastUpdatedTimestamp: Long = System.currentTimeMillis()
 )

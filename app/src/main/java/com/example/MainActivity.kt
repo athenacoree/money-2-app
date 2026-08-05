@@ -29,6 +29,9 @@ import com.example.ui.components.GlobalSearchDialog
 import com.example.ui.components.GlassBottomBar
 import com.example.ui.components.NavTab
 import com.example.ui.components.SecurityAuthDialog
+import com.example.ui.components.OnboardingTourDialog
+import com.example.ui.components.PermissionsDisclosureDialog
+import com.example.ui.components.DynamicIconGalleryDialog
 import com.example.ui.dialogs.AddTransactionDialog
 import com.example.ui.dialogs.EditProfileDialog
 import com.example.ui.dialogs.HelpDialog
@@ -86,8 +89,7 @@ enum class SubScreen {
     CATALOG,
     CHAT_LIST,
     CHAT_DETAIL,
-    ADVANCED_SETTINGS,
-    DATA_USAGE
+    ADVANCED_SETTINGS
 }
 
 @Composable
@@ -167,10 +169,6 @@ fun MoneyMainApp(viewModel: MoneyViewModel) {
                         viewModel = viewModel,
                         onBack = { activeSubScreen = SubScreen.NONE }
                     )
-                    SubScreen.DATA_USAGE -> com.example.ui.screens.DataUsageScreen(
-                        viewModel = viewModel,
-                        onBack = { activeSubScreen = SubScreen.NONE }
-                    )
                     SubScreen.NONE -> {}
                 }
             } else if (appMode == AppMode.WORK_EMPLOYER) {
@@ -214,8 +212,7 @@ fun MoneyMainApp(viewModel: MoneyViewModel) {
                         NavTab.Profile -> ProfileScreen(
                             viewModel = viewModel,
                             onOpenCatalog = { activeSubScreen = SubScreen.CATALOG },
-                            onOpenAdvancedSettings = { activeSubScreen = SubScreen.ADVANCED_SETTINGS },
-                            onOpenDataUsage = { activeSubScreen = SubScreen.DATA_USAGE }
+                            onOpenAdvancedSettings = { activeSubScreen = SubScreen.ADVANCED_SETTINGS }
                         )
                     }
                 }
@@ -341,6 +338,32 @@ fun MoneyMainApp(viewModel: MoneyViewModel) {
             userPin = userSecurityPin,
             onSuccess = { viewModel.onSecurityAuthSuccess() },
             onCancel = { viewModel.onSecurityAuthCancel() }
+        )
+    }
+
+    val showOnboarding by viewModel.showOnboardingDialog.collectAsState()
+    if (showOnboarding) {
+        OnboardingTourDialog(
+            onDismiss = { viewModel.showOnboardingDialog.value = false },
+            onComplete = { viewModel.completeOnboarding() }
+        )
+    }
+
+    val showPermissionsDisclosure by viewModel.showPermissionsDisclosureDialog.collectAsState()
+    if (showPermissionsDisclosure) {
+        PermissionsDisclosureDialog(
+            onDismiss = { viewModel.showPermissionsDisclosureDialog.value = false },
+            onGrantPermissions = { viewModel.acceptPermissionsDisclosure() }
+        )
+    }
+
+    val showIconGallery by viewModel.showIconGalleryDialog.collectAsState()
+    val activeIconBadge by viewModel.activeIconBadge.collectAsState()
+    if (showIconGallery) {
+        DynamicIconGalleryDialog(
+            activeIcon = activeIconBadge,
+            onSelectIcon = { viewModel.setActiveIconBadge(it) },
+            onDismiss = { viewModel.showIconGalleryDialog.value = false }
         )
     }
 }

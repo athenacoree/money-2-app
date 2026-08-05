@@ -61,8 +61,6 @@ import com.example.ui.theme.GlassWhite
 import com.example.ui.theme.PurplePrimary
 import com.example.ui.theme.PurpleSecondary
 import com.example.ui.theme.TextPrimary
-import com.example.ui.theme.ExpenseRed
-import com.example.ui.theme.ExpenseRedBg
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -373,41 +371,12 @@ fun AnimatedBalanceCounter(
         }
     }
 
-    val isNegative = targetAmount < 0.0
-    val textColor = if (isNegative) ExpenseRed else TextPrimary
-    val formattedString = if (isNegative) {
-        "-$currencySymbol${formatter.format(Math.abs(animatedValue.value.toDouble()))}"
-    } else {
-        "$currencySymbol${formatter.format(animatedValue.value)}"
-    }
-
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
-    ) {
-        Text(
-            text = formattedString,
-            style = MaterialTheme.typography.headlineLarge.copy(
-                color = textColor,
-                fontSize = 32.sp,
-                fontWeight = FontWeight.Bold
-            ),
-            modifier = Modifier.testTag("balance_counter_text")
-        )
-        if (isNegative) {
-            Spacer(modifier = Modifier.height(4.dp))
-            Box(
-                modifier = Modifier
-                    .background(ExpenseRedBg, shape = RoundedCornerShape(8.dp))
-                    .padding(horizontal = 8.dp, vertical = 4.dp)
-            ) {
-                Text(
-                    text = "⚠️ SOBREGIRO",
-                    color = ExpenseRed,
-                    fontSize = 10.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-        }
-    }
+    Text(
+        text = "$currencySymbol${formatter.format(animatedValue.value)}",
+        style = MaterialTheme.typography.headlineLarge.copy(
+            color = TextPrimary,
+            fontSize = 32.sp
+        ),
+        modifier = modifier.testTag("balance_counter_text")
+    )
 }

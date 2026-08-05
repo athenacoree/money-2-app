@@ -3,6 +3,8 @@ package com.example.ui.screens
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -91,9 +93,10 @@ fun TransferScreen(
     val amount by viewModel.transferAmount.collectAsState()
     val contacts by viewModel.conversations.collectAsState()
     val employerNumber by viewModel.employerTransfermovilNumber.collectAsState()
-    val localTransferError by viewModel.localTransferError.collectAsState()
+    val etecsaBalance by viewModel.etecsaMobileBalance.collectAsState()
 
     var activeTab by remember { mutableStateOf(TransferTabType.QVAPAY_P2P) }
+    var showSyncUssdDialog by remember { mutableStateOf(false) }
 
     // QvaPay form states
     var targetQvaPayUser by remember { mutableStateOf("") }
@@ -1026,6 +1029,197 @@ fun TransferScreen(
                     }
                 }
 
+                // Monitor Oficial de Saldo & Recursos ETECSA (*222#)
+                item {
+                    GlassCard(
+                        modifier = Modifier.fillMaxWidth(),
+                        cornerRadius = 24.dp,
+                        backgroundColor = Color(0xF5FFFFFF),
+                        borderWidth = 1.dp,
+                        borderColor = Color(0xFF10B981).copy(alpha = 0.4f),
+                        elevation = 6.dp
+                    ) {
+                        Column(modifier = Modifier.padding(20.dp)) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Text("🇨🇺", fontSize = 22.sp)
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Column {
+                                        Text(
+                                            text = "Saldo Móvil & Recursos (*222#)",
+                                            style = MaterialTheme.typography.titleMedium.copy(
+                                                fontWeight = FontWeight.Bold,
+                                                color = TextPrimary
+                                            )
+                                        )
+                                        Text(
+                                            text = "ETECSA Cuba • Vence: ${etecsaBalance.fechaVencimiento}",
+                                            style = MaterialTheme.typography.bodySmall.copy(
+                                                color = TextSecondary,
+                                                fontSize = 11.5.sp
+                                            )
+                                        )
+                                    }
+                                }
+
+                                IconButton(onClick = { showSyncUssdDialog = true }) {
+                                    Icon(
+                                        imageVector = Icons.Default.Refresh,
+                                        contentDescription = "Sincronizar USSD",
+                                        tint = PurplePrimary
+                                    )
+                                }
+                            }
+
+                            Spacer(modifier = Modifier.height(14.dp))
+
+                            // Main CUP Balance Display
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clip(RoundedCornerShape(16.dp))
+                                    .background(Color(0xFFECFDF5))
+                                    .border(1.dp, Color(0xFFA7F3D0), RoundedCornerShape(16.dp))
+                                    .padding(14.dp)
+                            ) {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Column {
+                                        Text(
+                                            text = "SALDO PRINCIPAL MÓVIL",
+                                            style = MaterialTheme.typography.labelSmall.copy(
+                                                color = Color(0xFF065F46),
+                                                fontWeight = FontWeight.Bold,
+                                                fontSize = 10.sp
+                                            )
+                                        )
+                                        Text(
+                                            text = String.format(Locale.US, "$%.2f CUP", etecsaBalance.saldoCup),
+                                            style = MaterialTheme.typography.headlineSmall.copy(
+                                                fontWeight = FontWeight.ExtraBold,
+                                                color = IncomeGreen
+                                            )
+                                        )
+                                    }
+
+                                    Button(
+                                        onClick = {
+                                            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:*222#"))
+                                            context.startActivity(intent)
+                                        },
+                                        colors = ButtonDefaults.buttonColors(containerColor = IncomeGreen),
+                                        shape = RoundedCornerShape(12.dp)
+                                    ) {
+                                        Text("Marcar *222#", fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                                    }
+                                }
+                            }
+
+                            Spacer(modifier = Modifier.height(14.dp))
+
+                            // Desglose de Paquetes / Bonos (Megas, Minutos, SMS)
+                            Text(
+                                text = "Paquetes & Bonos Activos",
+                                style = MaterialTheme.typography.labelLarge.copy(
+                                    fontWeight = FontWeight.Bold,
+                                    color = TextPrimary
+                                )
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                // Datos GB / MB
+                                Box(
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .clip(RoundedCornerShape(14.dp))
+                                        .background(Color(0xFFEFF6FF))
+                                        .border(1.dp, Color(0xFFBFDBFE), RoundedCornerShape(14.dp))
+                                        .clickable {
+                                            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:*222*328#"))
+                                            context.startActivity(intent)
+                                        }
+                                        .padding(10.dp)
+                                ) {
+                                    Column {
+                                        Text("🌐 Datos", fontSize = 11.sp, fontWeight = FontWeight.SemiBold, color = Color(0xFF1E40AF))
+                                        Spacer(modifier = Modifier.height(2.dp))
+                                        Text(
+                                            text = if (etecsaBalance.datosMb >= 1024) String.format(Locale.US, "%.1f GB", etecsaBalance.datosMb / 1024.0) else "${etecsaBalance.datosMb.toInt()} MB",
+                                            fontSize = 14.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            color = Color(0xFF1D4ED8)
+                                        )
+                                        Text("*222*328#", fontSize = 9.5.sp, color = TextSecondary)
+                                    }
+                                }
+
+                                // Minutos
+                                Box(
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .clip(RoundedCornerShape(14.dp))
+                                        .background(Color(0xFFFDF4FF))
+                                        .border(1.dp, Color(0xFFF5D0FE), RoundedCornerShape(14.dp))
+                                        .clickable {
+                                            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:*222*869#"))
+                                            context.startActivity(intent)
+                                        }
+                                        .padding(10.dp)
+                                ) {
+                                    Column {
+                                        Text("📞 Minutos", fontSize = 11.sp, fontWeight = FontWeight.SemiBold, color = Color(0xFF86198F))
+                                        Spacer(modifier = Modifier.height(2.dp))
+                                        Text(
+                                            text = "${etecsaBalance.minutosVoz} Min",
+                                            fontSize = 14.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            color = Color(0xFFA21CAF)
+                                        )
+                                        Text("*222*869#", fontSize = 9.5.sp, color = TextSecondary)
+                                    }
+                                }
+
+                                // SMS
+                                Box(
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .clip(RoundedCornerShape(14.dp))
+                                        .background(Color(0xFFFFF7ED))
+                                        .border(1.dp, Color(0xFFFED7AA), RoundedCornerShape(14.dp))
+                                        .clickable {
+                                            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:*222*767#"))
+                                            context.startActivity(intent)
+                                        }
+                                        .padding(10.dp)
+                                ) {
+                                    Column {
+                                        Text("💬 SMS", fontSize = 11.sp, fontWeight = FontWeight.SemiBold, color = Color(0xFF9A3412))
+                                        Spacer(modifier = Modifier.height(2.dp))
+                                        Text(
+                                            text = "${etecsaBalance.mensajesSms} SMS",
+                                            fontSize = 14.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            color = Color(0xFFC2410C)
+                                        )
+                                        Text("*222*767#", fontSize = 9.5.sp, color = TextSecondary)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
                 // Transfermóvil Info
                 item {
                     GlassCard(
@@ -1167,17 +1361,6 @@ fun TransferScreen(
                                 enabled = phone.isNotBlank() && (amount.toDoubleOrNull() ?: 0.0) > 0,
                                 modifier = Modifier.fillMaxWidth()
                             )
-
-                            if (localTransferError != null) {
-                                Spacer(modifier = Modifier.height(10.dp))
-                                Text(
-                                    text = localTransferError!!,
-                                    color = ExpenseRed,
-                                    fontSize = 12.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    modifier = Modifier.testTag("transfer_error_text")
-                                )
-                            }
                         }
                     }
                 }
@@ -1228,6 +1411,62 @@ fun TransferScreen(
 
                     Spacer(modifier = Modifier.height(8.dp))
                     TextButton(onClick = { showManualPaymentDialog = false }, modifier = Modifier.align(Alignment.CenterHorizontally)) {
+                        Text("Cancelar")
+                    }
+                }
+            }
+        }
+    }
+
+    if (showSyncUssdDialog) {
+        var ussdInputText by remember { mutableStateOf("") }
+        Dialog(onDismissRequest = { showSyncUssdDialog = false }) {
+            GlassCard(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp),
+                cornerRadius = 24.dp,
+                backgroundColor = Color(0xF5FFFFFF)
+            ) {
+                Column(modifier = Modifier.padding(20.dp)) {
+                    Text(
+                        text = "Sincronizar Respuesta USSD ETECSA",
+                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold, color = TextPrimary)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Pega o escribe el mensaje recibido tras marcar *222#, *222*328# (Datos), *222*869# (Voz) o *222*767# (SMS) para actualizar la app en tiempo real.",
+                        color = TextSecondary,
+                        fontSize = 12.5.sp
+                    )
+                    Spacer(modifier = Modifier.height(14.dp))
+
+                    OutlinedTextField(
+                        value = ussdInputText,
+                        onValueChange = { ussdInputText = it },
+                        placeholder = { Text("Ej: Saldo: 250.50 CUP. Valido hasta 30/11/2026. Datos: 4.5 GB, 45 Min, 120 SMS") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(110.dp),
+                        shape = RoundedCornerShape(16.dp)
+                    )
+
+                    Spacer(modifier = Modifier.height(18.dp))
+
+                    GlassButton(
+                        text = "Procesar y Sincronizar Saldo",
+                        isPrimary = true,
+                        onClick = {
+                            if (ussdInputText.isNotBlank()) {
+                                viewModel.parseAndProcessUssdText(ussdInputText)
+                            }
+                            showSyncUssdDialog = false
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+                    TextButton(onClick = { showSyncUssdDialog = false }, modifier = Modifier.align(Alignment.CenterHorizontally)) {
                         Text("Cancelar")
                     }
                 }

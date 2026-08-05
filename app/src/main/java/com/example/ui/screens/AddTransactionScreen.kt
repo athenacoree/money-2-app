@@ -69,7 +69,7 @@ fun AddTransactionScreen(
         initialTypeString = initialTypeString,
         appMode = appMode,
         onDismiss = onBack,
-        onSave = { category, description, amount, paymentMethod, isBusiness ->
+        onSave = { category, description, amount, paymentMethod, isBusiness, currency ->
             val cal = Calendar.getInstance()
             val format = SimpleDateFormat("HH:mm", Locale.getDefault())
             viewModel.addTransaction(
@@ -80,7 +80,8 @@ fun AddTransactionScreen(
                 hora = format.format(cal.time),
                 metodoPago = paymentMethod,
                 esEmpleador = isBusiness,
-                tipo = initialTypeString
+                tipo = initialTypeString,
+                moneda = currency
             )
             onBack()
         },
@@ -93,13 +94,14 @@ fun AddTransactionScreen(
     initialTypeString: String,
     appMode: AppMode,
     onDismiss: () -> Unit,
-    onSave: (category: String, description: String, amount: Double, method: String, isBusiness: Boolean) -> Unit,
+    onSave: (category: String, description: String, amount: Double, method: String, isBusiness: Boolean, currency: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var amountText by remember { mutableStateOf("") }
     var descriptionText by remember { mutableStateOf("") }
     var selectedCategory by remember { mutableStateOf(CATEGORY_CATALOG.first()) }
     var selectedPaymentMethod by remember { mutableStateOf("Transfermóvil") }
+    var selectedCurrency by remember { mutableStateOf("CUP") }
     var selectedTimestamp by remember { mutableStateOf(System.currentTimeMillis()) }
 
     val inBusinessMode = (appMode == AppMode.WORK_EMPLOYER || appMode == AppMode.WORK_EMPLOYEE)
@@ -316,6 +318,49 @@ fun AddTransactionScreen(
 
                     Spacer(modifier = Modifier.height(18.dp))
 
+                    // Moneda (CUP, MLC, USD/SQP)
+                    Text(
+                        text = "Tipo de Moneda",
+                        style = MaterialTheme.typography.labelLarge.copy(
+                            color = TextSecondary,
+                            fontWeight = FontWeight.Medium
+                        )
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        listOf(
+                            Triple("CUP", "CUP 🇨🇺", Color(0xFF10B981)),
+                            Triple("MLC", "MLC 💳", Color(0xFF2563EB)),
+                            Triple("USD", "USD / SQP ⚡", Color(0xFF7C3AED))
+                        ).forEach { (code, label, currColor) ->
+                            val isSelected = selectedCurrency == code
+                            Box(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .clip(RoundedCornerShape(16.dp))
+                                    .background(if (isSelected) currColor else currColor.copy(alpha = 0.12f))
+                                    .clickable { selectedCurrency = code }
+                                    .padding(vertical = 10.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = label,
+                                    style = MaterialTheme.typography.labelMedium.copy(
+                                        color = if (isSelected) Color.White else TextPrimary,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 11.5.sp
+                                    )
+                                )
+                            }
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(18.dp))
+
                     // Método de pago
                     Text(
                         text = "Método de pago",
@@ -386,7 +431,8 @@ fun AddTransactionScreen(
                                     descriptionText.ifBlank { "Sin descripción" },
                                     amountVal,
                                     selectedPaymentMethod,
-                                    isBusinessTransaction
+                                    isBusinessTransaction,
+                                    selectedCurrency
                                 )
                             }
                         },

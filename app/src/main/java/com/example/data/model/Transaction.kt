@@ -9,11 +9,11 @@ data class Transaction(
     val id: Long = 0,
     val tipo: String, // "ingreso" o "gasto"
     val monto: Double,
+    val moneda: String = "CUP", // "CUP", "MLC", "USD", "SQP"
     val categoria: String, // Comida, Transporte, Salario, Ventas, Servicios, Educación, Salud, Entretenimiento, Ahorros, Otros
     val descripcion: String, // opcional
     val fecha: Long, // timestamp
     val hora: String, // "HH:mm"
     val metodo_pago: String, // "Transfermóvil", "EnZona", "Efectivo", "Otro"
-    val es_empleador: Boolean, // true si es del negocio, false si es personal
-    val moneda: String = "CUP" // CUP or MLC
+    val es_empleador: Boolean // true si es del negocio, false si es personal
 )

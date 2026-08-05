@@ -11,7 +11,6 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.data.local.AppDatabase
 import com.example.data.model.Transaction
-import com.example.data.model.SaldoMovil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -34,82 +33,20 @@ class SmsReceiver : BroadcastReceiver() {
 
                 val isPagoXMovil = sender.equals("PAGOxMOVIL", ignoreCase = true)
                 val isEnZona = sender.contains("EnZona", ignoreCase = true) || body.contains("EnZona", ignoreCase = true)
-                val isCubacel = sender.equals("CUBACEL", ignoreCase = true) ||
-                                sender.equals("ETECSA", ignoreCase = true) ||
-                                body.contains("ETECSA", ignoreCase = true) ||
-                                body.contains("Cubacel", ignoreCase = true)
 
                 if (isPagoXMovil || isEnZona) {
                     processSms(context, sender, body, timestamp, isEnZona)
-                } else if (isCubacel) {
-                    processCubacelSms(context, sender, body, timestamp)
                 }
-            }
-        }
-    }
-
-    private fun processCubacelSms(context: Context, sender: String, body: String, timestamp: Long) {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val parsed = CubacelMessageParser.parseMessage(body, timestamp)
-                val db = AppDatabase.getDatabase(context)
-                db.saldoMovilDao().insertSaldoMovil(parsed)
-
-                // Show balance/promo notification
-                val title = when (parsed.tipo) {
-                    "saldo_principal" -> "¡Saldo Cubacel Actualizado!"
-                    "bono_datos" -> "¡Paquete de Datos Cubacel!"
-                    "promocion" -> "¡Nueva Promoción ETECSA!"
-                    else -> "Información de Cubacel"
-                }
-
-                val content = when (parsed.tipo) {
-                    "saldo_principal" -> "Saldo: ${parsed.saldoCUP} CUP, vence: ${parsed.fechaVencimiento}"
-                    "bono_datos" -> "Datos: ${parsed.datosMB} MB LTE, Bono: ${parsed.bonoDatosMB} MB"
-                    "promocion" -> parsed.descripcion.take(80) + "..."
-                    else -> parsed.descripcion.take(80)
-                }
-
-                showNotification(context, title, content, "cubacel_balance")
-            } catch (e: Exception) {
-                Log.e("SmsReceiver", "Error processing Cubacel SMS", e)
             }
         }
     }
 
     private fun processSms(context: Context, sender: String, body: String, timestamp: Long, isEnZona: Boolean) {
-        // 1. Extract and ignore phone number
-        var cleanedBody = body
-        val phoneRegex = Pattern.compile("(?i)(?:\\+53\\s*)?\\b([56]\\d{7})\\b")
-        val phoneMatcher = phoneRegex.matcher(body)
-        var extractedPhone: String? = null
-        if (phoneMatcher.find()) {
-            extractedPhone = phoneMatcher.group(1)
-            cleanedBody = phoneMatcher.replaceAll("[PHONE]")
-        }
-
-        // 2. Extract amount next to "CUP" or "MLC"
-        val amountCurrencyRegex = Pattern.compile("(?i)(?:(CUP|MLC)\\s*(\\d+(?:\\.\\d+)?))|(?:(\\d+(?:\\.\\d+)?)\\s*(CUP|MLC))")
-        val acMatcher = amountCurrencyRegex.matcher(cleanedBody)
+        val amountPattern = Pattern.compile("(?i)(\\d+(?:\\.\\d+)?)\\s*(?:CUP)?")
+        val matcher = amountPattern.matcher(body)
         var amount: Double? = null
-        var currency = "CUP"
-        if (acMatcher.find()) {
-            if (acMatcher.group(2) != null) {
-                amount = acMatcher.group(2)?.toDoubleOrNull()
-                currency = acMatcher.group(1)?.uppercase() ?: "CUP"
-            } else if (acMatcher.group(3) != null) {
-                amount = acMatcher.group(3)?.toDoubleOrNull()
-                currency = acMatcher.group(4)?.uppercase() ?: "CUP"
-            }
-        }
-
-        // Fallback to first decimal/number if not found next to CUP/MLC
-        if (amount == null) {
-            val fallbackPattern = Pattern.compile("(\\d+(?:\\.\\d+)?)")
-            val fallbackMatcher = fallbackPattern.matcher(cleanedBody)
-            if (fallbackMatcher.find()) {
-                amount = fallbackMatcher.group(1)?.toDoubleOrNull()
-            }
+        if (matcher.find()) {
+            amount = matcher.group(1)?.toDoubleOrNull()
         }
 
         if (amount == null || amount <= 0) {
@@ -117,29 +54,11 @@ class SmsReceiver : BroadcastReceiver() {
             return
         }
 
-        // 3. Classify incoming vs outgoing based on detailed structure
         val lowerBody = body.lowercase()
-        val tipo = when {
-            // Incoming transfers/payments/deposits
-            lowerBody.contains("recibido") ||
-            lowerBody.contains("recibi") ||
-            lowerBody.contains("ingreso") ||
-            lowerBody.contains("acreditado") ||
-            lowerBody.contains("acred") ||
-            lowerBody.contains("depósito") ||
-            lowerBody.contains("deposito") -> "ingreso"
-
-            // Outgoing transfers/payments/purchases
-            lowerBody.contains("realizado") ||
-            lowerBody.contains("envió") ||
-            lowerBody.contains("envio") ||
-            lowerBody.contains("pagado") ||
-            lowerBody.contains("pago realizado") ||
-            lowerBody.contains("debited") ||
-            lowerBody.contains("debitado") ||
-            lowerBody.contains("db") -> "gasto"
-
-            else -> "gasto" // Default fallback
+        val tipo = if (lowerBody.contains("recibido") || lowerBody.contains("recibi") || lowerBody.contains("ingreso")) {
+            "ingreso"
+        } else {
+            "gasto"
         }
 
         val paymentMethod = if (isEnZona) "EnZona" else "Transfermóvil"
@@ -149,13 +68,7 @@ class SmsReceiver : BroadcastReceiver() {
         val hora = dateFormater.format(calendar.time)
 
         val category = if (tipo == "ingreso") "Ventas" else "Servicios"
-
-        // Append phone to description if found
-        val description = if (extractedPhone != null) {
-            "SMS Auto: $body [Tel Ref: $extractedPhone]"
-        } else {
-            "SMS Auto: $body"
-        }
+        val description = "SMS Auto: $body"
 
         val transaction = Transaction(
             tipo = tipo,
@@ -165,43 +78,37 @@ class SmsReceiver : BroadcastReceiver() {
             fecha = timestamp,
             hora = hora,
             metodo_pago = paymentMethod,
-            es_empleador = false,
-            moneda = currency
+            es_empleador = false
         )
 
         val db = AppDatabase.getDatabase(context)
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                // Check duplicate within 5 seconds window
-                val minTime = timestamp - 5000
-                val maxTime = timestamp + 5000
-                val exists = db.transactionDao().countTransactionsNearTime(amount, paymentMethod, minTime, maxTime) > 0
-                if (exists) {
-                    Log.d("SmsReceiver", "Duplicate transaction detected (same amount $amount, method $paymentMethod near $timestamp), ignoring.")
-                    return@launch
-                }
-
                 db.transactionDao().insertTransaction(transaction)
-                showNotification(context, "Nueva Transacción Registrada", "Se registró un $tipo de $amount $currency vía $paymentMethod automáticamente.", "sms_transactions")
+                showNotification(context, tipo, amount, paymentMethod)
             } catch (e: Exception) {
                 Log.e("SmsReceiver", "Error saving transaction from SMS", e)
             }
         }
     }
 
-    private fun showNotification(context: Context, title: String, content: String, channelId: String) {
+    private fun showNotification(context: Context, tipo: String, amount: Double, method: String) {
+        val channelId = "sms_transactions"
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 channelId,
-                "Transacciones y Saldo Automáticos SMS",
+                "Transacciones Automáticas SMS",
                 NotificationManager.IMPORTANCE_DEFAULT
             ).apply {
-                description = "Notificaciones de transacciones y saldos de Cubacel/ETECSA detectados por SMS"
+                description = "Notificaciones de transacciones detectadas por SMS"
             }
             notificationManager.createNotificationChannel(channel)
         }
+
+        val title = if (tipo == "ingreso") "¡Nuevo Ingreso Registrado!" else "¡Nuevo Gasto Registrado!"
+        val content = "Se registró un $tipo de $amount CUP vía $method automáticamente."
 
         val notification = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(android.R.drawable.ic_dialog_info)
