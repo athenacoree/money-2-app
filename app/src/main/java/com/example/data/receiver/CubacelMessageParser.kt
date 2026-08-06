@@ -35,9 +35,9 @@ object CubacelMessageParser {
             val unit = dataMatcher.group(2)?.uppercase() ?: "MB"
             val mbs = if (unit == "GB") amount * 1024.0 else amount
 
-            // Check context of next 25 characters to distinguish national vs international
+            // Check context of next 70 characters to distinguish national vs international
             val start = dataMatcher.start()
-            val end = Math.min(body.length, dataMatcher.end() + 25)
+            val end = Math.min(body.length, dataMatcher.end() + 70)
             val context = body.substring(start, end).lowercase()
 
             // Safe check: "internacional" contains "nacional", so filter out "internacional"
@@ -79,7 +79,7 @@ object CubacelMessageParser {
         return SaldoMovil(
             tipo = tipo,
             saldoCUP = saldoCUP,
-            datosMB = if (datosMB > 0) datosMB else if (tipo == "bono_datos") 1024.0 else 0.0,
+            datosMB = if (datosMB > 0) datosMB else 0.0,
             bonoDatosMB = bonoDatosMB,
             fechaVencimiento = fechaVencimiento.ifBlank { "30 días" },
             descripcion = body,

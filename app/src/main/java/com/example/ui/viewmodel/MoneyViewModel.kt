@@ -392,7 +392,13 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
                 es_empleador = esEmpleador,
                 moneda = moneda
             )
-            repository.insertTransaction(tx)
+            try {
+                repository.insertTransaction(tx)
+                localTransactionError.value = null
+            } catch (e: Exception) {
+                Log.e("MoneyViewModel", "Error al registrar la transacción localmente: ${e.message}", e)
+                localTransactionError.value = "Error al guardar transacción local: ${e.localizedMessage}. La operación real pudo haberse realizado pero no se registró en esta base de datos. Transacción: $tx"
+            }
 
             // Select contextual cuban phrase based on transaction behavior
             if (tipo.equals("ingreso", ignoreCase = true)) {
@@ -774,7 +780,7 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
                         hora = format.format(cal.time),
                         metodoPago = "QvaPay",
                         esEmpleador = isEmployerModeEnabled.value,
-                        tipo = "Gasto"
+                        tipo = "gasto"
                     )
                     refreshQvaPayData()
                 }.onFailure { err ->
@@ -1717,22 +1723,48 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
         if (currentCart.isEmpty()) return
 
         viewModelScope.launch {
-            val total = cartTotal.value
             val role = when (appMode.value) {
                 AppMode.WORK_EMPLOYER -> "Empleador"
                 AppMode.WORK_EMPLOYEE -> "Empleado"
                 else -> "Usuario"
             }
-            // Update stocks and write audits
+
+            // Fetch current products from database to ensure fresh stock data
+            val freshProducts = repository.allProductos.first()
+            val processedItems = mutableListOf<Pair<Producto, Int>>()
+
             currentCart.forEach { (prod, qty) ->
-                val newStock = (prod.stock - qty).coerceAtLeast(0)
-                repository.updateProducto(prod.copy(stock = newStock))
+                val dbProd = freshProducts.find { it.id == prod.id }
+                val currentStock = dbProd?.stock ?: 0
+                if (qty > currentStock) {
+                    Log.e("MoneyViewModel", "Conflicto de stock / sobreventa para el producto: ${prod.nombre}. Solicitado: $qty, Disponible: $currentStock")
+                    localTransactionError.value = "Sobreventa evitada para ${prod.nombre}. Solicitado: $qty, Disponible en BD: $currentStock. Esta línea fue omitida de la transacción."
+                } else {
+                    processedItems.add(prod to qty)
+                }
+            }
+
+            if (processedItems.isEmpty()) {
+                clearCart()
+                return@launch
+            }
+
+            var processedTotal = 0.0
+            processedItems.forEach { (prod, qty) ->
+                processedTotal += prod.precio * qty
+            }
+
+            // Update stocks and write audits
+            processedItems.forEach { (prod, qty) ->
+                val dbProd = freshProducts.find { it.id == prod.id }!!
+                val newStock = dbProd.stock - qty
+                repository.updateProducto(dbProd.copy(stock = newStock))
                 repository.insertAuditoria(
                     AuditoriaStock(
                         producto_id = prod.id,
                         nombre_producto = prod.nombre,
                         cambio_stock = -qty,
-                        stock_anterior = prod.stock,
+                        stock_anterior = dbProd.stock,
                         stock_resultante = newStock,
                         justificacion = "Venta desde Catálogo",
                         realizado_por = role,
@@ -1742,12 +1774,12 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
             }
 
             // Create transaction of type "ingreso"
-            val itemNames = currentCart.map { "${it.value}x ${it.key.nombre}" }.joinToString(", ")
+            val itemNames = processedItems.map { "${it.second}x ${it.first.nombre}" }.joinToString(", ")
             val cal = Calendar.getInstance()
             val format = SimpleDateFormat("HH:mm", Locale.getDefault())
 
             addTransaction(
-                monto = total,
+                monto = processedTotal,
                 categoria = "Ventas",
                 descripcion = "Venta de Catálogo: $itemNames",
                 fecha = cal.timeInMillis,
@@ -2034,6 +2066,8 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _showTransferSuccessDialog = MutableStateFlow(false)
     val showTransferSuccessDialog: StateFlow<Boolean> = _showTransferSuccessDialog.asStateFlow()
+
+    val localTransactionError = MutableStateFlow<String?>(null)
 
     private val _localTransferError = MutableStateFlow<String?>(null)
     val localTransferError: StateFlow<String?> = _localTransferError.asStateFlow()
