@@ -33,4 +33,36 @@ class TransactionTest {
         assertEquals("Transfermóvil", tx.metodo_pago)
         assertTrue(tx.es_empleador)
     }
+
+    @Test
+    fun testTransactionCurrencies() {
+        val timestamp = System.currentTimeMillis()
+        val txCup = Transaction(
+            id = 2L,
+            tipo = "ingreso",
+            monto = 1000.0,
+            categoria = "Otros",
+            descripcion = "Pago CUP",
+            fecha = timestamp,
+            hora = "15:00",
+            metodo_pago = "Efectivo",
+            es_empleador = false,
+            moneda = "CUP"
+        )
+        val txMlc = Transaction(
+            id = 3L,
+            tipo = "ingreso",
+            monto = 50.0,
+            categoria = "Otros",
+            descripcion = "Pago MLC",
+            fecha = timestamp,
+            hora = "15:05",
+            metodo_pago = "Transfermóvil",
+            es_empleador = false,
+            moneda = "MLC"
+        )
+
+        assertEquals("CUP", txCup.moneda)
+        assertEquals("MLC", txMlc.moneda)
+    }
 }

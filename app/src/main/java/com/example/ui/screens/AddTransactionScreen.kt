@@ -69,7 +69,7 @@ fun AddTransactionScreen(
         initialTypeString = initialTypeString,
         appMode = appMode,
         onDismiss = onBack,
-        onSave = { category, description, amount, paymentMethod, isBusiness ->
+        onSave = { category, description, amount, paymentMethod, isBusiness, moneda ->
             val cal = Calendar.getInstance()
             val format = SimpleDateFormat("HH:mm", Locale.getDefault())
             viewModel.addTransaction(
@@ -80,7 +80,8 @@ fun AddTransactionScreen(
                 hora = format.format(cal.time),
                 metodoPago = paymentMethod,
                 esEmpleador = isBusiness,
-                tipo = initialTypeString
+                tipo = initialTypeString,
+                moneda = moneda
             )
             onBack()
         },
@@ -93,10 +94,11 @@ fun AddTransactionScreen(
     initialTypeString: String,
     appMode: AppMode,
     onDismiss: () -> Unit,
-    onSave: (category: String, description: String, amount: Double, method: String, isBusiness: Boolean) -> Unit,
+    onSave: (category: String, description: String, amount: Double, method: String, isBusiness: Boolean, moneda: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var amountText by remember { mutableStateOf("") }
+    var selectedCurrency by remember { mutableStateOf("CUP") } // Problem E.1 Currency Selector State
     var descriptionText by remember { mutableStateOf("") }
     var selectedCategory by remember { mutableStateOf(CATEGORY_CATALOG.first()) }
     var selectedPaymentMethod by remember { mutableStateOf("Transfermóvil") }
@@ -192,6 +194,45 @@ fun AddTransactionScreen(
                             unfocusedBorderColor = GlassCardBorder
                         )
                     )
+
+                    Spacer(modifier = Modifier.height(18.dp))
+
+                    // Selector de Moneda (Problem E.1)
+                    Text(
+                        text = "Moneda",
+                        style = MaterialTheme.typography.labelLarge.copy(
+                            color = TextSecondary,
+                            fontWeight = FontWeight.Medium
+                        )
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        listOf("CUP", "MLC", "USD").forEach { currency ->
+                            val isSelected = selectedCurrency == currency
+                            Box(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .clip(RoundedCornerShape(16.dp))
+                                    .background(if (isSelected) accentColor else Color(0x1F7C3AED))
+                                    .clickable { selectedCurrency = currency }
+                                    .padding(vertical = 10.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = currency,
+                                    style = MaterialTheme.typography.labelMedium.copy(
+                                        color = if (isSelected) Color.White else TextPrimary,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 12.sp
+                                    )
+                                )
+                            }
+                        }
+                    }
 
                     Spacer(modifier = Modifier.height(18.dp))
 
@@ -386,7 +427,8 @@ fun AddTransactionScreen(
                                     descriptionText.ifBlank { "Sin descripción" },
                                     amountVal,
                                     selectedPaymentMethod,
-                                    isBusinessTransaction
+                                    isBusinessTransaction,
+                                    selectedCurrency
                                 )
                             }
                         },
