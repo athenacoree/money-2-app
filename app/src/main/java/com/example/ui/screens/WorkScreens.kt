@@ -67,6 +67,7 @@ fun EmployerScreen(
     val showSyncDialog by viewModel.showSyncP2PDialog.collectAsState()
     val syncMessage by viewModel.syncP2PMessage.collectAsState()
     val companyBranches by viewModel.companyBranches.collectAsState()
+    val empleadoActivoId by viewModel.empleadoActivoId.collectAsState()
 
     var showAddEmployeeDialog by remember { mutableStateOf(false) }
     var showAddBranchDialog by remember { mutableStateOf(false) }
@@ -81,6 +82,8 @@ fun EmployerScreen(
         expenseToday = totalExpense,
         balanceToday = balance,
         weeklyBars = weeklyBars,
+        empleadoActivoId = empleadoActivoId,
+        onSelectActiveEmployee = { viewModel.selectActiveEmployee(it) },
         onAddEmployeeClick = { showAddEmployeeDialog = true },
         onAddBranchClick = { showAddBranchDialog = true },
         onOpenCatalog = onOpenCatalog,
@@ -167,9 +170,8 @@ fun EmployerScreen(
 
     if (showSyncDialog) {
         SyncP2PDialog(
-            onDismiss = { viewModel.showSyncP2PDialog.value = false },
-            onSync = { viewModel.simulateP2PSync() },
-            syncMessage = syncMessage
+            viewModel = viewModel,
+            onDismiss = { viewModel.showSyncP2PDialog.value = false }
         )
     }
 
@@ -305,9 +307,8 @@ fun EmployeeScreen(
 
     if (showSyncDialog) {
         SyncP2PDialog(
-            onDismiss = { viewModel.showSyncP2PDialog.value = false },
-            onSync = { viewModel.simulateP2PSync() },
-            syncMessage = syncMessage
+            viewModel = viewModel,
+            onDismiss = { viewModel.showSyncP2PDialog.value = false }
         )
     }
 }
@@ -324,6 +325,8 @@ fun EmployerDashboardScreen(
     expenseToday: Double,
     balanceToday: Double,
     weeklyBars: List<Pair<Double, Double>>,
+    empleadoActivoId: Long? = null,
+    onSelectActiveEmployee: (Long?) -> Unit = {},
     onAddEmployeeClick: () -> Unit,
     onAddBranchClick: () -> Unit = {},
     onOpenCatalog: () -> Unit,
@@ -433,6 +436,91 @@ fun EmployerDashboardScreen(
                                     color = PurplePrimary
                                 )
                             }
+                        }
+                    }
+                }
+            }
+
+            // SECCIÓN: EMPLEADO ACTIVO / DE TURNO
+            item {
+                var expanded by remember { mutableStateOf(false) }
+                val activeEmployee = employees.find { it.id == empleadoActivoId }
+
+                GlassCard(
+                    modifier = Modifier.fillMaxWidth(),
+                    cornerRadius = 24.dp,
+                    backgroundColor = Color(0xF5FFFFFF),
+                    elevation = 8.dp
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(18.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Icon(Icons.Default.Badge, contentDescription = null, tint = PurplePrimary)
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text(
+                                    text = "Empleado de Turno Activo",
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 16.sp,
+                                    color = TextPrimary
+                                )
+                            }
+
+                            Box {
+                                TextButton(onClick = { expanded = true }) {
+                                    Text(
+                                        text = activeEmployee?.nombre ?: "Seleccionar...",
+                                        fontWeight = FontWeight.Bold,
+                                        color = PurplePrimary
+                                    )
+                                    Icon(Icons.Default.ArrowDropDown, contentDescription = null, tint = PurplePrimary)
+                                }
+
+                                DropdownMenu(
+                                    expanded = expanded,
+                                    onDismissRequest = { expanded = false }
+                                ) {
+                                    DropdownMenuItem(
+                                        text = { Text("Ninguno / Sin empleado") },
+                                        onClick = {
+                                            onSelectActiveEmployee(null)
+                                            expanded = false
+                                        }
+                                    )
+                                    employees.forEach { emp ->
+                                        DropdownMenuItem(
+                                            text = { Text(emp.nombre) },
+                                            onClick = {
+                                                onSelectActiveEmployee(emp.id)
+                                                expanded = false
+                                            }
+                                        )
+                                    }
+                                }
+                            }
+                        }
+
+                        if (activeEmployee != null) {
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Text(
+                                text = "Este empleado recibirá las notificaciones automáticas de todas las transferencias entrantes detectadas.",
+                                fontSize = 11.sp,
+                                color = TextSecondary
+                            )
+                        } else {
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Text(
+                                text = "No hay ningún empleado seleccionado. Las transferencias entrantes no generarán alertas para ningún empleado.",
+                                fontSize = 11.sp,
+                                color = ExpenseRed
+                            )
                         }
                     }
                 }
@@ -1005,10 +1093,17 @@ fun EmployeeDashboardScreen(
 // -------------------------------------------------------------
 @Composable
 fun SyncP2PDialog(
-    onDismiss: () -> Unit,
-    onSync: () -> Unit,
-    syncMessage: String?
+    viewModel: MoneyViewModel,
+    onDismiss: () -> Unit
 ) {
+    val p2pState by viewModel.p2pState.collectAsState()
+    val p2pIpAddress by viewModel.p2pIpAddress.collectAsState()
+    val p2pStatusMessage by viewModel.p2pStatusMessage.collectAsState()
+    val appMode by viewModel.appMode.collectAsState()
+
+    val myIp = remember { viewModel.getLocalIpAddress() }
+    var targetIpInput by remember { mutableStateOf("192.168.1.105") }
+
     Dialog(onDismissRequest = onDismiss) {
         GlassCard(
             modifier = Modifier.fillMaxWidth().padding(12.dp),
@@ -1029,7 +1124,7 @@ fun SyncP2PDialog(
                 Spacer(modifier = Modifier.height(10.dp))
 
                 Text(
-                    text = "Vincular App (Wi-Fi / Bluetooth)",
+                    text = "Vincular App P2P",
                     style = MaterialTheme.typography.titleLarge.copy(
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp,
@@ -1040,7 +1135,7 @@ fun SyncP2PDialog(
                 Spacer(modifier = Modifier.height(6.dp))
 
                 Text(
-                    text = "Transmitir inventario, propuestas de rama y auditoría en tiempo real con otros dispositivos.",
+                    text = "Transmite de verdad catálogo, empleados e inventario en tiempo real localmente.",
                     style = MaterialTheme.typography.bodyMedium.copy(
                         color = TextSecondary,
                         fontSize = 12.sp,
@@ -1050,51 +1145,99 @@ fun SyncP2PDialog(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(14.dp))
-                        .background(Color(0x1F7C3AED))
-                        .padding(14.dp)
-                ) {
-                    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Icon(Icons.Default.CellWifi, contentDescription = null, tint = IncomeGreen, modifier = Modifier.size(18.dp))
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Text("Wi-Fi Direct: Activo (192.168.1.105)", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = TextPrimary)
-                        }
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Icon(Icons.Default.Bluetooth, contentDescription = null, tint = PurplePrimary, modifier = Modifier.size(18.dp))
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Text("Bluetooth LE: Sincronizado", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = TextPrimary)
+                // Connection details & IP Input
+                if (appMode == com.example.data.model.AppMode.WORK_EMPLOYER) {
+                    // Employer hosts the server
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(14.dp))
+                            .background(Color(0x1F7C3AED))
+                            .padding(14.dp)
+                    ) {
+                        Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                            Text("Rol: Socio Principal (Servidor)", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = PurplePrimary)
+                            Text("Tu IP Local: $myIp", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = TextPrimary)
+                            Text("Puerto: 8888", fontSize = 11.sp, color = TextSecondary)
                         }
                     }
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    GlassButton(
+                        text = if (p2pState == "HOSTING") "Esperando conexión..." else "Iniciar Servidor de Sincronización",
+                        icon = Icons.Default.PlayArrow,
+                        isPrimary = true,
+                        onClick = { viewModel.startP2PSyncServer() },
+                        modifier = Modifier.fillMaxWidth().testTag("p2p_sync_action_btn")
+                    )
+                } else {
+                    // Employee connects to server
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(14.dp))
+                            .background(Color(0x1F7C3AED))
+                            .padding(14.dp)
+                    ) {
+                        Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                            Text("Rol: Sucursal (Cliente)", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = PurplePrimary)
+                            Text("Tu IP Local: $myIp", fontSize = 11.sp, color = TextSecondary)
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    OutlinedTextField(
+                        value = targetIpInput,
+                        onValueChange = { targetIpInput = it },
+                        label = { Text("IP del Socio Principal") },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    GlassButton(
+                        text = if (p2pState == "CONNECTING") "Conectando..." else "Conectar con Socio Principal",
+                        icon = Icons.Default.Sync,
+                        isPrimary = true,
+                        onClick = { viewModel.connectToP2PServer(targetIpInput.trim()) },
+                        modifier = Modifier.fillMaxWidth().testTag("p2p_sync_action_btn")
+                    )
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                if (syncMessage != null) {
-                    Text(
-                        text = syncMessage,
-                        style = MaterialTheme.typography.bodyMedium.copy(
-                            fontWeight = FontWeight.Bold,
-                            color = PurplePrimary,
-                            fontSize = 13.sp,
-                            textAlign = androidx.compose.ui.text.style.TextAlign.Center
-                        )
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
+                // Real-time synchronization message & status
+                if (p2pStatusMessage != null) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(12.dp))
+                            .background(
+                                if (p2pState == "COMPLETED") IncomeGreen.copy(alpha = 0.15f)
+                                else if (p2pState == "ERROR") ExpenseRed.copy(alpha = 0.15f)
+                                else Color(0x0F7C3AED)
+                            )
+                            .padding(12.dp)
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            if (p2pState == "SYNCING" || p2pState == "CONNECTING") {
+                                CircularProgressIndicator(modifier = Modifier.size(16.dp), color = PurplePrimary, strokeWidth = 2.dp)
+                                Spacer(modifier = Modifier.width(8.dp))
+                            }
+                            Text(
+                                text = p2pStatusMessage ?: "",
+                                style = MaterialTheme.typography.bodyMedium.copy(
+                                    fontWeight = FontWeight.Medium,
+                                    color = if (p2pState == "COMPLETED") IncomeGreen else if (p2pState == "ERROR") ExpenseRed else TextPrimary,
+                                    fontSize = 12.sp
+                                )
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(12.dp))
                 }
-
-                GlassButton(
-                    text = "Sincronizar en Tiempo Real",
-                    icon = Icons.Default.Sync,
-                    isPrimary = true,
-                    onClick = onSync,
-                    modifier = Modifier.fillMaxWidth().testTag("p2p_sync_action_btn")
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
 
                 TextButton(onClick = onDismiss) {
                     Text("Cerrar")

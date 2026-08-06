@@ -59,6 +59,9 @@ fun TransactionDetailDialog(
         onReconcile = { tx ->
             viewModel.selectedTransactionForDetail.value = null
             viewModel.selectedTransactionForReconciliation.value = tx
+        },
+        onUnconfirm = { tx ->
+            viewModel.unconfirmEsperaTransaction(tx)
         }
     )
 }
@@ -70,7 +73,8 @@ fun TransactionDetailDialog(
     onEdit: (Transaction) -> Unit,
     onDelete: (Transaction) -> Unit,
     onShareReceipt: ((Transaction) -> Unit)? = null,
-    onReconcile: ((Transaction) -> Unit)? = null
+    onReconcile: ((Transaction) -> Unit)? = null,
+    onUnconfirm: ((Transaction) -> Unit)? = null
 ) {
     val isIncome = transaction.tipo == "ingreso"
     val accentColor = if (isIncome) IncomeGreen else ExpenseRed
@@ -198,7 +202,23 @@ fun TransactionDetailDialog(
                     }
                 }
 
-                if (isIncome && onReconcile != null) {
+                val isConfirmedEspera = transaction.descripcion.startsWith("[Confirmado]")
+                if (isConfirmedEspera && onUnconfirm != null) {
+                    Spacer(modifier = Modifier.height(14.dp))
+                    GlassButton(
+                        text = "Desmarcar como Confirmado (Revertir)",
+                        isPrimary = false,
+                        onClick = {
+                            onUnconfirm(transaction)
+                            onDismiss()
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .testTag("unconfirm_tx_btn")
+                    )
+                }
+
+                if (isIncome && !isConfirmedEspera && onReconcile != null) {
                     Spacer(modifier = Modifier.height(14.dp))
                     GlassButton(
                         text = "Conciliar con Productos del Catálogo",

@@ -21,9 +21,16 @@ import com.example.data.qvapay.QvaPayCoin
 import com.example.data.qvapay.QvaPayUserInfo
 import com.example.data.qvapay.QvaPayTransaction
 import com.example.data.qvapay.QvaPayInvoice
+import com.example.data.model.SaldoMovil
 import com.example.ui.components.PeekPreviewType
 import com.example.data.repository.MoneyRepository
+import android.telephony.TelephonyManager
+import android.os.Build
+import android.util.Log
+import org.json.JSONArray
+import org.json.JSONObject
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -41,8 +48,8 @@ data class UserProfileState(
 )
 
 data class EmployerInfo(
-    val name: String = "Carlos (Empleador)",
-    val phone: String = "+53 5234 5678",
+    val name: String = "Empleador",
+    val phone: String = "",
     val photoUri: String? = null
 )
 
@@ -66,7 +73,8 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
             auditoriaStockDao = db.auditoriaStockDao(),
             propuestaCambioDao = db.propuestaCambioDao(),
             branchDao = db.branchDao(),
-            despachoDistribuidorDao = db.despachoDistribuidorDao()
+            despachoDistribuidorDao = db.despachoDistribuidorDao(),
+            saldoMovilDao = db.saldoMovilDao()
         )
         viewModelScope.launch {
             repository.checkAndSeedData()
@@ -74,6 +82,82 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
             loadConfigurations()
             // Ensure some products exist in work catalog
             checkAndSeedProducts()
+        }
+
+        // Collect SmsReceiver flows for transfer confirmations
+        viewModelScope.launch {
+            com.example.data.receiver.SmsReceiver.pendingTransferAlert.collect { tx ->
+                if (appMode.value == AppMode.WORK_EMPLOYER) {
+                    pendingEmployerConfirmationTx.value = tx
+                }
+            }
+        }
+
+        viewModelScope.launch {
+            com.example.data.receiver.SmsReceiver.employeeConfirmationSmsReceived.collect { payload ->
+                if (appMode.value == AppMode.WORK_EMPLOYEE) {
+                    val sender = payload["sender"] ?: ""
+                    val parsedMonto = payload["monto"]?.toDoubleOrNull() ?: 0.0
+                    val parsedMoneda = payload["moneda"] ?: "CUP"
+                    val parsedId = payload["id"] ?: ""
+                    val parsedHora = payload["hora"] ?: ""
+
+                    if (parsedMonto > 0.0) {
+                        val allTxs = repository.allTransactions.first()
+                        val esperas = allTxs.filter { it.descripcion.startsWith("[Espera]") }
+
+                        Log.d("MoneyViewModel", "Processing Employee SMS confirmation. Esperas: ${esperas.size}, amount: $parsedMonto")
+
+                        if (esperas.isEmpty()) {
+                            addTransaction(
+                                monto = parsedMonto,
+                                categoria = "Ventas",
+                                descripcion = "Pago recibido (Auto-CONF sin artículo): ID $parsedId de $sender",
+                                fecha = System.currentTimeMillis(),
+                                hora = parsedHora.ifBlank { "00:00" },
+                                metodoPago = "Transfermóvil",
+                                esEmpleador = true,
+                                tipo = "ingreso"
+                            )
+                        } else if (esperas.size == 1) {
+                            val wait = esperas.first()
+                            if (Math.abs(wait.monto - parsedMonto) < 0.01) {
+                                confirmEsperaTransaction(wait, parsedId)
+                            } else {
+                                addTransaction(
+                                    monto = parsedMonto,
+                                    categoria = "Ventas",
+                                    descripcion = "Pago recibido (Auto-CONF monto distinto): ID $parsedId de $sender",
+                                    fecha = System.currentTimeMillis(),
+                                    hora = parsedHora.ifBlank { "00:00" },
+                                    metodoPago = "Transfermóvil",
+                                    esEmpleador = true,
+                                    tipo = "ingreso"
+                                )
+                            }
+                        } else {
+                            val matchingWaits = esperas.filter { Math.abs(it.monto - parsedMonto) < 0.01 }
+                            if (matchingWaits.isEmpty()) {
+                                addTransaction(
+                                    monto = parsedMonto,
+                                    categoria = "Ventas",
+                                    descripcion = "Pago recibido (Auto-CONF sin coincidencia de monto): ID $parsedId de $sender",
+                                    fecha = System.currentTimeMillis(),
+                                    hora = parsedHora.ifBlank { "00:00" },
+                                    metodoPago = "Transfermóvil",
+                                    esEmpleador = true,
+                                    tipo = "ingreso"
+                                )
+                            } else if (matchingWaits.size == 1) {
+                                confirmEsperaTransaction(matchingWaits.first(), parsedId)
+                            } else {
+                                ambiguousConfirmations.value = matchingWaits
+                                ambiguousParsedId.value = parsedId
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -216,6 +300,18 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
     private val _userProfile = MutableStateFlow(UserProfileState())
     val userProfile: StateFlow<UserProfileState> = _userProfile.asStateFlow()
 
+    // Onboarding and Permissions Disclosure state
+    val showOnboardingTour = MutableStateFlow(false)
+    val showPermissionsDisclosure = MutableStateFlow(false)
+
+    // Dynamic Launcher Icon state
+    val activeLauncherIcon = MutableStateFlow("NormalAlias")
+
+    // Employer to Employee transfer confirmation state
+    val pendingEmployerConfirmationTx = MutableStateFlow<Transaction?>(null)
+    val ambiguousConfirmations = MutableStateFlow<List<Transaction>>(emptyList())
+    val ambiguousParsedId = MutableStateFlow("")
+
     // Employer profile info for Employee view
     private val _employerInfo = MutableStateFlow(EmployerInfo())
     val employerInfo: StateFlow<EmployerInfo> = _employerInfo.asStateFlow()
@@ -235,6 +331,21 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
 
     fun setHistoryFilter(filter: HistoryFilter) {
         _historyFilter.value = filter
+    }
+
+    // --- SISTEMA DE FRASES MOTIVACIONALES (500 FRASES) ---
+    val currentMotivationalPhrase = MutableStateFlow(com.example.data.model.MotivationalPhrases.getRandomPhrase("bienvenida"))
+    private var lastPhrase = ""
+
+    fun selectNewMotivationalPhrase(category: String) {
+        var newPhrase = com.example.data.model.MotivationalPhrases.getRandomPhrase(category)
+        var attempts = 0
+        while (newPhrase == lastPhrase && attempts < 10) {
+            newPhrase = com.example.data.model.MotivationalPhrases.getRandomPhrase(category)
+            attempts++
+        }
+        lastPhrase = newPhrase
+        currentMotivationalPhrase.value = newPhrase
     }
 
     // CRUD Transactions
@@ -260,6 +371,38 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
                 es_empleador = esEmpleador
             )
             repository.insertTransaction(tx)
+
+            // Select contextual cuban phrase based on transaction behavior
+            if (tipo.equals("ingreso", ignoreCase = true)) {
+                if (availableBalance.value > 15000.0) {
+                    selectNewMotivationalPhrase("balance_positivo")
+                } else {
+                    selectNewMotivationalPhrase("ingreso")
+                }
+            } else {
+                if (monto > 4000.0) {
+                    selectNewMotivationalPhrase("gasto_alto")
+                } else if (availableBalance.value - monto < 0.0) {
+                    selectNewMotivationalPhrase("balance_negativo")
+                } else {
+                    selectNewMotivationalPhrase("gasto")
+                }
+            }
+
+            // Evaluate dynamic icon on new transaction
+            if (tipo.equals("ingreso", ignoreCase = true)) {
+                activeLauncherIcon.value = "IngresoAlias"
+            } else if (tipo.equals("gasto", ignoreCase = true)) {
+                activeLauncherIcon.value = "GastoAlias"
+            }
+
+            // Also check balance trend
+            val trend = trendPercentage.value
+            if (trend.startsWith("+") && trend != "+0.0%") {
+                activeLauncherIcon.value = "TendenciaPosAlias"
+            } else if (trend.startsWith("-") && trend != "-0.0%") {
+                activeLauncherIcon.value = "TendenciaNegAlias"
+            }
         }
     }
 
@@ -386,13 +529,16 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
         val workerActive = repository.getConfiguracionByKey("modo_empleado_activo")?.valor?.toBoolean() ?: false
         val distActive = repository.getConfiguracionByKey("modo_distribuidor_activo")?.valor?.toBoolean() ?: false
 
-        val empName = repository.getConfiguracionByKey("nombre_empleador")?.valor ?: "Carlos (Empleador)"
-        val empPhone = repository.getConfiguracionByKey("telefono_empleador")?.valor ?: "+53 5234 5678"
+        val empName = repository.getConfiguracionByKey("nombre_empleador")?.valor ?: "Empleador"
+        val empPhone = repository.getConfiguracionByKey("telefono_empleador")?.valor ?: ""
         val empPhoto = repository.getConfiguracionByKey("foto_empleador")?.valor
 
         isEmployerModeEnabled.value = empActive
         isEmployeeModeEnabled.value = workerActive
         isDistributorModeEnabled.value = distActive
+
+        val activeEmpIdStr = repository.getConfiguracionByKey("empleado_activo_id")?.valor
+        empleadoActivoId.value = activeEmpIdStr?.toLongOrNull()
 
         _userProfile.value = UserProfileState(
             name = name,
@@ -451,6 +597,33 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
 
         if (qvapayActive && qvapayKey.isNotBlank() && qvapaySecret.isNotBlank()) {
             refreshQvaPayData()
+        }
+
+        val onboardingSeen = repository.getConfiguracionByKey("onboarding_seen")?.valor?.toBoolean() ?: false
+        val permissionsDisclosed = repository.getConfiguracionByKey("permissions_disclosed")?.valor?.toBoolean() ?: false
+
+        showOnboardingTour.value = !onboardingSeen
+        if (onboardingSeen && !permissionsDisclosed) {
+            showPermissionsDisclosure.value = true
+        }
+    }
+
+    fun setOnboardingFinished() {
+        viewModelScope.launch {
+            repository.insertConfiguracion(Configuracion(clave = "onboarding_seen", valor = "true"))
+            showOnboardingTour.value = false
+
+            val permissionsDisclosed = repository.getConfiguracionByKey("permissions_disclosed")?.valor?.toBoolean() ?: false
+            if (!permissionsDisclosed) {
+                showPermissionsDisclosure.value = true
+            }
+        }
+    }
+
+    fun setPermissionsDisclosedFinished() {
+        viewModelScope.launch {
+            repository.insertConfiguracion(Configuracion(clave = "permissions_disclosed", valor = "true"))
+            showPermissionsDisclosure.value = false
         }
     }
 
@@ -834,34 +1007,216 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun simulateP2PSync() {
-        viewModelScope.launch {
-            syncP2PMessage.value = "Iniciando Simulación Local (Monodispositivo)..."
-            kotlinx.coroutines.delay(1000)
+    // --- REAL P2P SYNCHRONIZATION OVER TCP ---
+    val p2pState = MutableStateFlow("IDLE") // "IDLE", "HOSTING", "CONNECTING", "SYNCING", "COMPLETED", "ERROR"
+    val p2pIpAddress = MutableStateFlow("")
+    val p2pStatusMessage = MutableStateFlow<String?>(null)
 
-            // Sincronización de fotos de perfil (Empleador y Empleado)
-            val currentEmpPhoto = repository.getConfiguracionByKey("foto_empleador")?.valor
-            val myProfilePhoto = _userProfile.value.photoUri
-            val myName = _userProfile.value.name.ifBlank { "Carlos (Empleador)" }
-
-            if (myProfilePhoto != null && myProfilePhoto != currentEmpPhoto) {
-                repository.insertConfiguracion(Configuracion(clave = "foto_empleador", valor = myProfilePhoto))
-                repository.insertConfiguracion(Configuracion(clave = "nombre_empleador", valor = myName))
-                _employerInfo.value = _employerInfo.value.copy(name = myName, photoUri = myProfilePhoto)
-            }
-
-            // Sincronizar fotos de empleados solo si han cambiado
-            val employees = activeEmployees.value
-            employees.forEach { emp ->
-                if (emp.foto_uri == null && myProfilePhoto != null) {
-                    // Solo actualiza si es diferente
-                    repository.updateEmpleado(emp.copy(foto_uri = myProfilePhoto))
+    fun getLocalIpAddress(): String {
+        try {
+            val interfaces = java.net.NetworkInterface.getNetworkInterfaces()
+            while (interfaces.hasMoreElements()) {
+                val iface = interfaces.nextElement()
+                val addresses = iface.inetAddresses
+                while (addresses.hasMoreElements()) {
+                    val addr = addresses.nextElement()
+                    if (!addr.isLoopbackAddress && addr is java.net.Inet4Address) {
+                        val ip = addr.hostAddress ?: ""
+                        if (ip.isNotBlank()) return ip
+                    }
                 }
             }
+        } catch (e: Exception) {
+            Log.e("IP", "Error getting local IP: ${e.message}")
+        }
+        return "192.168.1.105" // standard fallback
+    }
 
-            syncP2PMessage.value = "ℹ️ Simulación Monodispositivo: El entorno es local. Sincronización P2P (Wi-Fi Direct/Bluetooth) estará disponible próximamente."
-            kotlinx.coroutines.delay(3500)
-            syncP2PMessage.value = null
+    private var serverJob: kotlinx.coroutines.Job? = null
+
+    fun startP2PSyncServer() {
+        serverJob?.cancel()
+        serverJob = viewModelScope.launch(Dispatchers.IO) {
+            val ip = getLocalIpAddress()
+            p2pIpAddress.value = ip
+            p2pState.value = "HOSTING"
+            p2pStatusMessage.value = "Socio Principal esperando conexión en $ip:8888..."
+
+            var serverSocket: java.net.ServerSocket? = null
+            try {
+                serverSocket = java.net.ServerSocket(8888)
+                serverSocket.soTimeout = 40000 // 40 sec timeout
+                val socket = serverSocket.accept()
+
+                p2pState.value = "SYNCING"
+                p2pStatusMessage.value = "Conexión recibida de sucursal. Sincronizando datos..."
+
+                // Read proposals sent by the branch
+                val reader = java.io.BufferedReader(java.io.InputStreamReader(socket.getInputStream(), "UTF-8"))
+                val jsonStr = reader.readLine() ?: "{}"
+
+                val clientPayload = JSONObject(jsonStr)
+                val receivedPropuestas = clientPayload.optJSONArray("propuestas")
+                var proposalsCount = 0
+                if (receivedPropuestas != null) {
+                    for (i in 0 until receivedPropuestas.length()) {
+                        val pObj = receivedPropuestas.getJSONObject(i)
+                        val prop = PropuestaCambio(
+                            empleado_nombre = pObj.optString("empleado_nombre", "Sucursal"),
+                            producto_id = if (pObj.has("producto_id") && !pObj.isNull("producto_id")) pObj.getLong("producto_id") else null,
+                            nombre_producto = pObj.optString("nombre_producto"),
+                            precio_propuesto = pObj.optDouble("precio_propuesto"),
+                            stock_propuesto = pObj.optInt("stock_propuesto"),
+                            justificacion = pObj.optString("justificacion"),
+                            estado = "pendiente",
+                            timestamp = pObj.optLong("timestamp", System.currentTimeMillis())
+                        )
+                        repository.insertPropuesta(prop)
+                        proposalsCount++
+                    }
+                }
+
+                // Send Catalogue and Employees back
+                val productsList = repository.allProductos.first()
+                val employeesList = repository.allEmpleados.first()
+
+                val serverPayload = JSONObject().apply {
+                    val pArray = JSONArray()
+                    productsList.forEach { p ->
+                        pArray.put(JSONObject().apply {
+                            put("nombre", p.nombre)
+                            put("precio", p.precio)
+                            put("stock", p.stock)
+                            put("imagen_uri", p.imagen_uri)
+                        })
+                    }
+                    put("productos", pArray)
+
+                    val eArray = JSONArray()
+                    employeesList.forEach { e ->
+                        eArray.put(JSONObject().apply {
+                            put("nombre", e.nombre)
+                            put("telefono", e.telefono)
+                            put("estado", e.estado)
+                            put("fecha_vinculacion", e.fecha_vinculacion)
+                        })
+                    }
+                    put("empleados", eArray)
+                }.toString()
+
+                val writer = java.io.OutputStreamWriter(socket.getOutputStream(), "UTF-8")
+                writer.write(serverPayload + "\n")
+                writer.flush()
+
+                socket.close()
+                p2pState.value = "COMPLETED"
+                p2pStatusMessage.value = "¡Sincronización P2P Completada! Recibiste $proposalsCount propuestas de cambios."
+            } catch (e: Exception) {
+                p2pState.value = "ERROR"
+                p2pStatusMessage.value = "Error de sincronización: ${e.message ?: e.localizedMessage}"
+            } finally {
+                try { serverSocket?.close() } catch (e: Exception) {}
+            }
+        }
+    }
+
+    fun connectToP2PServer(targetIp: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            p2pState.value = "CONNECTING"
+            p2pStatusMessage.value = "Conectando al Socio Principal en $targetIp:8888..."
+
+            var socket: java.net.Socket? = null
+            try {
+                socket = java.net.Socket()
+                socket.connect(java.net.InetSocketAddress(targetIp, 8888), 15000) // 15s timeout
+
+                p2pState.value = "SYNCING"
+                p2pStatusMessage.value = "Conectado. Transfiriendo tus propuestas pendientes..."
+
+                // Send pending proposals
+                val proposalsList = repository.propuestasPendientes.first()
+                val clientPayload = JSONObject().apply {
+                    val pArray = JSONArray()
+                    proposalsList.forEach { prop ->
+                        pArray.put(JSONObject().apply {
+                            put("empleado_nombre", prop.empleado_nombre)
+                            put("producto_id", prop.producto_id)
+                            put("nombre_producto", prop.nombre_producto)
+                            put("precio_propuesto", prop.precio_propuesto)
+                            put("stock_propuesto", prop.stock_propuesto)
+                            put("justificacion", prop.justificacion)
+                            put("timestamp", prop.timestamp)
+                        })
+                    }
+                    put("propuestas", pArray)
+                }.toString()
+
+                val writer = java.io.OutputStreamWriter(socket.getOutputStream(), "UTF-8")
+                writer.write(clientPayload + "\n")
+                writer.flush()
+
+                // Read unified Catalogue and Employees from Server
+                p2pStatusMessage.value = "Recibiendo catálogo de productos unificado..."
+                val reader = java.io.BufferedReader(java.io.InputStreamReader(socket.getInputStream(), "UTF-8"))
+                val jsonStr = reader.readLine() ?: "{}"
+
+                val serverPayload = JSONObject(jsonStr)
+
+                // Import products safely
+                val receivedProducts = serverPayload.optJSONArray("productos")
+                var productsImported = 0
+                if (receivedProducts != null) {
+                    for (i in 0 until receivedProducts.length()) {
+                        val pObj = receivedProducts.getJSONObject(i)
+                        val name = pObj.optString("nombre")
+                        val price = pObj.optDouble("precio")
+                        val stock = pObj.optInt("stock")
+                        val img = if (pObj.has("imagen_uri") && !pObj.isNull("imagen_uri")) pObj.getString("imagen_uri") else null
+
+                        val existing = repository.allProductos.first().find { it.nombre.equals(name, ignoreCase = true) }
+                        if (existing != null) {
+                            repository.updateProducto(existing.copy(precio = price, stock = stock, imagen_uri = img))
+                        } else {
+                            repository.insertProducto(Producto(nombre = name, precio = price, stock = stock, imagen_uri = img))
+                        }
+                        productsImported++
+                    }
+                }
+
+                // Import employees
+                val receivedEmployees = serverPayload.optJSONArray("empleados")
+                if (receivedEmployees != null) {
+                    for (i in 0 until receivedEmployees.length()) {
+                        val eObj = receivedEmployees.getJSONObject(i)
+                        val name = eObj.optString("nombre")
+                        val phone = eObj.optString("telefono")
+                        val state = eObj.optString("estado")
+                        val dateJoined = eObj.optLong("fecha_vinculacion")
+
+                        val existing = repository.allEmpleados.first().find { it.nombre.equals(name, ignoreCase = true) }
+                        if (existing == null) {
+                            repository.insertEmpleado(Empleado(nombre = name, telefono = phone, estado = state, fecha_vinculacion = dateJoined))
+                        }
+                    }
+                }
+
+                p2pState.value = "COMPLETED"
+                p2pStatusMessage.value = "¡Sincronización exitosa! Importaste $productsImported productos unificados."
+            } catch (e: Exception) {
+                p2pState.value = "ERROR"
+                p2pStatusMessage.value = "Error al conectar o sincronizar: ${e.message ?: e.localizedMessage}"
+            } finally {
+                try { socket?.close() } catch (e: Exception) {}
+            }
+        }
+    }
+
+    fun simulateP2PSync() {
+        // Kept for backward compatibility but forwards to starting server/connecting depending on role
+        if (appMode.value == AppMode.WORK_EMPLOYER) {
+            startP2PSyncServer()
+        } else {
+            connectToP2PServer("192.168.1.105")
         }
     }
 
@@ -1055,11 +1410,172 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun saveSaleAsEspera() {
+        val currentCart = _cart.value
+        if (currentCart.isEmpty()) return
+
+        viewModelScope.launch {
+            val total = cartTotal.value
+            val itemNames = currentCart.map { "${it.value}x ${it.key.nombre}" }.joinToString(", ")
+            val cal = Calendar.getInstance()
+            val format = SimpleDateFormat("HH:mm", Locale.getDefault())
+
+            addTransaction(
+                monto = total,
+                categoria = "Ventas",
+                descripcion = "[Espera] Venta: $itemNames",
+                fecha = cal.timeInMillis,
+                hora = format.format(cal.time),
+                metodoPago = "Transfermóvil",
+                esEmpleador = true,
+                tipo = "ingreso"
+            )
+
+            clearCart()
+        }
+    }
+
+    fun confirmEsperaTransaction(tx: Transaction, txId: String) {
+        viewModelScope.launch {
+            val updatedDesc = tx.descripcion.replace("[Espera]", "[Confirmado]") + " | ID: $txId"
+            repository.updateTransaction(tx.copy(descripcion = updatedDesc))
+
+            // Parse and deduct stock
+            val productsList = repository.allProductos.first()
+            val itemsToDeduct = parseProductsFromDescription(tx.descripcion, productsList)
+            val role = when (appMode.value) {
+                AppMode.WORK_EMPLOYER -> "Empleador"
+                AppMode.WORK_EMPLOYEE -> "Empleado"
+                else -> "Usuario"
+            }
+            itemsToDeduct.forEach { (prod, qty) ->
+                val newStock = (prod.stock - qty).coerceAtLeast(0)
+                repository.updateProducto(prod.copy(stock = newStock))
+                repository.insertAuditoria(
+                    AuditoriaStock(
+                        producto_id = prod.id,
+                        nombre_producto = prod.nombre,
+                        cambio_stock = -qty,
+                        stock_anterior = prod.stock,
+                        stock_resultante = newStock,
+                        justificacion = "Confirmación automática de venta en espera",
+                        realizado_por = role,
+                        timestamp = System.currentTimeMillis()
+                    )
+                )
+            }
+        }
+    }
+
+    fun unconfirmEsperaTransaction(tx: Transaction) {
+        viewModelScope.launch {
+            val updatedDesc = tx.descripcion.replace("[Confirmado]", "[Espera]").substringBefore(" | ID:")
+            repository.updateTransaction(tx.copy(descripcion = updatedDesc))
+
+            // Parse and restore stock
+            val productsList = repository.allProductos.first()
+            val itemsToRestore = parseProductsFromDescription(tx.descripcion, productsList)
+            val role = when (appMode.value) {
+                AppMode.WORK_EMPLOYER -> "Empleador"
+                AppMode.WORK_EMPLOYEE -> "Empleado"
+                else -> "Usuario"
+            }
+            itemsToRestore.forEach { (prod, qty) ->
+                val newStock = prod.stock + qty
+                repository.updateProducto(prod.copy(stock = newStock))
+                repository.insertAuditoria(
+                    AuditoriaStock(
+                        producto_id = prod.id,
+                        nombre_producto = prod.nombre,
+                        cambio_stock = qty,
+                        stock_anterior = prod.stock,
+                        stock_resultante = newStock,
+                        justificacion = "Anulación/Desmarcado manual de venta confirmada",
+                        realizado_por = role,
+                        timestamp = System.currentTimeMillis()
+                    )
+                )
+            }
+        }
+    }
+
+    private fun parseProductsFromDescription(description: String, productsList: List<Producto>): Map<Producto, Int> {
+        val result = mutableMapOf<Producto, Int>()
+        try {
+            val cleanDesc = description.substringAfter("Venta:").substringBefore(" | ID:")
+            val items = cleanDesc.split(",").map { it.trim() }
+            for (item in items) {
+                val qtyMatch = java.util.regex.Pattern.compile("(\\d+)x\\s+(.+)").matcher(item)
+                if (qtyMatch.find()) {
+                    val qty = qtyMatch.group(1)?.toIntOrNull() ?: 0
+                    val name = qtyMatch.group(2) ?: ""
+                    val prod = productsList.find { it.nombre.equals(name, ignoreCase = true) }
+                    if (prod != null && qty > 0) {
+                        result[prod] = qty
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("MoneyViewModel", "Error parsing products from desc: ${e.message}")
+        }
+        return result
+    }
+
+    fun selectAmbiguousConfirmation(tx: Transaction) {
+        confirmEsperaTransaction(tx, ambiguousParsedId.value)
+        ambiguousConfirmations.value = emptyList()
+        ambiguousParsedId.value = ""
+    }
+
+    fun sendConfirmationSmsToActiveEmployee(transaction: Transaction) {
+        viewModelScope.launch {
+            val empId = empleadoActivoId.value ?: return@launch
+            val employee = activeEmployees.value.find { it.id == empId } ?: return@launch
+            val phone = employee.telefono
+            if (phone.isBlank()) return@launch
+
+            // Extract ID
+            val pattern = java.util.regex.Pattern.compile("(?i)(?:No\\.|Nro\\.|Id Compra|Transaccion|Id|Ref)[:\\s]+([A-Z0-9]+)")
+            val matcher = pattern.matcher(transaction.descripcion)
+            val txId = if (matcher.find()) matcher.group(1) ?: "" else {
+                val fallbackPattern = java.util.regex.Pattern.compile("\\b([A-Z0-9]{8,15})\\b")
+                val fallbackMatcher = fallbackPattern.matcher(transaction.descripcion)
+                if (fallbackMatcher.find()) fallbackMatcher.group(1) ?: "" else "CONF"
+            }
+
+            // Message format: MONEYAPP-CONF|monto:150.00|moneda:CUP|id:MM4004WKVI987|hora:14:32
+            val smsText = "MONEYAPP-CONF|monto:${transaction.monto}|moneda:${transaction.moneda}|id:$txId|hora:${transaction.hora}"
+
+            try {
+                val smsManager = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    getApplication<Application>().getSystemService(android.telephony.SmsManager::class.java)
+                } else {
+                    @Suppress("DEPRECATION")
+                    android.telephony.SmsManager.getDefault()
+                }
+                smsManager.sendTextMessage(phone, null, smsText, null, null)
+                Log.d("MoneyViewModel", "Sent confirmation SMS to active employee ($phone): $smsText")
+            } catch (e: Exception) {
+                Log.e("MoneyViewModel", "Error sending SMS: ${e.message}")
+            }
+        }
+    }
+
     // ==========================================
     // EMPLOYEE MANAGEMENT (Employer mode)
     // ==========================================
     val activeEmployees: StateFlow<List<Empleado>> = repository.allEmpleados
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
+    val empleadoActivoId = MutableStateFlow<Long?>(null)
+
+    fun selectActiveEmployee(employeeId: Long?) {
+        viewModelScope.launch {
+            empleadoActivoId.value = employeeId
+            repository.insertConfiguracion(Configuracion(clave = "empleado_activo_id", valor = employeeId?.toString() ?: ""))
+            repository.insertConfiguracion(Configuracion(clave = "empleado_activo_timestamp", valor = System.currentTimeMillis().toString()))
+        }
+    }
 
     fun addEmployee(nombre: String, telefono: String, fotoUri: String? = null) {
         viewModelScope.launch {
@@ -1257,6 +1773,163 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
         return sb.toString()
     }
 
+    // --- CUBACEL BALANCE & USSD STATE ---
+    val allSaldoMovil: StateFlow<List<SaldoMovil>> = repository.allSaldoMovil
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
+    val latestSaldoMovil: StateFlow<SaldoMovil?> = allSaldoMovil.map { list ->
+        list.firstOrNull { it.tipo == "saldo_principal" || it.tipo == "bono_datos" }
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
+
+    val activePromociones: StateFlow<List<SaldoMovil>> = repository.allPromociones
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
+    val ussdStatus = MutableStateFlow("IDLE") // "IDLE", "REQUESTING", "SUCCESS", "ERROR"
+    val ussdMessage = MutableStateFlow<String?>(null)
+
+    fun requestUssdBalanceUpdate(ussdCode: String = "*222#") {
+        viewModelScope.launch {
+            val context = getApplication<Application>().applicationContext
+            val telephonyManager = context.getSystemService(Application.TELEPHONY_SERVICE) as? TelephonyManager
+
+            if (telephonyManager == null) {
+                ussdStatus.value = "ERROR"
+                ussdMessage.value = "Servicio de telefonía no disponible en este dispositivo."
+                return@launch
+            }
+
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                ussdStatus.value = "ERROR"
+                ussdMessage.value = "La consulta automática por USSD requiere Android 8.0+."
+                return@launch
+            }
+
+            val hasPermission = androidx.core.content.ContextCompat.checkSelfPermission(
+                context,
+                android.Manifest.permission.CALL_PHONE
+            ) == android.content.pm.PackageManager.PERMISSION_GRANTED
+
+            if (!hasPermission) {
+                ussdStatus.value = "ERROR"
+                ussdMessage.value = "No se ha concedido el permiso de llamadas (CALL_PHONE) para ejecutar consultas USSD."
+                return@launch
+            }
+
+            ussdStatus.value = "REQUESTING"
+            ussdMessage.value = "Enviando consulta USSD $ussdCode..."
+
+            try {
+                telephonyManager.sendUssdRequest(
+                    ussdCode,
+                    object : TelephonyManager.UssdResponseCallback() {
+                        override fun onReceiveUssdResponse(
+                            telephonyManager: TelephonyManager?,
+                            request: String?,
+                            response: CharSequence?
+                        ) {
+                            val responseText = response?.toString() ?: ""
+                            Log.d("USSD", "USSD Response: $responseText")
+                            viewModelScope.launch {
+                                try {
+                                    val parsed = com.example.data.receiver.CubacelMessageParser.parseMessage(responseText, System.currentTimeMillis())
+                                    repository.insertSaldoMovil(parsed)
+                                    ussdStatus.value = "SUCCESS"
+                                    ussdMessage.value = "Saldo actualizado: ${parsed.saldoCUP} CUP, Datos: ${parsed.datosMB} MB"
+                                } catch (e: Exception) {
+                                    ussdStatus.value = "ERROR"
+                                    ussdMessage.value = "Error al procesar respuesta USSD: ${e.message}"
+                                }
+                            }
+                        }
+
+                        override fun onReceiveUssdResponseFailed(
+                            telephonyManager: TelephonyManager?,
+                            request: String?,
+                            failureCode: Int
+                        ) {
+                            Log.e("USSD", "USSD Failed: $failureCode")
+                            ussdStatus.value = "ERROR"
+                            ussdMessage.value = when (failureCode) {
+                                -1 -> "Error de retorno de red (USSD_RETURN_FAILURE)."
+                                -2 -> "Servicio USSD temporalmente no disponible."
+                                else -> "Fallo consulta USSD (código $failureCode)."
+                            }
+                        }
+                    },
+                    android.os.Handler(android.os.Looper.getMainLooper())
+                )
+            } catch (e: Exception) {
+                ussdStatus.value = "ERROR"
+                ussdMessage.value = "Error al ejecutar USSD: ${e.message}"
+            }
+        }
+    }
+
+    fun saveManualSaldo(saldoCUP: Double, datosMB: Double, bonoDatosMB: Double, vencimiento: String) {
+        viewModelScope.launch {
+            val record = SaldoMovil(
+                tipo = "saldo_principal",
+                saldoCUP = saldoCUP,
+                datosMB = datosMB,
+                bonoDatosMB = bonoDatosMB,
+                fechaVencimiento = vencimiento.ifBlank { "30 días" },
+                descripcion = "Ingreso manual: $saldoCUP CUP | $datosMB MB | $bonoDatosMB MB",
+                timestamp = System.currentTimeMillis()
+            )
+            repository.insertSaldoMovil(record)
+        }
+    }
+
+    // --- CONSUMO DE DATOS REAL ---
+    fun hasUsageStatsPermission(): Boolean {
+        val context = getApplication<Application>().applicationContext
+        val appOps = context.getSystemService(android.content.Context.APP_OPS_SERVICE) as? android.app.AppOpsManager ?: return false
+        val mode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            appOps.unsafeCheckOpNoThrow(
+                android.app.AppOpsManager.OPSTR_GET_USAGE_STATS,
+                android.os.Process.myUid(),
+                context.packageName
+            )
+        } else {
+            appOps.checkOpNoThrow(
+                android.app.AppOpsManager.OPSTR_GET_USAGE_STATS,
+                android.os.Process.myUid(),
+                context.packageName
+            )
+        }
+        return mode == android.app.AppOpsManager.MODE_ALLOWED
+    }
+
+    // Expose state flow with the consumed cellular bytes computed dynamically
+    val consumedMobileDataBytes: StateFlow<Long> = latestSaldoMovil.map { latest ->
+        val context = getApplication<Application>().applicationContext
+        if (!hasUsageStatsPermission()) {
+            return@map 0L
+        }
+
+        // Start measuring from the timestamp when the current package was active/configured
+        val startTime = latest?.timestamp ?: (System.currentTimeMillis() - 30 * 24 * 60 * 60 * 1000L)
+        val endTime = System.currentTimeMillis()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val networkStatsManager = context.getSystemService(android.content.Context.NETWORK_STATS_SERVICE) as? android.app.usage.NetworkStatsManager
+            if (networkStatsManager != null) {
+                try {
+                    val bucket = networkStatsManager.querySummaryForDevice(
+                        android.net.NetworkCapabilities.TRANSPORT_CELLULAR,
+                        null,
+                        startTime,
+                        endTime
+                    )
+                    return@map bucket.rxBytes + bucket.txBytes
+                } catch (e: Exception) {
+                    Log.e("DataUsage", "Error querying device mobile data: ${e.message}")
+                }
+            }
+        }
+        0L
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0L)
+
     fun clearAllData() {
         viewModelScope.launch {
             repository.deleteAllTransactions()
@@ -1264,6 +1937,7 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
             repository.deleteAllContactos()
             repository.deleteAllConfiguraciones()
             repository.deleteAllAuditorias()
+            repository.deleteAllSaldoMovil()
             // reload configs
             loadConfigurations()
         }

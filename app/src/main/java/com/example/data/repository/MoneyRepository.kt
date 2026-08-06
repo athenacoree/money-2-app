@@ -10,6 +10,7 @@ import com.example.data.local.AuditoriaStockDao
 import com.example.data.local.PropuestaCambioDao
 import com.example.data.local.BranchDao
 import com.example.data.local.DespachoDistribuidorDao
+import com.example.data.local.SaldoMovilDao
 import com.example.data.model.Transaction
 import com.example.data.model.Producto
 import com.example.data.model.Empleado
@@ -33,8 +34,25 @@ class MoneyRepository(
     private val auditoriaStockDao: AuditoriaStockDao,
     private val propuestaCambioDao: PropuestaCambioDao,
     private val branchDao: BranchDao,
-    private val despachoDistribuidorDao: DespachoDistribuidorDao
+    private val despachoDistribuidorDao: DespachoDistribuidorDao,
+    private val saldoMovilDao: SaldoMovilDao
 ) {
+    // Saldo Movil / Cubacel Info
+    val allSaldoMovil: Flow<List<com.example.data.model.SaldoMovil>> = saldoMovilDao.getAllSaldoMovil()
+    val allPromociones: Flow<List<com.example.data.model.SaldoMovil>> = saldoMovilDao.getAllPromociones()
+
+    suspend fun getLatestSaldoMovil(): com.example.data.model.SaldoMovil? {
+        return saldoMovilDao.getLatestSaldoMovil()
+    }
+
+    suspend fun insertSaldoMovil(saldo: com.example.data.model.SaldoMovil): Long {
+        return saldoMovilDao.insertSaldoMovil(saldo)
+    }
+
+    suspend fun deleteAllSaldoMovil() {
+        saldoMovilDao.deleteAllSaldoMovil()
+    }
+
     // Branches
     val allBranches: Flow<List<BranchInfo>> = branchDao.getAllBranches()
 

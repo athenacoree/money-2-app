@@ -81,6 +81,7 @@ fun CatalogScreen(
         onAddToCart = { product -> viewModel.addProductToCart(product) },
         onRemoveFromCart = { product -> viewModel.removeProductFromCart(product) },
         onCheckout = { viewModel.finalizeSale() },
+        onSaveAsEspera = { viewModel.saveSaleAsEspera() },
         onOpenProposalDialog = { showProposalDialog = true },
         onProductLongClick = { product -> viewModel.openPeekPreview(PeekPreviewType.ProductDetail(product)) },
         onBack = onBack,
@@ -140,6 +141,7 @@ fun CatalogScreen(
     onAddToCart: (Producto) -> Unit,
     onRemoveFromCart: (Producto) -> Unit,
     onCheckout: () -> Unit,
+    onSaveAsEspera: () -> Unit = {},
     onOpenProposalDialog: () -> Unit = {},
     onProductLongClick: ((Producto) -> Unit)? = null,
     onBack: () -> Unit,
@@ -412,6 +414,18 @@ fun CatalogScreen(
                                 showCartDialog = false
                             },
                             modifier = Modifier.fillMaxWidth().testTag("checkout_btn")
+                        )
+
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        GlassButton(
+                            text = "Dejar en Espera (Pendiente)",
+                            isPrimary = false,
+                            onClick = {
+                                onSaveAsEspera()
+                                showCartDialog = false
+                            },
+                            modifier = Modifier.fillMaxWidth().testTag("save_as_espera_btn")
                         )
                     }
 
