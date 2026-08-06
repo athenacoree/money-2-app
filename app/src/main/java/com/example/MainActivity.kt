@@ -181,7 +181,7 @@ fun MoneyMainApp(viewModel: MoneyViewModel) {
             ),
             com.example.ui.dialogs.PermissionDetail(
                 title = "Enviar SMS",
-                description = "Permite al Empleador enviar mensajes de confirmación de saldo y ventas directamente al teléfono del Empleado activo.",
+                description = "Enviar SMS: permite avisarle a tu empleado en tiempo real cuánto entró y con qué referencia",
                 consequence = "Sin este permiso, la confirmación de transacciones multi-dispositivo automática quedará deshabilitada.",
                 icon = Icons.Default.Send,
                 color = com.example.ui.theme.PurplePrimary,
@@ -209,6 +209,25 @@ fun MoneyMainApp(viewModel: MoneyViewModel) {
                     android.Manifest.permission.ACCESS_FINE_LOCATION,
                     android.Manifest.permission.ACCESS_COARSE_LOCATION
                 )
+            ),
+            com.example.ui.dialogs.PermissionDetail(
+                title = "Bluetooth (Sincronización P2P)",
+                description = "Permite buscar, conectar y sincronizar catálogos e inventario con otros dispositivos cercanos vía Bluetooth.",
+                consequence = "Sin este permiso, la sincronización alternativa por Bluetooth no estará disponible.",
+                icon = Icons.Default.Bluetooth,
+                color = androidx.compose.ui.graphics.Color(0xFF2563EB),
+                systemPermissions = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+                    listOf(
+                        android.Manifest.permission.BLUETOOTH_SCAN,
+                        android.Manifest.permission.BLUETOOTH_CONNECT,
+                        android.Manifest.permission.BLUETOOTH_ADVERTISE
+                    )
+                } else {
+                    listOf(
+                        android.Manifest.permission.BLUETOOTH,
+                        android.Manifest.permission.BLUETOOTH_ADMIN
+                    )
+                }
             ),
             com.example.ui.dialogs.PermissionDetail(
                 title = "Estadísticas de Uso (Consumo de Datos)",
@@ -512,130 +531,8 @@ fun MoneyMainApp(viewModel: MoneyViewModel) {
         )
     }
 
-    // Employer SMS Confirmation Pending alert
-    val pendingEmployerConfirmationTx by viewModel.pendingEmployerConfirmationTx.collectAsState()
-    pendingEmployerConfirmationTx?.let { tx ->
-        val activeEmpId by viewModel.empleadoActivoId.collectAsState()
-        val activeEmp = viewModel.activeEmployees.collectAsState().value.find { it.id == activeEmpId }
-        val empName = activeEmp?.nombre ?: "Empleado Activo"
+    // Removed old Employer SMS Confirmation Pending alert
 
-        Dialog(onDismissRequest = { viewModel.pendingEmployerConfirmationTx.value = null }) {
-            GlassCard(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(12.dp),
-                cornerRadius = 24.dp,
-                backgroundColor = Color(0xF5FFFFFF)
-            ) {
-                Column(modifier = Modifier.padding(20.dp)) {
-                    Text(
-                        text = "Nueva Transferencia Detectada",
-                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold, color = TextPrimary)
-                    )
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Text(
-                        text = "¿Deseas enviar un SMS automático de confirmación a $empName sobre este pago de ${tx.monto} ${tx.moneda}?",
-                        style = MaterialTheme.typography.bodyMedium.copy(color = TextSecondary)
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(10.dp)
-                    ) {
-                        TextButton(
-                            onClick = { viewModel.pendingEmployerConfirmationTx.value = null },
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            Text("No enviar", color = ExpenseRed, fontWeight = FontWeight.Bold)
-                        }
-
-                        GlassButton(
-                            text = "Enviar SMS",
-                            isPrimary = true,
-                            onClick = {
-                                viewModel.sendConfirmationSmsToActiveEmployee(tx)
-                                viewModel.pendingEmployerConfirmationTx.value = null
-                            },
-                            modifier = Modifier.weight(1.5f)
-                        )
-                    }
-                }
-            }
-        }
-    }
-
-    // Employee Ambiguous Waits Duplicate selection alert
-    val ambiguousConfirmations by viewModel.ambiguousConfirmations.collectAsState()
-    val ambiguousParsedId by viewModel.ambiguousParsedId.collectAsState()
-
-    if (ambiguousConfirmations.isNotEmpty()) {
-        Dialog(onDismissRequest = { viewModel.ambiguousConfirmations.value = emptyList() }) {
-            GlassCard(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(12.dp),
-                cornerRadius = 24.dp,
-                backgroundColor = Color(0xF5FFFFFF)
-            ) {
-                Column(modifier = Modifier.padding(20.dp)) {
-                    Text(
-                        text = "Ambigüedad de Venta",
-                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold, color = TextPrimary)
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = "Se recibió un pago, pero tienes múltiples ventas en espera con el mismo monto. Selecciona cuál de ellas es la correcta para conciliar:",
-                        style = MaterialTheme.typography.bodyMedium.copy(color = TextSecondary)
-                    )
-                    Spacer(modifier = Modifier.height(14.dp))
-
-                    androidx.compose.foundation.lazy.LazyColumn(
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                        modifier = Modifier.heightIn(max = 200.dp)
-                    ) {
-                        items(ambiguousConfirmations) { tx ->
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .clip(RoundedCornerShape(12.dp))
-                                    .background(Color(0x0F7C3AED))
-                                    .clickable {
-                                        viewModel.selectAmbiguousConfirmation(tx)
-                                    }
-                                    .padding(12.dp),
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Column(modifier = Modifier.weight(1f)) {
-                                    Text(tx.descripcion.replace("[Espera] ", ""), fontWeight = FontWeight.Bold, fontSize = 13.sp)
-                                    Text("Monto: ${tx.monto} CUP | Hora: ${tx.hora}", fontSize = 11.sp, color = TextSecondary)
-                                }
-                                Icon(Icons.Default.ChevronRight, contentDescription = null, tint = PurplePrimary)
-                            }
-                        }
-                    }
-
-                    Spacer(modifier = Modifier.height(14.dp))
-                    Text(
-                        text = "ID Referencia: $ambiguousParsedId",
-                        fontSize = 11.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = PurplePrimary,
-                        textAlign = androidx.compose.ui.text.style.TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-
-                    Spacer(modifier = Modifier.height(8.dp))
-                    TextButton(
-                        onClick = { viewModel.ambiguousConfirmations.value = emptyList() },
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
-                    ) {
-                        Text("Cerrar")
-                    }
-                }
-            }
-        }
-    }
+    // Removed old Employee Ambiguous Waits Duplicate selection alert
 }
 

@@ -92,6 +92,7 @@ fun TransferScreen(
     val contacts by viewModel.conversations.collectAsState()
     val employerNumber by viewModel.employerTransfermovilNumber.collectAsState()
     val localTransferError by viewModel.localTransferError.collectAsState()
+    val availableBalanceMap by viewModel.availableBalanceMap.collectAsState()
 
     var activeTab by remember { mutableStateOf(TransferTabType.QVAPAY_P2P) }
 
@@ -1099,13 +1100,26 @@ fun TransferScreen(
                         elevation = 8.dp
                     ) {
                         Column(modifier = Modifier.padding(20.dp)) {
-                            Text(
-                                text = "Datos de Transferencia Local (CUP)",
-                                style = MaterialTheme.typography.titleMedium.copy(
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = TextPrimary
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = "Datos de Transferencia Local (CUP)",
+                                    style = MaterialTheme.typography.titleMedium.copy(
+                                        fontWeight = FontWeight.SemiBold,
+                                        color = TextPrimary
+                                    )
                                 )
-                            )
+                                val cupBal = availableBalanceMap["CUP"] ?: 0.0
+                                Text(
+                                    text = "Saldo: $cupBal CUP",
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = PurplePrimary
+                                )
+                            }
 
                             Spacer(modifier = Modifier.height(14.dp))
 

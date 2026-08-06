@@ -94,6 +94,73 @@ fun EmployerScreen(
         modifier = modifier
     )
 
+    // Employer SMS Confirmation Dialog (Problem B)
+    val pendingEmployerConfirmationTx by viewModel.pendingEmployerConfirmationTx.collectAsState()
+    pendingEmployerConfirmationTx?.let { tx ->
+        val activeEmp = activeEmployees.find { it.id == empleadoActivoId }
+        val empName = activeEmp?.nombre
+
+        Dialog(onDismissRequest = { viewModel.pendingEmployerConfirmationTx.value = null }) {
+            GlassCard(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp),
+                cornerRadius = 24.dp,
+                backgroundColor = Color(0xF5FFFFFF)
+            ) {
+                Column(modifier = Modifier.padding(20.dp)) {
+                    Text(
+                        text = "Nueva Transferencia Detectada",
+                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold, color = TextPrimary)
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Text(
+                        text = "Detalles de la transacción: ${tx.monto} ${tx.moneda} (Hora: ${tx.hora})",
+                        style = MaterialTheme.typography.bodyMedium.copy(color = TextPrimary, fontWeight = FontWeight.Bold)
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    if (empName != null) {
+                        Text(
+                            text = "¿Deseas enviar un SMS automático de confirmación a $empName sobre este pago?",
+                            style = MaterialTheme.typography.bodyMedium.copy(color = TextSecondary)
+                        )
+                    } else {
+                        Text(
+                            text = "ATENCIÓN: No hay ningún empleado activo seleccionado. Debes elegir un empleado para poder enviarle la confirmación SMS.",
+                            style = MaterialTheme.typography.bodyMedium.copy(color = ExpenseRed, fontWeight = FontWeight.SemiBold)
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(18.dp))
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        TextButton(
+                            onClick = { viewModel.pendingEmployerConfirmationTx.value = null },
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Text("Omitir", color = ExpenseRed, fontWeight = FontWeight.Bold)
+                        }
+
+                        GlassButton(
+                            text = "Enviar confirmación",
+                            isPrimary = true,
+                            enabled = empName != null,
+                            onClick = {
+                                viewModel.sendConfirmationSmsToActiveEmployee(tx)
+                                viewModel.pendingEmployerConfirmationTx.value = null
+                            },
+                            modifier = Modifier.weight(1.8f)
+                        )
+                    }
+                }
+            }
+        }
+    }
+
     if (showAddBranchDialog) {
         var branchName by remember { mutableStateOf("") }
         var branchAddress by remember { mutableStateOf("") }
@@ -310,6 +377,79 @@ fun EmployeeScreen(
             viewModel = viewModel,
             onDismiss = { viewModel.showSyncP2PDialog.value = false }
         )
+    }
+
+    // Employee Ambiguous Waits Duplicate selection alert (Problem C)
+    val ambiguousConfirmations by viewModel.ambiguousConfirmations.collectAsState()
+    val ambiguousParsedId by viewModel.ambiguousParsedId.collectAsState()
+
+    if (ambiguousConfirmations.isNotEmpty()) {
+        Dialog(onDismissRequest = { viewModel.ambiguousConfirmations.value = emptyList() }) {
+            GlassCard(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp),
+                cornerRadius = 24.dp,
+                backgroundColor = Color(0xF5FFFFFF)
+            ) {
+                Column(modifier = Modifier.padding(20.dp)) {
+                    Text(
+                        text = "Ambigüedad de Venta",
+                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold, color = TextPrimary)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Se recibió un pago, pero tienes múltiples ventas en espera con el mismo monto. Selecciona cuál de ellas es la correcta para conciliar:",
+                        style = MaterialTheme.typography.bodyMedium.copy(color = TextSecondary)
+                    )
+                    Spacer(modifier = Modifier.height(14.dp))
+
+                    LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier.heightIn(max = 200.dp)
+                    ) {
+                        items(ambiguousConfirmations) { tx ->
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clip(RoundedCornerShape(12.dp))
+                                    .background(Color(0x0F7C3AED))
+                                    .clickable {
+                                        viewModel.selectAmbiguousConfirmation(tx)
+                                    }
+                                    .padding(12.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text(tx.descripcion.replace("[Espera] ", ""), fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                                    Text("Monto: ${tx.monto} ${tx.moneda} | Hora: ${tx.hora}", fontSize = 11.sp, color = TextSecondary)
+                                }
+                                Icon(Icons.Default.ChevronRight, contentDescription = null, tint = PurplePrimary)
+                            }
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(14.dp))
+                    Text(
+                        text = "ID Referencia: $ambiguousParsedId",
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = PurplePrimary,
+                        textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+                    TextButton(
+                        onClick = { viewModel.ambiguousConfirmations.value = emptyList() },
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    ) {
+                        Text("Cerrar")
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -1104,6 +1244,13 @@ fun SyncP2PDialog(
     val myIp = remember { viewModel.getLocalIpAddress() }
     var targetIpInput by remember { mutableStateOf("192.168.1.105") }
 
+    // Problem D tabs: WiFi Directo / Bluetooth
+    var activePairingTab by remember { mutableStateOf("wifi") } // "wifi" or "bluetooth"
+
+    // Peer lists from ViewModel
+    val wifiP2pDevices by viewModel.wifiP2pDevices.collectAsState()
+    val bluetoothDevices by viewModel.bluetoothDevices.collectAsState()
+
     Dialog(onDismissRequest = onDismiss) {
         GlassCard(
             modifier = Modifier.fillMaxWidth().padding(12.dp),
@@ -1132,7 +1279,7 @@ fun SyncP2PDialog(
                     )
                 )
 
-                Spacer(modifier = Modifier.height(6.dp))
+                Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
                     text = "Transmite de verdad catálogo, empleados e inventario en tiempo real localmente.",
@@ -1143,72 +1290,242 @@ fun SyncP2PDialog(
                     )
                 )
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(14.dp))
 
-                // Connection details & IP Input
-                if (appMode == com.example.data.model.AppMode.WORK_EMPLOYER) {
-                    // Employer hosts the server
+                // Selector de método (WiFi Directo / Bluetooth)
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(Color(0x0F7C3AED))
+                        .padding(4.dp)
+                ) {
                     Box(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(RoundedCornerShape(14.dp))
-                            .background(Color(0x1F7C3AED))
-                            .padding(14.dp)
+                            .weight(1f)
+                            .clip(RoundedCornerShape(10.dp))
+                            .background(if (activePairingTab == "wifi") PurplePrimary else Color.Transparent)
+                            .clickable { activePairingTab = "wifi" }
+                            .padding(vertical = 8.dp),
+                        contentAlignment = Alignment.Center
                     ) {
-                        Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                            Text("Rol: Socio Principal (Servidor)", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = PurplePrimary)
-                            Text("Tu IP Local: $myIp", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = TextPrimary)
-                            Text("Puerto: 8888", fontSize = 11.sp, color = TextSecondary)
-                        }
+                        Text(
+                            text = "WiFi Directo",
+                            color = if (activePairingTab == "wifi") Color.White else TextPrimary,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 12.sp
+                        )
                     }
 
-                    Spacer(modifier = Modifier.height(12.dp))
-
-                    GlassButton(
-                        text = if (p2pState == "HOSTING") "Esperando conexión..." else "Iniciar Servidor de Sincronización",
-                        icon = Icons.Default.PlayArrow,
-                        isPrimary = true,
-                        onClick = { viewModel.startP2PSyncServer() },
-                        modifier = Modifier.fillMaxWidth().testTag("p2p_sync_action_btn")
-                    )
-                } else {
-                    // Employee connects to server
                     Box(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(RoundedCornerShape(14.dp))
-                            .background(Color(0x1F7C3AED))
-                            .padding(14.dp)
+                            .weight(1f)
+                            .clip(RoundedCornerShape(10.dp))
+                            .background(if (activePairingTab == "bluetooth") PurplePrimary else Color.Transparent)
+                            .clickable { activePairingTab = "bluetooth" }
+                            .padding(vertical = 8.dp),
+                        contentAlignment = Alignment.Center
                     ) {
-                        Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                            Text("Rol: Sucursal (Cliente)", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = PurplePrimary)
-                            Text("Tu IP Local: $myIp", fontSize = 11.sp, color = TextSecondary)
-                        }
+                        Text(
+                            text = "Bluetooth",
+                            color = if (activePairingTab == "bluetooth") Color.White else TextPrimary,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 12.sp
+                        )
                     }
-
-                    Spacer(modifier = Modifier.height(12.dp))
-
-                    OutlinedTextField(
-                        value = targetIpInput,
-                        onValueChange = { targetIpInput = it },
-                        label = { Text("IP del Socio Principal") },
-                        modifier = Modifier.fillMaxWidth()
-                    )
-
-                    Spacer(modifier = Modifier.height(12.dp))
-
-                    GlassButton(
-                        text = if (p2pState == "CONNECTING") "Conectando..." else "Conectar con Socio Principal",
-                        icon = Icons.Default.Sync,
-                        isPrimary = true,
-                        onClick = { viewModel.connectToP2PServer(targetIpInput.trim()) },
-                        modifier = Modifier.fillMaxWidth().testTag("p2p_sync_action_btn")
-                    )
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Real-time synchronization message & status
+                // TAB 1: WIFI DIRECTO FLOW
+                if (activePairingTab == "wifi") {
+                    if (appMode == com.example.data.model.AppMode.WORK_EMPLOYER) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(14.dp))
+                                .background(Color(0x1F7C3AED))
+                                .padding(12.dp)
+                        ) {
+                            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                                Text("Socio Principal (Servidor WiFi Directo)", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = PurplePrimary)
+                                Text("Tu IP: $myIp", fontSize = 12.sp, color = TextPrimary)
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.height(12.dp))
+
+                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            GlassButton(
+                                text = "Buscar pares",
+                                icon = Icons.Default.Search,
+                                isPrimary = false,
+                                onClick = { viewModel.startWifiP2pDiscovery() },
+                                modifier = Modifier.weight(1f)
+                            )
+                            GlassButton(
+                                text = "Iniciar Servidor",
+                                icon = Icons.Default.PlayArrow,
+                                isPrimary = true,
+                                onClick = { viewModel.startP2PSyncServer() },
+                                modifier = Modifier.weight(1.2f)
+                            )
+                        }
+                    } else {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(14.dp))
+                                .background(Color(0x1F7C3AED))
+                                .padding(12.dp)
+                        ) {
+                            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                                Text("Sucursal (Cliente WiFi Directo)", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = PurplePrimary)
+                                Text("Tu IP: $myIp", fontSize = 12.sp, color = TextPrimary)
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.height(12.dp))
+
+                        GlassButton(
+                            text = "Buscar Socio Principal",
+                            icon = Icons.Default.Search,
+                            isPrimary = true,
+                            onClick = { viewModel.startWifiP2pDiscovery() },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        if (wifiP2pDevices.isNotEmpty()) {
+                            Spacer(modifier = Modifier.height(10.dp))
+                            Text("Selecciona dispositivo para conectar:", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = TextPrimary, modifier = Modifier.align(Alignment.Start))
+                            Spacer(modifier = Modifier.height(6.dp))
+                            LazyColumn(modifier = Modifier.heightIn(max = 120.dp).fillMaxWidth()) {
+                                items(wifiP2pDevices) { dev ->
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(vertical = 4.dp)
+                                            .clip(RoundedCornerShape(10.dp))
+                                            .background(Color(0x0A000000))
+                                            .clickable { viewModel.connectToWifiDirectPeer(dev) }
+                                            .padding(10.dp),
+                                        horizontalArrangement = Arrangement.SpaceBetween,
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Column {
+                                            Text(dev.deviceName.ifBlank { "Dispositivo sin nombre" }, fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                                            Text(dev.deviceAddress, fontSize = 10.sp, color = TextSecondary)
+                                        }
+                                        Icon(Icons.Default.ChevronRight, contentDescription = null, tint = PurplePrimary, modifier = Modifier.size(16.dp))
+                                    }
+                                }
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.height(12.dp))
+                        Text("--- O introduce IP a mano ---", fontSize = 11.sp, color = TextSecondary)
+                        Spacer(modifier = Modifier.height(6.dp))
+
+                        OutlinedTextField(
+                            value = targetIpInput,
+                            onValueChange = { targetIpInput = it },
+                            label = { Text("IP del Socio Principal") },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        GlassButton(
+                            text = "Conectar por IP",
+                            icon = Icons.Default.Sync,
+                            isPrimary = false,
+                            onClick = { viewModel.connectToP2PServer(targetIpInput.trim()) },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+                }
+
+                // TAB 2: BLUETOOTH FLOW
+                if (activePairingTab == "bluetooth") {
+                    if (appMode == com.example.data.model.AppMode.WORK_EMPLOYER) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(14.dp))
+                                .background(Color(0x1F7C3AED))
+                                .padding(12.dp)
+                        ) {
+                            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                                Text("Socio Principal (Servidor Bluetooth)", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = PurplePrimary)
+                                Text("Estado: Esperando RFCOMM de Sucursal", fontSize = 11.sp, color = TextSecondary)
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.height(12.dp))
+
+                        GlassButton(
+                            text = "Iniciar Servidor Bluetooth",
+                            icon = Icons.Default.PlayArrow,
+                            isPrimary = true,
+                            onClick = { viewModel.startBluetoothSyncServer() },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    } else {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(14.dp))
+                                .background(Color(0x1F7C3AED))
+                                .padding(12.dp)
+                        ) {
+                            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                                Text("Sucursal (Cliente Bluetooth)", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = PurplePrimary)
+                                Text("Estado: Busca y pulsa para sincronizar", fontSize = 11.sp, color = TextSecondary)
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.height(12.dp))
+
+                        GlassButton(
+                            text = "Escanear Socios Bluetooth",
+                            icon = Icons.Default.Search,
+                            isPrimary = true,
+                            onClick = { viewModel.startBluetoothDiscovery() },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        if (bluetoothDevices.isNotEmpty()) {
+                            Spacer(modifier = Modifier.height(10.dp))
+                            Text("Dispositivos Bluetooth encontrados:", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = TextPrimary, modifier = Modifier.align(Alignment.Start))
+                            Spacer(modifier = Modifier.height(6.dp))
+                            LazyColumn(modifier = Modifier.heightIn(max = 140.dp).fillMaxWidth()) {
+                                items(bluetoothDevices) { dev ->
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(vertical = 4.dp)
+                                            .clip(RoundedCornerShape(10.dp))
+                                            .background(Color(0x0A000000))
+                                            .clickable { viewModel.connectToBluetoothPeer(dev) }
+                                            .padding(10.dp),
+                                        horizontalArrangement = Arrangement.SpaceBetween,
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Column {
+                                            Text(dev.name, fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                                            Text(dev.address, fontSize = 10.sp, color = TextSecondary)
+                                        }
+                                        Icon(Icons.Default.Bluetooth, contentDescription = null, tint = PurplePrimary, modifier = Modifier.size(16.dp))
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Mensajes de estado en tiempo real (Sincronizando, Completado, Buscando, etc.)
                 if (p2pStatusMessage != null) {
                     Box(
                         modifier = Modifier
@@ -1222,7 +1539,7 @@ fun SyncP2PDialog(
                             .padding(12.dp)
                     ) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                            if (p2pState == "SYNCING" || p2pState == "CONNECTING") {
+                            if (p2pState == "SYNCING" || p2pState == "CONNECTING" || p2pState == "SEARCHING") {
                                 CircularProgressIndicator(modifier = Modifier.size(16.dp), color = PurplePrimary, strokeWidth = 2.dp)
                                 Spacer(modifier = Modifier.width(8.dp))
                             }
@@ -1232,7 +1549,8 @@ fun SyncP2PDialog(
                                     fontWeight = FontWeight.Medium,
                                     color = if (p2pState == "COMPLETED") IncomeGreen else if (p2pState == "ERROR") ExpenseRed else TextPrimary,
                                     fontSize = 12.sp
-                                )
+                                ),
+                                modifier = Modifier.weight(1f)
                             )
                         }
                     }

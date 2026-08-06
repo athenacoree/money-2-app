@@ -48,6 +48,9 @@ fun HomeScreen(
 ) {
     val userProfile by viewModel.userProfile.collectAsState()
     val availableBalance by viewModel.availableBalance.collectAsState()
+    val availableBalanceMap by viewModel.availableBalanceMap.collectAsState()
+    val qvaPayUserInfo by viewModel.qvaPayUserInfo.collectAsState()
+    val isQvaPayEnabled by viewModel.isQvaPayEnabled.collectAsState()
     val totalIncome by viewModel.totalIncome.collectAsState()
     val totalExpense by viewModel.totalExpense.collectAsState()
     val recentTxList by viewModel.filteredTransactions.collectAsState()
@@ -271,7 +274,70 @@ fun HomeScreen(
 
                         Spacer(modifier = Modifier.height(10.dp))
 
-                        AnimatedBalanceCounter(targetAmount = availableBalance)
+                        // Breakdown of balances (Problem E.3)
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            val cupBalance = availableBalanceMap["CUP"] ?: 0.0
+                            val mlcBalance = availableBalanceMap["MLC"] ?: 0.0
+                            val usdBalance = availableBalanceMap["USD"] ?: 0.0
+
+                            // CUP Balance
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text("Saldo CUP:", fontWeight = FontWeight.Bold, color = TextPrimary, fontSize = 16.sp)
+                                Text(currencyFormatter.format(cupBalance), fontWeight = FontWeight.ExtraBold, color = TextPrimary, fontSize = 20.sp)
+                            }
+
+                            // MLC Balance (if non-zero)
+                            if (mlcBalance != 0.0) {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text("Saldo MLC:", fontWeight = FontWeight.Bold, color = PurplePrimary, fontSize = 16.sp)
+                                    Text(currencyFormatter.format(mlcBalance).replace("$", "MLC "), fontWeight = FontWeight.ExtraBold, color = PurplePrimary, fontSize = 20.sp)
+                                }
+                            }
+
+                            // Local USD Balance (if non-zero)
+                            if (usdBalance != 0.0) {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text("Saldo USD local:", fontWeight = FontWeight.Bold, color = IncomeGreen, fontSize = 16.sp)
+                                    Text(currencyFormatter.format(usdBalance), fontWeight = FontWeight.ExtraBold, color = IncomeGreen, fontSize = 20.sp)
+                                }
+                            }
+
+                            // QvaPay Real Wallet Balance (Queried from QvaPayApiService)
+                            if (isQvaPayEnabled) {
+                                val qpBalance = qvaPayUserInfo?.balance ?: 0.0
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .clip(RoundedCornerShape(12.dp))
+                                        .background(Color(0x0F10B981))
+                                        .padding(horizontal = 10.dp, vertical = 6.dp),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
+                                        Icon(Icons.Default.AccountBalanceWallet, contentDescription = null, tint = IncomeGreen, modifier = Modifier.size(16.dp))
+                                        Spacer(modifier = Modifier.width(6.dp))
+                                        Text("QvaPay (SQP):", fontWeight = FontWeight.SemiBold, color = IncomeGreen, fontSize = 13.sp)
+                                    }
+                                    Text("$qpBalance SQP", fontWeight = FontWeight.Bold, color = IncomeGreen, fontSize = 15.sp)
+                                }
+                            }
+                        }
 
                         Spacer(modifier = Modifier.height(10.dp))
 
