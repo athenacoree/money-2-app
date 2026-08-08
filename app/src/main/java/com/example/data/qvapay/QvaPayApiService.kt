@@ -89,7 +89,11 @@ object QvaPayApiService {
                 Result.success(coinsList)
             }
         } catch (e: Exception) {
-            Result.success(getFallbackCoins())
+            if (appKey.isNotBlank() && appSecret.isNotBlank()) {
+                Result.failure(Exception("Error al cargar criptomonedas de QvaPay: ${e.localizedMessage ?: e.message}"))
+            } else {
+                Result.success(getFallbackCoins())
+            }
         }
     }
 
@@ -182,7 +186,11 @@ object QvaPayApiService {
                 Result.success(list)
             }
         } catch (e: Exception) {
-            Result.success(getFallbackTransactions())
+            if (appKey.isNotBlank() && appSecret.isNotBlank()) {
+                Result.failure(Exception("Error al cargar transacciones de QvaPay: ${e.localizedMessage ?: e.message}"))
+            } else {
+                Result.success(getFallbackTransactions())
+            }
         }
     }
 
@@ -235,17 +243,21 @@ object QvaPayApiService {
                 )
             )
         } catch (e: Exception) {
-            val localId = UUID.randomUUID().toString().take(8)
-            val fallbackUrl = "https://qvapay.com/pay/$localId"
-            Result.success(
-                QvaPayInvoice(
-                    invoiceId = localId,
-                    amount = amount,
-                    description = description,
-                    url = fallbackUrl,
-                    status = "Pending"
+            if (appKey.isNotBlank() && appSecret.isNotBlank()) {
+                Result.failure(Exception("Error al crear factura real en QvaPay: ${e.localizedMessage ?: e.message}"))
+            } else {
+                val localId = UUID.randomUUID().toString().take(8)
+                val fallbackUrl = "https://qvapay.com/pay/$localId"
+                Result.success(
+                    QvaPayInvoice(
+                        invoiceId = localId,
+                        amount = amount,
+                        description = description,
+                        url = fallbackUrl,
+                        status = "Pending"
+                    )
                 )
-            )
+            }
         }
     }
 

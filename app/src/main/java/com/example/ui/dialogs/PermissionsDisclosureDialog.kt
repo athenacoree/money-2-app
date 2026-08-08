@@ -185,7 +185,7 @@ fun PermissionsDisclosureDialog(
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "Tus datos NUNCA se envían a servidores externos ni se comparten con terceros. Todo se queda guardado localmente en tu teléfono.",
+                            text = "Tus datos financieros se queda guardados localmente en tu teléfono. Solo se transmiten datos externos si decides activar de forma voluntaria la integración oficial de QvaPay o la sincronización P2P dentro de tu red local.",
                             style = MaterialTheme.typography.labelSmall.copy(
                                 color = IncomeGreen,
                                 fontWeight = FontWeight.SemiBold,

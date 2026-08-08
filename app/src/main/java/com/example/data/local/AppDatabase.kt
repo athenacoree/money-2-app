@@ -30,7 +30,7 @@ import com.example.data.model.SaldoMovil
         DespachoDistribuidor::class,
         SaldoMovil::class
     ],
-    version = 8,
+    version = 9,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

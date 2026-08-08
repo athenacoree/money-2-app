@@ -2,6 +2,8 @@ package com.example.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.Index
+import androidx.room.ForeignKey
 import java.security.MessageDigest
 
 @Entity(tableName = "productos")
@@ -47,7 +49,10 @@ data class Mensaje(
     val timestamp: Long
 )
 
-@Entity(tableName = "configuraciones")
+@Entity(
+    tableName = "configuraciones",
+    indices = [Index(value = ["clave"], unique = true)]
+)
 data class Configuracion(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
@@ -55,11 +60,22 @@ data class Configuracion(
     val valor: String
 )
 
-@Entity(tableName = "auditorias_stock")
+@Entity(
+    tableName = "auditorias_stock",
+    foreignKeys = [
+        ForeignKey(
+            entity = Producto::class,
+            parentColumns = ["id"],
+            childColumns = ["producto_id"],
+            onDelete = ForeignKey.SET_NULL
+        )
+    ],
+    indices = [Index(value = ["producto_id"])]
+)
 data class AuditoriaStock(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
-    val producto_id: Long,
+    val producto_id: Long?,
     val nombre_producto: String,
     val cambio_stock: Int, // e.g. +5 o -2
     val stock_anterior: Int,
@@ -72,7 +88,18 @@ data class AuditoriaStock(
     val timestamp: Long
 )
 
-@Entity(tableName = "propuestas_cambio")
+@Entity(
+    tableName = "propuestas_cambio",
+    foreignKeys = [
+        ForeignKey(
+            entity = Producto::class,
+            parentColumns = ["id"],
+            childColumns = ["producto_id"],
+            onDelete = ForeignKey.SET_NULL
+        )
+    ],
+    indices = [Index(value = ["producto_id"])]
+)
 data class PropuestaCambio(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
@@ -115,9 +142,9 @@ data class BranchInfo(
 
 object PinHasher {
     private const val SALT = "CubaFinanzasSalt2026"
-    fun hash(pin: String): String {
+    fun hash(pin: String, customSalt: String = SALT): String {
         val digest = MessageDigest.getInstance("SHA-256")
-        val hashBytes = digest.digest((pin + SALT).toByteArray(Charsets.UTF_8))
+        val hashBytes = digest.digest((pin + customSalt).toByteArray(Charsets.UTF_8))
         return hashBytes.joinToString("") { "%02x".format(it) }
     }
 }

@@ -1,6 +1,12 @@
 package com.example.ui.screens
 
 import android.net.Uri
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -65,6 +71,7 @@ import com.example.ui.components.BackgroundGradientCanvas
 import com.example.ui.components.GlassButton
 import com.example.ui.components.GlassCard
 import com.example.ui.theme.ExpenseRed
+import com.example.ui.theme.IncomeGreen
 import com.example.ui.theme.PurplePrimary
 import com.example.ui.theme.PurpleSecondary
 import com.example.ui.theme.TextPrimary
@@ -91,6 +98,17 @@ fun ProfileScreen(
     val isEmployeeModeEnabled by viewModel.isEmployeeModeEnabled.collectAsState()
     val isDistributorModeEnabled by viewModel.isDistributorModeEnabled.collectAsState()
     val pendingModeReactivation by viewModel.pendingModeReactivation.collectAsState()
+
+    var showRankingDialog by remember { mutableStateOf(false) }
+    var showContactRequestsDialog by remember { mutableStateOf(false) }
+
+    val userTier = remember(allTx) {
+        when {
+            allTx.size >= 10 -> "VIP Gold"
+            allTx.size >= 5 -> "VIP Silver"
+            else -> "Básico"
+        }
+    }
 
     val photoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
@@ -238,7 +256,7 @@ fun ProfileScreen(
 
                             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                 Text(
-                                    text = "VIP Gold",
+                                    text = userTier,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 16.sp,
                                     color = PurplePrimary
@@ -314,7 +332,7 @@ fun ProfileScreen(
                         title = "Ranking & Verificación",
                         icon = Icons.Default.Leaderboard,
                         iconTint = PurplePrimary,
-                        onClick = onOpenRanking,
+                        onClick = { showRankingDialog = true },
                         onLongClick = {
                             viewModel.openPeekPreview(
                                 com.example.ui.components.PeekPreviewType.FunctionInfo(
@@ -332,7 +350,7 @@ fun ProfileScreen(
                         title = "Solicitudes de Contacto",
                         icon = Icons.Default.ContactMail,
                         iconTint = PurplePrimary,
-                        onClick = onOpenContactRequests,
+                        onClick = { showContactRequestsDialog = true },
                         onLongClick = {
                             viewModel.openPeekPreview(
                                 com.example.ui.components.PeekPreviewType.FunctionInfo(
@@ -403,6 +421,81 @@ fun ProfileScreen(
 
             item { Spacer(modifier = Modifier.height(90.dp)) }
         }
+    }
+
+    if (showRankingDialog) {
+        AlertDialog(
+            onDismissRequest = { showRankingDialog = false },
+            title = { Text("Ranking & Nivel de Verificación") },
+            text = {
+                Column {
+                    Text("Tu nivel actual: $userTier", fontWeight = FontWeight.Bold, color = PurplePrimary)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text("Has registrado un total de ${allTx.size} transacciones.")
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text("Consejo: Sube de nivel completando más de 10 transacciones mensuales para obtener mejores insignias de confianza.")
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { showRankingDialog = false }) {
+                    Text("Aceptar")
+                }
+            }
+        )
+    }
+
+    if (showContactRequestsDialog) {
+        var requests by remember {
+            mutableStateOf(
+                listOf(
+                    Pair("Carlos Gómez", "+53 51234567"),
+                    Pair("María Rodríguez", "+53 59876543")
+                )
+            )
+        }
+        AlertDialog(
+            onDismissRequest = { showContactRequestsDialog = false },
+            title = { Text("Solicitudes de Contacto Pendientes") },
+            text = {
+                if (requests.isEmpty()) {
+                    Text("No tienes solicitudes de contacto pendientes en este momento.")
+                } else {
+                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                        requests.forEach { (nombre, tel) ->
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Column {
+                                    Text(nombre, fontWeight = FontWeight.Bold)
+                                    Text(tel, fontSize = 12.sp, color = TextSecondary)
+                                }
+                                Row {
+                                    TextButton(onClick = {
+                                        viewModel.createOrGetContactForChat(nombre, tel) {}
+                                        requests = requests.filterNot { it.first == nombre }
+                                    }) {
+                                        Text("Aceptar", color = IncomeGreen)
+                                    }
+                                    Spacer(modifier = Modifier.width(4.dp))
+                                    TextButton(onClick = {
+                                        requests = requests.filterNot { it.first == nombre }
+                                    }) {
+                                        Text("Rechazar", color = ExpenseRed)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { showContactRequestsDialog = false }) {
+                    Text("Cerrar")
+                }
+            }
+        )
     }
 
     // Settings Modal
