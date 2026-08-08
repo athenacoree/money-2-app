@@ -14,7 +14,7 @@ import java.util.UUID
 
 object QvaPayApiService {
 
-    private const val BASE_URL = "https://qvapay.com/api/v1"
+    private const val BASE_URL = "https://api.qvapay.com/v2"
 
     suspend fun getUserInfo(appKey: String, appSecret: String): Result<QvaPayUserInfo> = withContext(Dispatchers.IO) {
         try {
@@ -22,11 +22,9 @@ object QvaPayApiService {
                 return@withContext Result.failure(Exception("Debe ingresar su App Key y App Secret de QvaPay."))
             }
 
-            val encodedKey = URLEncoder.encode(appKey.trim(), "UTF-8")
-            val encodedSecret = URLEncoder.encode(appSecret.trim(), "UTF-8")
-            val urlString = "$BASE_URL/info?app_key=$encodedKey&app_secret=$encodedSecret"
+            val urlString = "$BASE_URL/info"
 
-            val jsonString = performHttpGet(urlString)
+            val jsonString = performHttpGet(urlString, appKey, appSecret)
             val json = JSONObject(jsonString)
 
             // QvaPay info response can have fields inside "user" or root object
@@ -35,7 +33,7 @@ object QvaPayApiService {
             val username = userObj.optString("username", "qvapay_user")
             val email = userObj.optString("email", "")
             val balance = userObj.optDouble("balance", json.optDouble("balance", 0.0))
-            val logo = userObj.optString("logo", userObj.optString("avatar", null))
+            val logo = userObj.optString("logo", userObj.optString("avatar", ""))
             val bio = userObj.optString("bio", "")
 
             Result.success(
@@ -59,11 +57,9 @@ object QvaPayApiService {
                 return@withContext Result.success(getFallbackCoins())
             }
 
-            val encodedKey = URLEncoder.encode(appKey.trim(), "UTF-8")
-            val encodedSecret = URLEncoder.encode(appSecret.trim(), "UTF-8")
-            val urlString = "$BASE_URL/coins?app_key=$encodedKey&app_secret=$encodedSecret"
+            val urlString = "$BASE_URL/coins"
 
-            val jsonString = performHttpGet(urlString)
+            val jsonString = performHttpGet(urlString, appKey, appSecret)
             val jsonArray = try {
                 JSONArray(jsonString)
             } catch (e: Exception) {
@@ -80,7 +76,7 @@ object QvaPayApiService {
                         feePercent = item.optDouble("fee_percent", item.optDouble("fee", 0.0)),
                         min = item.optDouble("min", 1.0),
                         max = item.optDouble("max", 10000.0),
-                        logo = item.optString("logo", null)
+                        logo = item.optString("logo", "").ifEmpty { null }
                     )
                 )
             }
@@ -114,15 +110,13 @@ object QvaPayApiService {
                 return@withContext Result.failure(Exception("El monto a transferir debe ser mayor a 0 SQP."))
             }
 
-            val encodedKey = URLEncoder.encode(appKey.trim(), "UTF-8")
-            val encodedSecret = URLEncoder.encode(appSecret.trim(), "UTF-8")
             val encodedTo = URLEncoder.encode(toUsername.trim(), "UTF-8")
             val encodedAmount = amount.toString()
             val encodedDesc = URLEncoder.encode(description.ifBlank { "Pago QvaPay" }, "UTF-8")
 
-            val urlString = "$BASE_URL/transfer?app_key=$encodedKey&app_secret=$encodedSecret&to=$encodedTo&amount=$encodedAmount&description=$encodedDesc"
+            val urlString = "$BASE_URL/transfer?to=$encodedTo&amount=$encodedAmount&description=$encodedDesc"
 
-            val jsonString = performHttpGet(urlString)
+            val jsonString = performHttpGet(urlString, appKey, appSecret)
             val json = JSONObject(jsonString)
 
             val success = json.optBoolean("success", true)
@@ -152,11 +146,9 @@ object QvaPayApiService {
                 return@withContext Result.success(getFallbackTransactions())
             }
 
-            val encodedKey = URLEncoder.encode(appKey.trim(), "UTF-8")
-            val encodedSecret = URLEncoder.encode(appSecret.trim(), "UTF-8")
-            val urlString = "$BASE_URL/transactions?app_key=$encodedKey&app_secret=$encodedSecret"
+            val urlString = "$BASE_URL/transactions"
 
-            val jsonString = performHttpGet(urlString)
+            val jsonString = performHttpGet(urlString, appKey, appSecret)
             val jsonArray = try {
                 val root = JSONObject(jsonString)
                 root.optJSONArray("data") ?: root.optJSONArray("transactions") ?: JSONArray()
@@ -212,12 +204,10 @@ object QvaPayApiService {
                 )
             }
 
-            val encodedKey = URLEncoder.encode(appKey.trim(), "UTF-8")
-            val encodedSecret = URLEncoder.encode(appSecret.trim(), "UTF-8")
             val encodedDesc = URLEncoder.encode(description.ifBlank { "Cobro QvaPay" }, "UTF-8")
-            val urlString = "$BASE_URL/create_invoice?app_key=$encodedKey&app_secret=$encodedSecret&amount=$amount&description=$encodedDesc"
+            val urlString = "$BASE_URL/create_invoice?amount=$amount&description=$encodedDesc"
 
-            val jsonString = performHttpGet(urlString)
+            val jsonString = performHttpGet(urlString, appKey, appSecret)
             val json = JSONObject(jsonString)
 
             val invId = json.optString("id", json.optString("uuid", UUID.randomUUID().toString().take(8)))
@@ -279,7 +269,7 @@ object QvaPayApiService {
         )
     }
 
-    private fun performHttpGet(urlString: String): String {
+    private fun performHttpGet(urlString: String, appKey: String = "", appSecret: String = ""): String {
         val url = URL(urlString)
         val conn = url.openConnection() as HttpURLConnection
         conn.requestMethod = "GET"
@@ -287,6 +277,12 @@ object QvaPayApiService {
         conn.readTimeout = 8000
         conn.setRequestProperty("Accept", "application/json")
         conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Android QvaPay Client)")
+        if (appKey.isNotBlank()) {
+            conn.setRequestProperty("app-id", appKey.trim())
+        }
+        if (appSecret.isNotBlank()) {
+            conn.setRequestProperty("app-secret", appSecret.trim())
+        }
 
         val responseCode = conn.responseCode
         val stream = if (responseCode in 200..299) conn.inputStream else conn.errorStream

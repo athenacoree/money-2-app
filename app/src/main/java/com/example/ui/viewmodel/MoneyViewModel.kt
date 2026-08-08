@@ -1273,6 +1273,7 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
 
     val activeChat = MutableStateFlow<Contacto?>(null)
 
+    @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
     fun getActiveMessages(): Flow<List<Mensaje>> = activeChat.flatMapLatest { contact ->
         if (contact != null) {
             repository.getMensajesForContacto(contact.id)
