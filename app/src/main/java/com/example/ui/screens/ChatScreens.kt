@@ -1,5 +1,7 @@
 package com.example.ui.screens
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -48,6 +50,9 @@ fun ChatListScreen(
             viewModel.selectActiveChat(chat)
             // Navigate to details
             viewModel.activeChat.value = chat
+        },
+        onDeleteConversation = { chat ->
+            viewModel.deleteContacto(chat)
         },
         onNewChatClick = { showNewChatDialog = true },
         onBack = onBack,
@@ -135,6 +140,7 @@ fun IndividualChatScreen(
 fun ChatListScreen(
     conversations: List<Contacto>,
     onSelectConversation: (Contacto) -> Unit,
+    onDeleteConversation: (Contacto) -> Unit,
     onNewChatClick: () -> Unit,
     onBack: () -> Unit,
     modifier: Modifier = Modifier
@@ -178,7 +184,8 @@ fun ChatListScreen(
                         items(conversations) { chat ->
                             ChatConversationCard(
                                 conversation = chat,
-                                onClick = { onSelectConversation(chat) }
+                                onClick = { onSelectConversation(chat) },
+                                onDelete = { onDeleteConversation(chat) }
                             )
                         }
 
@@ -204,10 +211,12 @@ fun ChatListScreen(
     }
 }
 
+@OptIn(androidx.compose.foundation.ExperimentalFoundationApi::class)
 @Composable
 fun ChatConversationCard(
     conversation: Contacto,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    onDelete: () -> Unit
 ) {
     val dateStr = if (conversation.hora_ultimo_mensaje != null) {
         val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
@@ -216,10 +225,36 @@ fun ChatConversationCard(
         ""
     }
 
+    var showDeleteConfirm by remember { mutableStateOf(false) }
+
+    if (showDeleteConfirm) {
+        androidx.compose.material3.AlertDialog(
+            onDismissRequest = { showDeleteConfirm = false },
+            title = { Text("Eliminar Contacto") },
+            text = { Text("¿Estás seguro de que deseas eliminar a ${conversation.nombre}? Esto también borrará todos los mensajes de esta conversación.") },
+            confirmButton = {
+                androidx.compose.material3.TextButton(onClick = {
+                    onDelete()
+                    showDeleteConfirm = false
+                }) {
+                    Text("Eliminar", color = ExpenseRed)
+                }
+            },
+            dismissButton = {
+                androidx.compose.material3.TextButton(onClick = { showDeleteConfirm = false }) {
+                    Text("Cancelar")
+                }
+            }
+        )
+    }
+
     GlassCard(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onClick() }
+            .combinedClickable(
+                onClick = onClick,
+                onLongClick = { showDeleteConfirm = true }
+            )
             .testTag("chat_item_${conversation.id}"),
         cornerRadius = 20.dp,
         backgroundColor = Color(0xF5FFFFFF),
@@ -388,12 +423,36 @@ fun IndividualChatScreen(
                         )
                     )
                     Text(
-                        text = "En línea",
+                        text = "Notas Locales",
                         style = MaterialTheme.typography.bodySmall.copy(
-                            color = Color(0xFF10B981),
+                            color = Color(0xFFD97706),
                             fontSize = 12.sp,
                             fontWeight = FontWeight.SemiBold
                         )
+                    )
+                }
+            }
+
+            // Notice banner: local only
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color(0xFFFEF3C7))
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        imageVector = Icons.Default.Info,
+                        contentDescription = null,
+                        tint = Color(0xFFD97706),
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "Aviso: Estas notas son solo locales y se guardan en tu teléfono. No se envían por red ni SMS.",
+                        color = Color(0xFFD97706),
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Medium
                     )
                 }
             }

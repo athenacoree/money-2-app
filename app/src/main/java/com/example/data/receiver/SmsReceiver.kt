@@ -138,17 +138,9 @@ class SmsReceiver : BroadcastReceiver() {
             }
         }
 
-        // Fallback to first decimal/number if not found next to CUP/MLC
-        if (amount == null) {
-            val fallbackPattern = Pattern.compile("(\\d+(?:\\.\\d+)?)")
-            val fallbackMatcher = fallbackPattern.matcher(cleanedBody)
-            if (fallbackMatcher.find()) {
-                amount = fallbackMatcher.group(1)?.toDoubleOrNull()
-            }
-        }
-
         if (amount == null || amount <= 0) {
-            Log.d("SmsReceiver", "No valid amount found in SMS, ignoring.")
+            Log.d("SmsReceiver", "No valid amount found next to currency in SMS, triggering manual review notification.")
+            showNotification(context, "SMS de Pago Recibido", "Recibiste un SMS de pago pero no pudimos identificar el monto exacto con confianza. Toca para registrarlo manualmente.", "sms_transactions")
             return
         }
 
@@ -174,7 +166,7 @@ class SmsReceiver : BroadcastReceiver() {
             lowerBody.contains("debitado") ||
             lowerBody.contains("db") -> "gasto"
 
-            else -> "gasto" // Default fallback
+            else -> "sin_clasificar" // Unclassified
         }
 
         val paymentMethod = if (isEnZona) "EnZona" else "Transfermóvil"
@@ -183,7 +175,7 @@ class SmsReceiver : BroadcastReceiver() {
         val dateFormater = SimpleDateFormat("HH:mm", Locale.getDefault())
         val hora = dateFormater.format(calendar.time)
 
-        val category = if (tipo == "ingreso") "Ventas" else "Servicios"
+        val category = if (tipo == "ingreso") "Ventas" else if (tipo == "gasto") "Servicios" else "Sin clasificar"
 
         // Append phone to description if found
         val description = if (extractedPhone != null) {
@@ -210,9 +202,9 @@ class SmsReceiver : BroadcastReceiver() {
                 // Check duplicate within 5 seconds window
                 val minTime = timestamp - 5000
                 val maxTime = timestamp + 5000
-                val exists = db.transactionDao().countTransactionsNearTime(amount, paymentMethod, minTime, maxTime) > 0
+                val exists = db.transactionDao().countTransactionsNearTime(amount, paymentMethod, tipo, minTime, maxTime) > 0
                 if (exists) {
-                    Log.d("SmsReceiver", "Duplicate transaction detected (same amount $amount, method $paymentMethod near $timestamp), ignoring.")
+                    Log.d("SmsReceiver", "Duplicate transaction detected (same amount $amount, method $paymentMethod, type $tipo near $timestamp), ignoring.")
                     return@launch
                 }
 
@@ -226,7 +218,9 @@ class SmsReceiver : BroadcastReceiver() {
                     pendingTransferAlert.emit(finalTx)
                 }
 
-                showNotification(context, "Nueva Transacción Registrada", "Se registró un $tipo de $amount $currency vía $paymentMethod automáticamente.", "sms_transactions")
+                val titleText = if (tipo == "sin_clasificar") "Confirmar Transacción Recibida" else "Nueva Transacción Registrada"
+                val descText = if (tipo == "sin_clasificar") "Recibiste un SMS de pago de $amount $currency. Toca para clasificar como Ingreso o Gasto." else "Se registró un $tipo de $amount $currency vía $paymentMethod automáticamente."
+                showNotification(context, titleText, descText, "sms_transactions")
             } catch (e: Exception) {
                 Log.e("SmsReceiver", "Error saving transaction from SMS", e)
             }

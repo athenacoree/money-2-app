@@ -40,15 +40,24 @@ import kotlinx.coroutines.launch
 fun SecurityAuthDialog(
     title: String,
     reason: String,
-    userPin: String = "1234",
+    onVerifyPin: (String) -> Boolean,
     onSuccess: () -> Unit,
     onCancel: () -> Unit
 ) {
     var enteredPin by remember { mutableStateOf("") }
     var pinError by remember { mutableStateOf(false) }
+    var failedAttempts by remember { mutableStateOf(0) }
+    var cooldownSecondsRemaining by remember { mutableStateOf(0) }
     var isScanningBiometric by remember { mutableStateOf(false) }
     var biometricSuccess by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(cooldownSecondsRemaining) {
+        if (cooldownSecondsRemaining > 0) {
+            delay(1000)
+            cooldownSecondsRemaining -= 1
+        }
+    }
 
     // Pulse animation for biometrics
     val infiniteTransition = rememberInfiniteTransition(label = "pulse")
@@ -189,10 +198,18 @@ fun SecurityAuthDialog(
                         }
                     }
 
-                    if (pinError) {
+                    if (cooldownSecondsRemaining > 0) {
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = "PIN incorrecto. Inténtalo de nuevo.",
+                            text = "Demasiados intentos. Espera $cooldownSecondsRemaining s.",
+                            color = ExpenseRed,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    } else if (pinError) {
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = "PIN incorrecto. Inténtalo de nuevo (${5 - failedAttempts} intentos restantes).",
                             color = ExpenseRed,
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Bold
@@ -231,7 +248,7 @@ fun SecurityAuthDialog(
                                                     else -> Color(0xFFF3F4F6)
                                                 }
                                             )
-                                            .clickable {
+                                            .clickable(enabled = cooldownSecondsRemaining <= 0) {
                                                 pinError = false
                                                 when (key) {
                                                     "DEL" -> {
@@ -252,14 +269,14 @@ fun SecurityAuthDialog(
                                                         if (enteredPin.length < 4) {
                                                             enteredPin += key
                                                             if (enteredPin.length == 4) {
-                                                                val isMatch = if (userPin.length == 4) {
-                                                                    enteredPin == userPin
-                                                                } else {
-                                                                    PinHasher.hash(enteredPin) == userPin
-                                                                }
+                                                                val isMatch = onVerifyPin(enteredPin)
                                                                 if (isMatch) {
                                                                     onSuccess()
                                                                 } else {
+                                                                    failedAttempts++
+                                                                    if (failedAttempts >= 5) {
+                                                                        cooldownSecondsRemaining = 30 * (failedAttempts - 4)
+                                                                    }
                                                                     pinError = true
                                                                     enteredPin = ""
                                                                 }

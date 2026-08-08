@@ -25,6 +25,6 @@ interface TransactionDao {
     @Query("DELETE FROM transactions")
     suspend fun deleteAllTransactions()
 
-    @Query("SELECT COUNT(*) FROM transactions WHERE monto = :monto AND metodo_pago = :metodoPago AND fecha BETWEEN :minFecha AND :maxFecha")
-    suspend fun countTransactionsNearTime(monto: Double, metodoPago: String, minFecha: Long, maxFecha: Long): Int
+    @Query("SELECT COUNT(*) FROM transactions WHERE monto = :monto AND metodo_pago = :metodoPago AND tipo = :tipo AND fecha BETWEEN :minFecha AND :maxFecha")
+    suspend fun countTransactionsNearTime(monto: Double, metodoPago: String, tipo: String, minFecha: Long, maxFecha: Long): Int
 }

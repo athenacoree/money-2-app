@@ -498,13 +498,12 @@ fun MoneyMainApp(viewModel: MoneyViewModel) {
     val isAuthDialogVisible by viewModel.isAuthDialogVisible.collectAsState()
     val authDialogTitle by viewModel.authDialogTitle.collectAsState()
     val authDialogReason by viewModel.authDialogReason.collectAsState()
-    val userSecurityPin by viewModel.userSecurityPin.collectAsState()
 
     if (isAuthDialogVisible) {
         SecurityAuthDialog(
             title = authDialogTitle,
             reason = authDialogReason,
-            userPin = userSecurityPin,
+            onVerifyPin = { viewModel.verifyPin(it) },
             onSuccess = { viewModel.onSecurityAuthSuccess() },
             onCancel = { viewModel.onSecurityAuthCancel() }
         )

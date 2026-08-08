@@ -161,6 +161,16 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun deleteContacto(contact: Contacto) {
+        viewModelScope.launch {
+            repository.deleteContacto(contact)
+            repository.deleteMensajesForContacto(contact.id)
+            if (activeChat.value?.id == contact.id) {
+                activeChat.value = null
+            }
+        }
+    }
+
     private suspend fun checkAndSeedProducts() {
         // App starts clean with empty product catalog
     }
@@ -347,6 +357,9 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
 
     fun setAppMode(mode: AppMode) {
         _appMode.value = mode
+        viewModelScope.launch {
+            repository.insertConfiguracion(Configuracion(clave = "modo_activo_actual", valor = mode.name))
+        }
     }
 
     fun setHistoryFilter(filter: HistoryFilter) {
@@ -469,12 +482,21 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
     val qvaPayCacheTimestamp = MutableStateFlow("")
 
     // Sistema de Autenticación de Seguridad (PIN / Biometría por defecto activada)
-    val isSecurityAuthEnabled = MutableStateFlow(true)
-    val userSecurityPin = MutableStateFlow(PinHasher.hash("1234"))
+    var cachedSecuritySalt = "CubaFinanzasSalt2026"
+    val isSecurityAuthEnabled = MutableStateFlow(false)
+    val userSecurityPin = MutableStateFlow("")
     val isAuthDialogVisible = MutableStateFlow(false)
     val authDialogTitle = MutableStateFlow("Autenticación Requerida")
     val authDialogReason = MutableStateFlow("Confirma tu identidad para continuar.")
     private var pendingAuthSuccessCallback: (() -> Unit)? = null
+
+    fun verifyPin(entered: String): Boolean {
+        val saved = userSecurityPin.value
+        if (saved.length == 4) {
+            return entered == saved
+        }
+        return PinHasher.hash(entered, cachedSecuritySalt) == saved
+    }
 
     fun requestSecurityAuth(title: String, reason: String, onApproved: () -> Unit) {
         if (!isSecurityAuthEnabled.value) {
@@ -499,16 +521,23 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun saveSecurityAuthConfig(enabled: Boolean, newPin: String = userSecurityPin.value) {
-        val hashedPin = if (newPin.length == 4) PinHasher.hash(newPin) else newPin
-        requestSecurityAuth(
-            title = "Ajustes de Seguridad",
-            reason = "Confirma tu identidad para modificar la autenticación de acciones sensibles."
-        ) {
-            viewModelScope.launch {
-                isSecurityAuthEnabled.value = enabled
-                userSecurityPin.value = hashedPin
-                repository.insertConfiguracion(Configuracion(clave = "security_auth_enabled", valor = enabled.toString()))
-                repository.insertConfiguracion(Configuracion(clave = "user_security_pin", valor = hashedPin))
+        viewModelScope.launch {
+            var salt = repository.getConfiguracionByKey("user_security_salt")?.valor
+            if (salt.isNullOrBlank()) {
+                salt = java.util.UUID.randomUUID().toString().take(8)
+                repository.insertConfiguracion(Configuracion(clave = "user_security_salt", valor = salt))
+            }
+            val hashedPin = if (newPin.length == 4) PinHasher.hash(newPin, salt) else newPin
+            requestSecurityAuth(
+                title = "Ajustes de Seguridad",
+                reason = "Confirma tu identidad para modificar la autenticación de acciones sensibles."
+            ) {
+                viewModelScope.launch {
+                    isSecurityAuthEnabled.value = enabled
+                    userSecurityPin.value = hashedPin
+                    repository.insertConfiguracion(Configuracion(clave = "security_auth_enabled", valor = enabled.toString()))
+                    repository.insertConfiguracion(Configuracion(clave = "user_security_pin", valor = hashedPin))
+                }
             }
         }
     }
@@ -565,6 +594,22 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
         isEmployeeModeEnabled.value = workerActive
         isDistributorModeEnabled.value = distActive
 
+        val lastActiveModeStr = repository.getConfiguracionByKey("modo_activo_actual")?.valor
+        val lastActiveMode = lastActiveModeStr?.let {
+            try { AppMode.valueOf(it) } catch (e: Exception) { null }
+        }
+
+        _appMode.value = when {
+            lastActiveMode == AppMode.WORK_EMPLOYER && empActive -> AppMode.WORK_EMPLOYER
+            lastActiveMode == AppMode.WORK_EMPLOYEE && workerActive -> AppMode.WORK_EMPLOYEE
+            lastActiveMode == AppMode.WORK_DISTRIBUTOR && distActive -> AppMode.WORK_DISTRIBUTOR
+            lastActiveMode == AppMode.PERSONAL -> AppMode.PERSONAL
+            empActive -> AppMode.WORK_EMPLOYER
+            workerActive -> AppMode.WORK_EMPLOYEE
+            distActive -> AppMode.WORK_DISTRIBUTOR
+            else -> AppMode.PERSONAL
+        }
+
         val activeEmpIdStr = repository.getConfiguracionByKey("empleado_activo_id")?.valor
         empleadoActivoId.value = activeEmpIdStr?.toLongOrNull()
 
@@ -583,16 +628,31 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
         )
 
         // Security Authentication settings loading
-        val secAuth = repository.getConfiguracionByKey("security_auth_enabled")?.valor?.toBoolean() ?: true
-        val secPinRaw = repository.getConfiguracionByKey("user_security_pin")?.valor ?: "1234"
-        val secPin = if (secPinRaw.length == 4) {
-            val hashed = PinHasher.hash(secPinRaw)
-            repository.insertConfiguracion(Configuracion(clave = "user_security_pin", valor = hashed))
-            hashed
-        } else {
-            secPinRaw
+        val secAuth = repository.getConfiguracionByKey("security_auth_enabled")?.valor?.toBoolean() ?: false
+        val secPinRaw = repository.getConfiguracionByKey("user_security_pin")?.valor ?: ""
+
+        var salt = repository.getConfiguracionByKey("user_security_salt")?.valor
+        if (salt.isNullOrBlank() && secPinRaw.isNotBlank()) {
+            salt = "CubaFinanzasSalt2026" // Legacy fallback salt for existing PIN upgrade
+        } else if (salt.isNullOrBlank()) {
+            salt = java.util.UUID.randomUUID().toString().take(8)
+            repository.insertConfiguracion(Configuracion(clave = "user_security_salt", valor = salt))
         }
-        isSecurityAuthEnabled.value = secAuth
+
+        cachedSecuritySalt = salt!!
+
+        val secPin = if (secPinRaw.isNotBlank()) {
+            if (secPinRaw.length == 4) {
+                val hashed = PinHasher.hash(secPinRaw, salt!!)
+                repository.insertConfiguracion(Configuracion(clave = "user_security_pin", valor = hashed))
+                hashed
+            } else {
+                secPinRaw
+            }
+        } else {
+            ""
+        }
+        isSecurityAuthEnabled.value = if (secPin.isBlank()) false else secAuth
         userSecurityPin.value = secPin
 
         // QvaPay config loading
@@ -849,6 +909,7 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
         }
         viewModelScope.launch {
             repository.insertConfiguracion(Configuracion(clave = "modo_empleador_activo", valor = enabled.toString()))
+            repository.insertConfiguracion(Configuracion(clave = "modo_activo_actual", valor = _appMode.value.name))
         }
     }
 
@@ -859,6 +920,7 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
         }
         viewModelScope.launch {
             repository.insertConfiguracion(Configuracion(clave = "modo_empleado_activo", valor = enabled.toString()))
+            repository.insertConfiguracion(Configuracion(clave = "modo_activo_actual", valor = _appMode.value.name))
         }
     }
 
@@ -874,6 +936,7 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
         }
         viewModelScope.launch {
             repository.insertConfiguracion(Configuracion(clave = "modo_distribuidor_activo", valor = enabled.toString()))
+            repository.insertConfiguracion(Configuracion(clave = "modo_activo_actual", valor = _appMode.value.name))
         }
     }
 
@@ -1778,6 +1841,8 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
             val cal = Calendar.getInstance()
             val format = SimpleDateFormat("HH:mm", Locale.getDefault())
 
+            val isWorkSale = appMode.value == AppMode.WORK_EMPLOYER || appMode.value == AppMode.WORK_EMPLOYEE
+
             addTransaction(
                 monto = processedTotal,
                 categoria = "Ventas",
@@ -1785,7 +1850,7 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
                 fecha = cal.timeInMillis,
                 hora = format.format(cal.time),
                 metodoPago = "Efectivo",
-                esEmpleador = true, // Work mode sales
+                esEmpleador = isWorkSale, // Work mode sales dynamically
                 tipo = "ingreso"
             )
 
@@ -1802,6 +1867,7 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
             val itemNames = currentCart.map { "${it.value}x ${it.key.nombre}" }.joinToString(", ")
             val cal = Calendar.getInstance()
             val format = SimpleDateFormat("HH:mm", Locale.getDefault())
+            val isWorkSale = appMode.value == AppMode.WORK_EMPLOYER || appMode.value == AppMode.WORK_EMPLOYEE
 
             addTransaction(
                 monto = total,
@@ -1810,7 +1876,7 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
                 fecha = cal.timeInMillis,
                 hora = format.format(cal.time),
                 metodoPago = "Transfermóvil",
-                esEmpleador = true,
+                esEmpleador = isWorkSale,
                 tipo = "ingreso"
             )
 

@@ -1183,7 +1183,15 @@ fun EmployeeDashboardScreen(
                         Spacer(modifier = Modifier.height(16.dp))
 
                         // QR Code dynamic content: the employee's phone number
-                        QRCodeCanvas(sizeDp = 200)
+                        val qrContent = remember(employeePhone) {
+                            org.json.JSONObject().apply {
+                                put("tipo", "cobro")
+                                put("destino", employeePhone)
+                                put("empleadoId", "")
+                                put("nota", "Cobro de Empleado")
+                            }.toString()
+                        }
+                        QRCodeCanvas(content = qrContent, sizeDp = 200)
 
                         Spacer(modifier = Modifier.height(14.dp))
 

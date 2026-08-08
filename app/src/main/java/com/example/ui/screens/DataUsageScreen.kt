@@ -62,7 +62,7 @@ fun DataUsageScreen(
     }
 
     // Calculations
-    val totalConfiguredMB = latestSaldo?.datosMB ?: 1024.0 // Default 1GB
+    val totalConfiguredMB = latestSaldo?.datosMB ?: 0.0
     val consumedMB = (consumedBytes / (1024.0 * 1024.0))
     val remainingMB = (totalConfiguredMB - consumedMB).coerceAtLeast(0.0)
     val progressFraction = if (totalConfiguredMB > 0.0) {
@@ -164,80 +164,92 @@ fun DataUsageScreen(
                         )
                         Spacer(modifier = Modifier.height(16.dp))
 
-                        // Progress Indicator
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(20.dp)
-                                .clip(RoundedCornerShape(10.dp))
-                                .background(Color(0x1F7C3AED))
-                        ) {
+                        if (latestSaldo == null) {
+                            Text(
+                                text = "Sin datos — toca para consultar tu saldo",
+                                style = MaterialTheme.typography.bodyMedium.copy(
+                                    color = TextSecondary,
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontStyle = androidx.compose.ui.text.font.FontStyle.Italic
+                                ),
+                                modifier = Modifier.padding(vertical = 24.dp)
+                            )
+                        } else {
+                            // Progress Indicator
                             Box(
                                 modifier = Modifier
-                                    .fillMaxHeight()
-                                    .fillMaxWidth(progressFraction.toFloat())
+                                    .fillMaxWidth()
+                                    .height(20.dp)
                                     .clip(RoundedCornerShape(10.dp))
-                                    .background(PurplePrimary)
-                            )
-                        }
+                                    .background(Color(0x1F7C3AED))
+                            ) {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxHeight()
+                                        .fillMaxWidth(progressFraction.toFloat())
+                                        .clip(RoundedCornerShape(10.dp))
+                                        .background(PurplePrimary)
+                                )
+                            }
 
-                        Spacer(modifier = Modifier.height(12.dp))
+                            Spacer(modifier = Modifier.height(12.dp))
 
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Column {
-                                Text("Gasto Real", fontSize = 11.sp, color = TextSecondary)
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Column {
+                                    Text("Gasto Real", fontSize = 11.sp, color = TextSecondary)
+                                    Text(
+                                        String.format(Locale.US, "%.1f MB", consumedMB),
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 15.sp,
+                                        color = PurplePrimary
+                                    )
+                                }
+
+                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                    Text("Restante", fontSize = 11.sp, color = TextSecondary)
+                                    Text(
+                                        String.format(Locale.US, "%.1f MB", remainingMB),
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 15.sp,
+                                        color = IncomeGreen
+                                    )
+                                }
+
+                                Column(horizontalAlignment = Alignment.End) {
+                                    Text("Total Contratado", fontSize = 11.sp, color = TextSecondary)
+                                    Text(
+                                        String.format(Locale.US, "%.1f MB", totalConfiguredMB),
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 15.sp,
+                                        color = TextPrimary
+                                    )
+                                }
+                            }
+
+                            Spacer(modifier = Modifier.height(14.dp))
+
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
                                 Text(
-                                    String.format(Locale.US, "%.1f MB", consumedMB),
+                                    "Vence: ${latestSaldo?.fechaVencimiento ?: "No configurado"}",
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = TextSecondary
+                                )
+
+                                Text(
+                                    "Saldo CUP: ${latestSaldo?.saldoCUP ?: 0.0} CUP",
+                                    fontSize = 12.sp,
                                     fontWeight = FontWeight.Bold,
-                                    fontSize = 15.sp,
                                     color = PurplePrimary
                                 )
                             }
-
-                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                Text("Restante", fontSize = 11.sp, color = TextSecondary)
-                                Text(
-                                    String.format(Locale.US, "%.1f MB", remainingMB),
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 15.sp,
-                                    color = IncomeGreen
-                                )
-                            }
-
-                            Column(horizontalAlignment = Alignment.End) {
-                                Text("Total Contratado", fontSize = 11.sp, color = TextSecondary)
-                                Text(
-                                    String.format(Locale.US, "%.1f MB", totalConfiguredMB),
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 15.sp,
-                                    color = TextPrimary
-                                )
-                            }
-                        }
-
-                        Spacer(modifier = Modifier.height(14.dp))
-
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(
-                                "Vence: ${latestSaldo?.fechaVencimiento ?: "No configurado"}",
-                                fontSize = 12.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                color = TextSecondary
-                            )
-
-                            Text(
-                                "Saldo CUP: ${latestSaldo?.saldoCUP ?: 0.0} CUP",
-                                fontSize = 12.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = PurplePrimary
-                            )
                         }
                     }
                 }

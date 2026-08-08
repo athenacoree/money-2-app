@@ -1,5 +1,11 @@
 package com.example.ui.components
 
+import android.graphics.Bitmap
+import android.graphics.Color as AndroidColor
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.MultiFormatWriter
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.foundation.Image
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
@@ -531,14 +537,37 @@ fun BarChart(
     }
 }
 
+fun generateQrBitmap(content: String, size: Int = 512): Bitmap {
+    val writer = MultiFormatWriter()
+    val bitMatrix = writer.encode(content, BarcodeFormat.QR_CODE, size, size)
+    val width = bitMatrix.width
+    val height = bitMatrix.height
+    val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+    for (x in 0 until width) {
+        for (y in 0 until height) {
+            bitmap.setPixel(x, y, if (bitMatrix.get(x, y)) AndroidColor.BLACK else AndroidColor.WHITE)
+        }
+    }
+    return bitmap
+}
+
 // -------------------------------------------------------------
 // 4. QR CODE CANVAS (200x200 FOR EMPLOYEE PAYMENT)
 // -------------------------------------------------------------
 @Composable
 fun QRCodeCanvas(
+    content: String,
     modifier: Modifier = Modifier,
     sizeDp: Int = 200
 ) {
+    val qrBitmap = remember(content) {
+        try {
+            generateQrBitmap(content, 512).asImageBitmap()
+        } catch (e: Exception) {
+            null
+        }
+    }
+
     Box(
         modifier = modifier
             .size(sizeDp.dp)
@@ -548,38 +577,14 @@ fun QRCodeCanvas(
             .padding(16.dp),
         contentAlignment = Alignment.Center
     ) {
-        Canvas(modifier = Modifier.fillMaxSize()) {
-            val gridCount = 13
-            val cellSize = size.width / gridCount
-
-            // Pseudo-random deterministic matrix pattern representing QR code
-            val qrPattern = arrayOf(
-                booleanArrayOf(true, true, true, true, true, true, true, false, true, true, true, true, true),
-                booleanArrayOf(true, false, false, false, false, false, true, false, false, true, false, true, true),
-                booleanArrayOf(true, false, true, true, true, false, true, false, true, false, true, false, true),
-                booleanArrayOf(true, false, true, true, true, false, true, false, false, true, true, true, true),
-                booleanArrayOf(true, false, false, false, false, false, true, false, true, true, false, false, true),
-                booleanArrayOf(true, true, true, true, true, true, true, false, false, false, true, true, true),
-                booleanArrayOf(false, false, false, false, false, false, false, false, true, false, false, false, false),
-                booleanArrayOf(true, false, true, true, false, true, true, false, true, true, true, true, true),
-                booleanArrayOf(true, true, false, false, true, false, false, false, false, true, false, false, true),
-                booleanArrayOf(true, false, true, false, true, true, true, false, true, false, true, false, true),
-                booleanArrayOf(true, false, true, true, false, false, false, false, true, true, false, true, true),
-                booleanArrayOf(true, false, false, false, true, true, true, false, false, false, true, false, true),
-                booleanArrayOf(true, true, true, true, true, false, true, false, true, true, true, true, true)
+        if (qrBitmap != null) {
+            Image(
+                bitmap = qrBitmap,
+                contentDescription = "QR Code",
+                modifier = Modifier.fillMaxSize()
             )
-
-            for (row in 0 until gridCount) {
-                for (col in 0 until gridCount) {
-                    if (qrPattern[row][col]) {
-                        drawRect(
-                            color = Color(0xFF1E1B4B),
-                            topLeft = Offset(col * cellSize, row * cellSize),
-                            size = Size(cellSize - 1f, cellSize - 1f)
-                        )
-                    }
-                }
-            }
+        } else {
+            androidx.compose.material3.CircularProgressIndicator(color = PurplePrimary)
         }
     }
 }
