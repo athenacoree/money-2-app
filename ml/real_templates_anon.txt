@@ -1,0 +1,59 @@
+FORMATOS DE SMS REALES ANONIMIZADOS (PASO 0)
+===========================================
+
+Las siguientes estructuras de SMS reales son recopiladas de blogs, noticias oficiales (como Cubadebate, Granma, Etecsa) y foros de usuarios cubanos, y han sido completamente anonimizadas. Se han reemplazado nombres, números de tarjeta, números de teléfono, ids de transacción y montos por placeholders genéricos (ej: [MONTO], [CUENTA], [FECHA], [TRANSACCION], etc.) para garantizar la privacidad de los usuarios.
+
+Fuentes públicas consultadas:
+- Agenda Económica Cubadebate: http://agendaeconomica.cubadebate.cu
+- ETECSA Cuba: https://www.etecsa.cu
+- Periódico Escambray: https://www.escambray.cu
+- Diario Granma: https://www.granma.cu
+
+--------------------------------------------------------------------------------
+1. Transfermóvil (PAGOxMOVIL) - Gastos (Pagos y transferencias enviadas)
+--------------------------------------------------------------------------------
+Estructura A (Pago en Entidad comercial):
+"Pagué utilizando Transfermovil en la Entidad: [ENTIDAD] Id Compra: [ID] Importe: [MONTO] CUP Importe pagado: [MONTO] CUP No. Transaccion: [TRANSACCION]"
+
+Estructura B (Pago de factura / electricidad / agua):
+"Factura Pagada: [FACTURA] Importe Pagado: [MONTO] CUP Importe Factura: [MONTO] CUP Nro. Transaccion: [TRANSACCION]"
+
+Estructura C (Transferencia de salida enviada):
+"Se ha realizado una transferencia a la cuenta [CUENTA] de [MONTO] CUP. Móvil Origen [TELEFONO]."
+"Ha realizado un pago de [MONTO] CUP"
+
+--------------------------------------------------------------------------------
+2. Transfermóvil (PAGOxMOVIL) - Ingresos (Transferencias recibidas)
+--------------------------------------------------------------------------------
+Estructura A (Transferencia recibida CUP):
+"Usted ha recibido una transferencia de [MONTO] CUP de la cuenta [CUENTA]."
+"Ha recibido una transferencia de [MONTO] CUP de la tarjeta [CUENTA]"
+
+Estructura B (Depósito recibido MLC/USD):
+"Se ha recibido un deposito de [MONTO] MLC"
+"Usted ha recibido un deposito de [MONTO] USD"
+
+--------------------------------------------------------------------------------
+3. EnZona - Gastos e Ingresos
+--------------------------------------------------------------------------------
+Estructura A (Pago de gasto):
+"EnZona: Pago realizado a [COMERCIO] por el valor de [MONTO] CUP. Transacción [TRANSACCION]."
+
+Estructura B (Ingreso / Transferencia recibida):
+"EnZona: Se ha recibido una transferencia de [MONTO] CUP de la cuenta [CUENTA]. Transacción [TRANSACCION]."
+"EnZona: Transferencia recibida por [MONTO] CUP de [NOMBRE]. Transacción: [TRANSACCION]."
+
+--------------------------------------------------------------------------------
+4. CUBACEL / ETECSA - Consultas de saldo, datos y promociones (Sin clasificar)
+--------------------------------------------------------------------------------
+Estructura A (Saldo principal):
+"ETECSA informa: Su saldo principal es de [MONTO] CUP, valido hasta [FECHA]."
+"ETECSA: Su saldo es [MONTO] CUP, expira el [FECHA]."
+
+Estructura B (Paquetes y bonos de datos):
+"Su paquete de datos tiene [MONTO] GB de navegacion internacional LTE y [MONTO] MB de navegacion nacional, validos hasta [FECHA]."
+"Usted tiene [MONTO] MB de datos internacionales, [MONTO] GB nacionales, validos hasta [FECHA]."
+
+Estructura C (Promociones):
+"ETECSA Promocion Internacional: Del [FECHA] al [FECHA], si recargas desde el exterior recibes [MONTO] GB + Datos ilimitados de [HORA] a [HORA]!"
+"ETECSA: Nueva promocion, recargue y reciba un bono de [MONTO] CUP de saldo."

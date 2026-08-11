@@ -371,6 +371,23 @@ fun BarChart(
     modifier: Modifier = Modifier,
     percentageComparison: String = "+15% vs semana pasada"
 ) {
+    if (dailyData.isEmpty()) {
+        GlassCard(
+            modifier = modifier
+                .fillMaxWidth()
+                .height(200.dp)
+                .testTag("bar_chart_card"),
+            cornerRadius = 24.dp,
+            backgroundColor = Color(0xF5FFFFFF),
+            elevation = 6.dp
+        ) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Text("No hay suficientes datos de balance.", color = TextSecondary, style = MaterialTheme.typography.bodyMedium)
+            }
+        }
+        return
+    }
+
     var hoveredBarIndex by remember { mutableStateOf<Int?>(null) }
     val currencyFormatter = remember { NumberFormat.getCurrencyInstance(Locale.US) }
     val maxVal = remember(dailyData) {
@@ -602,6 +619,23 @@ fun CandlestickMobileChart(
     modifier: Modifier = Modifier,
     title: String = "Gráfica de Velas: Historial Saldo Móvil"
 ) {
+    if (candles.isEmpty()) {
+        GlassCard(
+            modifier = modifier
+                .fillMaxWidth()
+                .height(200.dp)
+                .testTag("candlestick_chart_card"),
+            cornerRadius = 24.dp,
+            backgroundColor = Color(0xF5FFFFFF),
+            elevation = 6.dp
+        ) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Text("No hay suficientes datos de saldo móvil.", color = TextSecondary, style = MaterialTheme.typography.bodyMedium)
+            }
+        }
+        return
+    }
+
     var selectedCandleIndex by remember { mutableStateOf<Int?>(candles.lastIndex.coerceAtLeast(0)) }
     val currencyFormatter = remember { NumberFormat.getCurrencyInstance(Locale.US) }
 
