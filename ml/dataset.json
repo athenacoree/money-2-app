@@ -1,0 +1,5462 @@
+[
+  {
+    "body": "Pagué utilizando Transfermovil en la Entidad: RESTAURANTE EL ALJIBE Id Compra: 4698379 Importe: 1119.94 CUP Importe pagado: 1119.94 CUP No. Transaccion: MM0Y6DPBHSAH",
+    "tipo": "gasto",
+    "monto": 1119.94,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pagué utilizando Transfermovil en la Entidad: EESEC. YDE SERV. DEPROD.UNIVERSALES LA HABANA Id Compra: 9996414 Importe: 3795.24 CUP Importe pagado: 3795.24 CUP No. Transaccion: MMFPKH1DNMMJ",
+    "tipo": "gasto",
+    "monto": 3795.24,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9200xxxxxxxxxxxx de 2762.44 CUP. Móvil Origen +53 65614226.",
+    "tipo": "gasto",
+    "monto": 2762.44,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pagué utilizando Transfermovil en la Entidad: PALADARES VEDADO Id Compra: 6440561 Importe: 1779.58 CUP Importe pagado: 1779.58 CUP No. Transaccion: MMYZYCWTIQJ7",
+    "tipo": "gasto",
+    "monto": 1779.58,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Factura Pagada: 7700828 Importe Pagado: 4026.20 CUP Importe Factura: 4026.20 CUP Nro. Transaccion: MMOC6UZHR5XF",
+    "tipo": "gasto",
+    "monto": 4026.2,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 4986.64 CUP por servicios de electricidad. Transaccion MMER14FFYVNV.",
+    "tipo": "gasto",
+    "monto": 4986.64,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Pago realizado a La Casa de la Música por el valor de 1704.18 CUP. Transacción MMKFAZZ81SDW.",
+    "tipo": "gasto",
+    "monto": 1704.18,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Factura Pagada: 2161193 Importe Pagado: 4767.73 CUP Importe Factura: 4767.73 CUP Nro. Transaccion: MM77VREN93II",
+    "tipo": "gasto",
+    "monto": 4767.73,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pagué utilizando Transfermovil en la Entidad: RESTAURANTE EL ALJIBE Id Compra: 8350099 Importe: 3300.46 CUP Importe pagado: 3300.46 CUP No. Transaccion: MM8FSV871YZO",
+    "tipo": "gasto",
+    "monto": 3300.46,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 1243.29 CUP por servicios de electricidad. Transaccion MMCATVAZCCBL.",
+    "tipo": "gasto",
+    "monto": 1243.29,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pagué utilizando Transfermovil en la Entidad: RESTAURANTE EL ALJIBE Id Compra: 2016911 Importe: 4677.89 CUP Importe pagado: 4677.89 CUP No. Transaccion: MMUR23GDPPQ0",
+    "tipo": "gasto",
+    "monto": 4677.89,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 1247.04 CUP a la cuenta 9570xxxxxxxxxxxx.",
+    "tipo": "gasto",
+    "monto": 1247.04,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Factura Pagada: 4185957 Importe Pagado: 2430.78 CUP Importe Factura: 2430.78 CUP Nro. Transaccion: MMHOCN9J2QP8",
+    "tipo": "gasto",
+    "monto": 2430.78,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Pago realizado a Restaurante El Biky por el valor de 4843.70 CUP. Transacción MMUT0CVS4F8C.",
+    "tipo": "gasto",
+    "monto": 4843.7,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pagué utilizando Transfermovil en la Entidad: RESTAURANTE EL ALJIBE Id Compra: 8670955 Importe: 1234.85 CUP Importe pagado: 1234.85 CUP No. Transaccion: MMVWPVS7HZIO",
+    "tipo": "gasto",
+    "monto": 1234.85,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 2294.14 CUP por servicios de electricidad. Transaccion MM99CHJ755NF.",
+    "tipo": "gasto",
+    "monto": 2294.14,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9200xxxxxxxxxxxx de 522.41 CUP. Móvil Origen +53 65614226.",
+    "tipo": "gasto",
+    "monto": 522.41,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Factura Pagada: 3484601 Importe Pagado: 225.21 CUP Importe Factura: 225.21 CUP Nro. Transaccion: MMME9FPZUE8Y",
+    "tipo": "gasto",
+    "monto": 225.21,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 213.94 CUP a la cuenta 9560xxxxxxxxxxxx.",
+    "tipo": "gasto",
+    "monto": 213.94,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Factura Pagada: 6866294 Importe Pagado: 128.81 CUP Importe Factura: 128.81 CUP Nro. Transaccion: MM0L7253J2D5",
+    "tipo": "gasto",
+    "monto": 128.81,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pagué utilizando Transfermovil en la Entidad: EESEC. YDE SERV. DEPROD.UNIVERSALES LA HABANA Id Compra: 3995870 Importe: 1118.50 CUP Importe pagado: 1118.50 CUP No. Transaccion: MMXOKC1MSY4L",
+    "tipo": "gasto",
+    "monto": 1118.5,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 2984.87 CUP por servicios de electricidad. Transaccion MMM2P9E6GBPS.",
+    "tipo": "gasto",
+    "monto": 2984.87,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9200xxxxxxxxxxxx de 4604.25 CUP. Móvil Origen 51419610.",
+    "tipo": "gasto",
+    "monto": 4604.25,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Factura Pagada: 4940441 Importe Pagado: 1438.13 CUP Importe Factura: 1438.13 CUP Nro. Transaccion: MMPUXQPHR62G",
+    "tipo": "gasto",
+    "monto": 1438.13,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Factura Pagada: 2788238 Importe Pagado: 4033.78 CUP Importe Factura: 4033.78 CUP Nro. Transaccion: MMFB9W1Q5UZN",
+    "tipo": "gasto",
+    "monto": 4033.78,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 883.55 CUP a la cuenta 9235xxxxxxxxxxxx.",
+    "tipo": "gasto",
+    "monto": 883.55,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 1299.66 CUP por servicios de electricidad. Transaccion MMIW1SWJCKJL.",
+    "tipo": "gasto",
+    "monto": 1299.66,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 768.26 CUP a la cuenta 9200xxxxxxxxxxxx.",
+    "tipo": "gasto",
+    "monto": 768.26,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Pago realizado a La Casa de la Música por el valor de 4267.97 CUP. Transacción MM8P0TVHHPBM.",
+    "tipo": "gasto",
+    "monto": 4267.97,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pagué utilizando Transfermovil en la Entidad: ETECSA OFICINA CENTRO Id Compra: 5668371 Importe: 2672.95 CUP Importe pagado: 2672.95 CUP No. Transaccion: MM6VXDP5GJLQ",
+    "tipo": "gasto",
+    "monto": 2672.95,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Pago realizado a Restaurante El Biky por el valor de 2354.18 CUP. Transacción MM0B8IC8BBI4.",
+    "tipo": "gasto",
+    "monto": 2354.18,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Pago realizado a Restaurante El Biky por el valor de 4739.05 CUP. Transacción MMQJNV8Z2FLU.",
+    "tipo": "gasto",
+    "monto": 4739.05,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pagué utilizando Transfermovil en la Entidad: ETECSA OFICINA CENTRO Id Compra: 1212267 Importe: 3454.62 CUP Importe pagado: 3454.62 CUP No. Transaccion: MMWD14VE92MP",
+    "tipo": "gasto",
+    "monto": 3454.62,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9200xxxxxxxxxxxx de 2170.45 CUP. Móvil Origen +53 65614226.",
+    "tipo": "gasto",
+    "monto": 2170.45,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pagué utilizando Transfermovil en la Entidad: SUPERMERCADO 3RA Y 70 Id Compra: 1170307 Importe: 4408.75 CUP Importe pagado: 4408.75 CUP No. Transaccion: MMIQVNB4GH2M",
+    "tipo": "gasto",
+    "monto": 4408.75,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 1210.57 CUP a la cuenta 9235xxxxxxxxxxxx.",
+    "tipo": "gasto",
+    "monto": 1210.57,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pagué utilizando Transfermovil en la Entidad: CUPET LA RAMPA Id Compra: 5638893 Importe: 4983.17 CUP Importe pagado: 4983.17 CUP No. Transaccion: MMTMQLIZL08Y",
+    "tipo": "gasto",
+    "monto": 4983.17,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 4163.98 CUP a la cuenta 9225xxxxxxxxxxxx.",
+    "tipo": "gasto",
+    "monto": 4163.98,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Pago realizado a Bazar Habana por el valor de 1706.83 CUP. Transacción MM8J5ECRUYF3.",
+    "tipo": "gasto",
+    "monto": 1706.83,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Pago realizado a La Casa de la Música por el valor de 1904.99 CUP. Transacción MM6KVPUC8D1W.",
+    "tipo": "gasto",
+    "monto": 1904.99,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 379.95 CUP por servicios de electricidad. Transaccion MMAQVKIZZQY7.",
+    "tipo": "gasto",
+    "monto": 379.95,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 749.20 CUP a la cuenta 9228xxxxxxxxxxxx.",
+    "tipo": "gasto",
+    "monto": 749.2,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 3674.00 CUP por servicios de electricidad. Transaccion MMVAIY4VA13U.",
+    "tipo": "gasto",
+    "monto": 3674.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9225xxxxxxxxxxxx de 4072.15 CUP. Móvil Origen 65108603.",
+    "tipo": "gasto",
+    "monto": 4072.15,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9570xxxxxxxxxxxx de 584.03 CUP. Móvil Origen +53 52867825.",
+    "tipo": "gasto",
+    "monto": 584.03,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Pago realizado a Servicentro Tangana por el valor de 2193.39 CUP. Transacción MMZE9VIFTTD9.",
+    "tipo": "gasto",
+    "monto": 2193.39,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Pago realizado a Servicentro Tangana por el valor de 3528.53 CUP. Transacción MMORQQFGV0EC.",
+    "tipo": "gasto",
+    "monto": 3528.53,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9235xxxxxxxxxxxx de 2901.72 CUP. Móvil Origen 65108603.",
+    "tipo": "gasto",
+    "monto": 2901.72,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pagué utilizando Transfermovil en la Entidad: TRD CARIBE Id Compra: 2672884 Importe: 3724.80 CUP Importe pagado: 3724.80 CUP No. Transaccion: MMZ3NX39RBSV",
+    "tipo": "gasto",
+    "monto": 3724.8,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Factura Pagada: 1602286 Importe Pagado: 3613.61 CUP Importe Factura: 3613.61 CUP Nro. Transaccion: MMOXFQ8MYX44",
+    "tipo": "gasto",
+    "monto": 3613.61,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 3157.65 CUP a la cuenta 9228xxxxxxxxxxxx.",
+    "tipo": "gasto",
+    "monto": 3157.65,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 732.12 CUP a la cuenta 9560xxxxxxxxxxxx.",
+    "tipo": "gasto",
+    "monto": 732.12,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Pago realizado a Cafetería El Rápido por el valor de 4506.54 CUP. Transacción MMYFPMVXPJ4H.",
+    "tipo": "gasto",
+    "monto": 4506.54,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 1798.00 CUP por servicios de electricidad. Transaccion MMKZA3OA5296.",
+    "tipo": "gasto",
+    "monto": 1798.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 954.71 CUP por servicios de electricidad. Transaccion MMJ11YEDWB2B.",
+    "tipo": "gasto",
+    "monto": 954.71,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Factura Pagada: 8857296 Importe Pagado: 2080.44 CUP Importe Factura: 2080.44 CUP Nro. Transaccion: MMH25NSJF678",
+    "tipo": "gasto",
+    "monto": 2080.44,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 3771.99 CUP por servicios de electricidad. Transaccion MMIYYO4UDOJE.",
+    "tipo": "gasto",
+    "monto": 3771.99,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pagué utilizando Transfermovil en la Entidad: CIMEX PLAZA Id Compra: 6106390 Importe: 1172.94 CUP Importe pagado: 1172.94 CUP No. Transaccion: MMA5U6HC36KO",
+    "tipo": "gasto",
+    "monto": 1172.94,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Factura Pagada: 1548888 Importe Pagado: 1177.83 CUP Importe Factura: 1177.83 CUP Nro. Transaccion: MMTNN8ZTV05X",
+    "tipo": "gasto",
+    "monto": 1177.83,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Factura Pagada: 1848566 Importe Pagado: 2219.70 CUP Importe Factura: 2219.70 CUP Nro. Transaccion: MM84DYT9MOGE",
+    "tipo": "gasto",
+    "monto": 2219.7,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pagué utilizando Transfermovil en la Entidad: AGUAS DE LA HABANA Id Compra: 3180906 Importe: 4944.16 CUP Importe pagado: 4944.16 CUP No. Transaccion: MM2H3TV3I12V",
+    "tipo": "gasto",
+    "monto": 4944.16,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Pago realizado a Pizzería Mimosa por el valor de 3306.98 CUP. Transacción MMAA2ILGB0S0.",
+    "tipo": "gasto",
+    "monto": 3306.98,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Pago realizado a Farmacia Vedado por el valor de 1111.64 CUP. Transacción MMW06XKXB94P.",
+    "tipo": "gasto",
+    "monto": 1111.64,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 745.93 CUP a la cuenta 9570xxxxxxxxxxxx.",
+    "tipo": "gasto",
+    "monto": 745.93,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Pago realizado a Tienda Virtual Cimex por el valor de 1697.96 CUP. Transacción MMQODPXNF7C3.",
+    "tipo": "gasto",
+    "monto": 1697.96,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pagué utilizando Transfermovil en la Entidad: TRD CARIBE Id Compra: 3595941 Importe: 4783.34 CUP Importe pagado: 4783.34 CUP No. Transaccion: MMUYO57P6BKL",
+    "tipo": "gasto",
+    "monto": 4783.34,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 1753.82 CUP por servicios de electricidad. Transaccion MMUEKIPU1WYU.",
+    "tipo": "gasto",
+    "monto": 1753.82,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9200xxxxxxxxxxxx de 3813.24 CUP. Móvil Origen 65108603.",
+    "tipo": "gasto",
+    "monto": 3813.24,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9200xxxxxxxxxxxx de 3609.37 CUP. Móvil Origen +53 65614226.",
+    "tipo": "gasto",
+    "monto": 3609.37,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pagué utilizando Transfermovil en la Entidad: CIMEX PLAZA Id Compra: 5856117 Importe: 2152.42 CUP Importe pagado: 2152.42 CUP No. Transaccion: MMKYRYBOVAKH",
+    "tipo": "gasto",
+    "monto": 2152.42,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9225xxxxxxxxxxxx de 2489.44 CUP. Móvil Origen +53 65614226.",
+    "tipo": "gasto",
+    "monto": 2489.44,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9225xxxxxxxxxxxx de 580.29 CUP. Móvil Origen 65108603.",
+    "tipo": "gasto",
+    "monto": 580.29,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 3896.69 CUP por servicios de electricidad. Transaccion MMCWTG1M8XFD.",
+    "tipo": "gasto",
+    "monto": 3896.69,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9200xxxxxxxxxxxx de 2473.11 CUP. Móvil Origen 65108603.",
+    "tipo": "gasto",
+    "monto": 2473.11,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Pago realizado a Farmacia Vedado por el valor de 2539.15 CUP. Transacción MMLQC3C54WSQ.",
+    "tipo": "gasto",
+    "monto": 2539.15,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 2380.77 CUP a la cuenta 9235xxxxxxxxxxxx.",
+    "tipo": "gasto",
+    "monto": 2380.77,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9570xxxxxxxxxxxx de 2046.80 CUP. Móvil Origen 51419610.",
+    "tipo": "gasto",
+    "monto": 2046.8,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pagué utilizando Transfermovil en la Entidad: PALADARES VEDADO Id Compra: 8103580 Importe: 1554.61 CUP Importe pagado: 1554.61 CUP No. Transaccion: MMXXEZDUXLEZ",
+    "tipo": "gasto",
+    "monto": 1554.61,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Factura Pagada: 3198638 Importe Pagado: 1816.18 CUP Importe Factura: 1816.18 CUP Nro. Transaccion: MMGH8RIEC4D1",
+    "tipo": "gasto",
+    "monto": 1816.18,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9570xxxxxxxxxxxx de 815.42 CUP. Móvil Origen 65108603.",
+    "tipo": "gasto",
+    "monto": 815.42,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 4828.16 CUP por servicios de electricidad. Transaccion MM26GYUP12SP.",
+    "tipo": "gasto",
+    "monto": 4828.16,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pagué utilizando Transfermovil en la Entidad: TRD CARIBE Id Compra: 6865064 Importe: 2405.55 CUP Importe pagado: 2405.55 CUP No. Transaccion: MMN7ZSEDFQS3",
+    "tipo": "gasto",
+    "monto": 2405.55,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pagué utilizando Transfermovil en la Entidad: MINFAR CENTRAL Id Compra: 8870361 Importe: 1985.29 CUP Importe pagado: 1985.29 CUP No. Transaccion: MMNNCILDZMFB",
+    "tipo": "gasto",
+    "monto": 1985.29,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 99.92 CUP por servicios de electricidad. Transaccion MMHF7VP1IEIX.",
+    "tipo": "gasto",
+    "monto": 99.92,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 2579.30 CUP por servicios de electricidad. Transaccion MMIFPWIOXD9C.",
+    "tipo": "gasto",
+    "monto": 2579.3,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 1937.47 CUP por servicios de electricidad. Transaccion MMN0MCIXDU1E.",
+    "tipo": "gasto",
+    "monto": 1937.47,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9200xxxxxxxxxxxx de 915.48 CUP. Móvil Origen +53 65614226.",
+    "tipo": "gasto",
+    "monto": 915.48,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 4311.38 CUP por servicios de electricidad. Transaccion MMBXJ2POP8MG.",
+    "tipo": "gasto",
+    "monto": 4311.38,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9228xxxxxxxxxxxx de 2125.38 CUP. Móvil Origen 65108603.",
+    "tipo": "gasto",
+    "monto": 2125.38,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9225xxxxxxxxxxxx de 3199.15 CUP. Móvil Origen 51419610.",
+    "tipo": "gasto",
+    "monto": 3199.15,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Pago realizado a Cafetería El Rápido por el valor de 1917.36 CUP. Transacción MMUVY8N1UTOX.",
+    "tipo": "gasto",
+    "monto": 1917.36,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Pago realizado a Restaurante El Biky por el valor de 593.22 CUP. Transacción MM1ZHWY9HECG.",
+    "tipo": "gasto",
+    "monto": 593.22,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Pago realizado a La Casa de la Música por el valor de 2713.15 CUP. Transacción MM64Z7W2SEHE.",
+    "tipo": "gasto",
+    "monto": 2713.15,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 4421.81 CUP a la cuenta 9560xxxxxxxxxxxx.",
+    "tipo": "gasto",
+    "monto": 4421.81,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Pago realizado a Servicentro Tangana por el valor de 2516.80 CUP. Transacción MM53SKF7I8SK.",
+    "tipo": "gasto",
+    "monto": 2516.8,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Pago realizado a Cafetería El Rápido por el valor de 2669.72 CUP. Transacción MMSG7FXZV4U3.",
+    "tipo": "gasto",
+    "monto": 2669.72,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Pago realizado a Farmacia Vedado por el valor de 3196.76 CUP. Transacción MMRWK8R2YKCC.",
+    "tipo": "gasto",
+    "monto": 3196.76,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 722.63 CUP a la cuenta 9226xxxxxxxxxxxx.",
+    "tipo": "gasto",
+    "monto": 722.63,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Factura Pagada: 7597509 Importe Pagado: 4321.50 CUP Importe Factura: 4321.50 CUP Nro. Transaccion: MMP8637ZGF9Q",
+    "tipo": "gasto",
+    "monto": 4321.5,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pagué utilizando Transfermovil en la Entidad: PALADARES VEDADO Id Compra: 7139410 Importe: 1079.65 CUP Importe pagado: 1079.65 CUP No. Transaccion: MMMBR5XQT4P5",
+    "tipo": "gasto",
+    "monto": 1079.65,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Pago realizado a Bazar Habana por el valor de 2853.56 CUP. Transacción MMHTCS1K9YE9.",
+    "tipo": "gasto",
+    "monto": 2853.56,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 2548.07 CUP por servicios de electricidad. Transaccion MMSBELRQVSLW.",
+    "tipo": "gasto",
+    "monto": 2548.07,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Pago realizado a La Casa de la Música por el valor de 2816.81 CUP. Transacción MMRALDOL65WV.",
+    "tipo": "gasto",
+    "monto": 2816.81,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 3146.98 CUP por servicios de electricidad. Transaccion MMW4FYB8DALF.",
+    "tipo": "gasto",
+    "monto": 3146.98,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9560xxxxxxxxxxxx de 694.72 CUP. Móvil Origen +53 65614226.",
+    "tipo": "gasto",
+    "monto": 694.72,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Factura Pagada: 7619156 Importe Pagado: 2792.64 CUP Importe Factura: 2792.64 CUP Nro. Transaccion: MMI9KKHZLM72",
+    "tipo": "gasto",
+    "monto": 2792.64,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 1455.81 CUP por servicios de electricidad. Transaccion MMKZMPJRHT7Z.",
+    "tipo": "gasto",
+    "monto": 1455.81,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 1168.02 CUP por servicios de electricidad. Transaccion MMDLRYE89FX5.",
+    "tipo": "gasto",
+    "monto": 1168.02,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pagué utilizando Transfermovil en la Entidad: EESEC. YDE SERV. DEPROD.UNIVERSALES LA HABANA Id Compra: 9311162 Importe: 300.52 CUP Importe pagado: 300.52 CUP No. Transaccion: MM1XI04B7P47",
+    "tipo": "gasto",
+    "monto": 300.52,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 51.29 CUP por servicios de electricidad. Transaccion MMUD9K9TR74Q.",
+    "tipo": "gasto",
+    "monto": 51.29,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9200xxxxxxxxxxxx de 1290.04 CUP. Móvil Origen +53 52867825.",
+    "tipo": "gasto",
+    "monto": 1290.04,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 4679.45 CUP por servicios de electricidad. Transaccion MMANQJLUUJMI.",
+    "tipo": "gasto",
+    "monto": 4679.45,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Factura Pagada: 8899184 Importe Pagado: 2515.09 CUP Importe Factura: 2515.09 CUP Nro. Transaccion: MM6ZLE6KWHEF",
+    "tipo": "gasto",
+    "monto": 2515.09,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pagué utilizando Transfermovil en la Entidad: TIENDA LA EPOCA Id Compra: 6504900 Importe: 3403.31 CUP Importe pagado: 3403.31 CUP No. Transaccion: MMV2STN7E36H",
+    "tipo": "gasto",
+    "monto": 3403.31,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 3403.07 CUP por servicios de electricidad. Transaccion MMZR6QCEOUUY.",
+    "tipo": "gasto",
+    "monto": 3403.07,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 1093.42 CUP a la cuenta 9570xxxxxxxxxxxx.",
+    "tipo": "gasto",
+    "monto": 1093.42,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Pago realizado a Cafetería El Rápido por el valor de 1881.35 CUP. Transacción MMYXTXMGTT0I.",
+    "tipo": "gasto",
+    "monto": 1881.35,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 1899.49 CUP a la cuenta 9226xxxxxxxxxxxx.",
+    "tipo": "gasto",
+    "monto": 1899.49,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Factura Pagada: 4974590 Importe Pagado: 2990.94 CUP Importe Factura: 2990.94 CUP Nro. Transaccion: MMZB0OIH5CSK",
+    "tipo": "gasto",
+    "monto": 2990.94,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 4928.55 CUP a la cuenta 9560xxxxxxxxxxxx.",
+    "tipo": "gasto",
+    "monto": 4928.55,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Factura Pagada: 5074489 Importe Pagado: 750.34 CUP Importe Factura: 750.34 CUP Nro. Transaccion: MMN1R4KZ36U8",
+    "tipo": "gasto",
+    "monto": 750.34,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9560xxxxxxxxxxxx de 1654.66 CUP. Móvil Origen 51419610.",
+    "tipo": "gasto",
+    "monto": 1654.66,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9228xxxxxxxxxxxx de 4785.31 CUP. Móvil Origen +53 65614226.",
+    "tipo": "gasto",
+    "monto": 4785.31,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9560xxxxxxxxxxxx de 1311.50 CUP. Móvil Origen 51419610.",
+    "tipo": "gasto",
+    "monto": 1311.5,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 766.29 CUP por servicios de electricidad. Transaccion MMLN4RXYJ38X.",
+    "tipo": "gasto",
+    "monto": 766.29,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Factura Pagada: 3533857 Importe Pagado: 2735.00 CUP Importe Factura: 2735.00 CUP Nro. Transaccion: MMG698S4C3BA",
+    "tipo": "gasto",
+    "monto": 2735.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Factura Pagada: 9425786 Importe Pagado: 2531.14 CUP Importe Factura: 2531.14 CUP Nro. Transaccion: MMNWYWRRATAT",
+    "tipo": "gasto",
+    "monto": 2531.14,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 539.55 CUP a la cuenta 9226xxxxxxxxxxxx.",
+    "tipo": "gasto",
+    "monto": 539.55,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pagué utilizando Transfermovil en la Entidad: TIENDA LA EPOCA Id Compra: 4546989 Importe: 1899.42 CUP Importe pagado: 1899.42 CUP No. Transaccion: MMTCAGRP2U4D",
+    "tipo": "gasto",
+    "monto": 1899.42,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 4621.18 CUP por servicios de electricidad. Transaccion MMYKTXG4AHF3.",
+    "tipo": "gasto",
+    "monto": 4621.18,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 4483.15 CUP a la cuenta 9235xxxxxxxxxxxx.",
+    "tipo": "gasto",
+    "monto": 4483.15,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pagué utilizando Transfermovil en la Entidad: CIMEX PLAZA Id Compra: 7536772 Importe: 2455.56 CUP Importe pagado: 2455.56 CUP No. Transaccion: MMM7PYXDW2ZC",
+    "tipo": "gasto",
+    "monto": 2455.56,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 462.14 CUP a la cuenta 9225xxxxxxxxxxxx.",
+    "tipo": "gasto",
+    "monto": 462.14,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 1942.06 CUP a la cuenta 9226xxxxxxxxxxxx.",
+    "tipo": "gasto",
+    "monto": 1942.06,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 3914.42 CUP por servicios de electricidad. Transaccion MMN7ZRWQEAO4.",
+    "tipo": "gasto",
+    "monto": 3914.42,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 4871.26 CUP a la cuenta 9570xxxxxxxxxxxx.",
+    "tipo": "gasto",
+    "monto": 4871.26,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Factura Pagada: 3335038 Importe Pagado: 1828.25 CUP Importe Factura: 1828.25 CUP Nro. Transaccion: MM7H9G1A07H2",
+    "tipo": "gasto",
+    "monto": 1828.25,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 1267.15 CUP por servicios de electricidad. Transaccion MMFPNQVUT75P.",
+    "tipo": "gasto",
+    "monto": 1267.15,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 3325.15 CUP a la cuenta 9235xxxxxxxxxxxx.",
+    "tipo": "gasto",
+    "monto": 3325.15,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9228xxxxxxxxxxxx de 3862.85 CUP. Móvil Origen 65108603.",
+    "tipo": "gasto",
+    "monto": 3862.85,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 2383.43 CUP a la cuenta 9226xxxxxxxxxxxx.",
+    "tipo": "gasto",
+    "monto": 2383.43,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9228xxxxxxxxxxxx de 1163.12 CUP. Móvil Origen +53 52867825.",
+    "tipo": "gasto",
+    "monto": 1163.12,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pagué utilizando Transfermovil en la Entidad: CIMEX PLAZA Id Compra: 2421902 Importe: 989.39 CUP Importe pagado: 989.39 CUP No. Transaccion: MMEYR8LNOEMQ",
+    "tipo": "gasto",
+    "monto": 989.39,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Factura Pagada: 5845843 Importe Pagado: 1196.67 CUP Importe Factura: 1196.67 CUP Nro. Transaccion: MMENFNVUPRT7",
+    "tipo": "gasto",
+    "monto": 1196.67,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Pago realizado a Restaurante El Biky por el valor de 1576.33 CUP. Transacción MMQBMAE38SRY.",
+    "tipo": "gasto",
+    "monto": 1576.33,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 159.15 CUP a la cuenta 9228xxxxxxxxxxxx.",
+    "tipo": "gasto",
+    "monto": 159.15,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Factura Pagada: 3784709 Importe Pagado: 516.57 CUP Importe Factura: 516.57 CUP Nro. Transaccion: MM31K9QM3P91",
+    "tipo": "gasto",
+    "monto": 516.57,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9570xxxxxxxxxxxx de 4068.58 CUP. Móvil Origen +53 52867825.",
+    "tipo": "gasto",
+    "monto": 4068.58,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Pago realizado a Cafetería El Rápido por el valor de 4335.90 CUP. Transacción MME5IZ31YRUJ.",
+    "tipo": "gasto",
+    "monto": 4335.9,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 3750.26 CUP a la cuenta 9228xxxxxxxxxxxx.",
+    "tipo": "gasto",
+    "monto": 3750.26,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 165.14 MLC No. Transaccion: MMRLKTE4261B",
+    "tipo": "gasto",
+    "monto": 165.14,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9228xxxxxxxxxxxx de 4.24 MLC.",
+    "tipo": "gasto",
+    "monto": 4.24,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9225xxxxxxxxxxxx de 131.26 MLC.",
+    "tipo": "gasto",
+    "monto": 131.26,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9200xxxxxxxxxxxx de 95.88 MLC.",
+    "tipo": "gasto",
+    "monto": 95.88,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Debitado 146.42 MLC para pago en tienda MLC. Nro Transaccion: MMDL5E11E9FT",
+    "tipo": "gasto",
+    "monto": 146.42,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Debitado 130.35 MLC para pago en tienda MLC. Nro Transaccion: MMP0WFOY4DD1",
+    "tipo": "gasto",
+    "monto": 130.35,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Debitado 77.42 MLC para pago en tienda MLC. Nro Transaccion: MM8LFJDTVV2Y",
+    "tipo": "gasto",
+    "monto": 77.42,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Debitado 175.29 MLC para pago en tienda MLC. Nro Transaccion: MMHVGOX22INI",
+    "tipo": "gasto",
+    "monto": 175.29,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9570xxxxxxxxxxxx de 15.13 MLC.",
+    "tipo": "gasto",
+    "monto": 15.13,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Debitado 4.32 MLC para pago en tienda MLC. Nro Transaccion: MMCJBC2SWSOZ",
+    "tipo": "gasto",
+    "monto": 4.32,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Debitado 107.78 MLC para pago en tienda MLC. Nro Transaccion: MMWJLSH3TOW4",
+    "tipo": "gasto",
+    "monto": 107.78,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9560xxxxxxxxxxxx de 14.16 MLC.",
+    "tipo": "gasto",
+    "monto": 14.16,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Debitado 24.77 MLC para pago en tienda MLC. Nro Transaccion: MMZZF8S2ZGE2",
+    "tipo": "gasto",
+    "monto": 24.77,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Debitado 177.40 MLC para pago en tienda MLC. Nro Transaccion: MM1B3JCZUCQM",
+    "tipo": "gasto",
+    "monto": 177.4,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 34.21 MLC No. Transaccion: MMF16YE0A4AB",
+    "tipo": "gasto",
+    "monto": 34.21,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9570xxxxxxxxxxxx de 184.13 MLC.",
+    "tipo": "gasto",
+    "monto": 184.13,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 114.74 MLC No. Transaccion: MMEYBISBO551",
+    "tipo": "gasto",
+    "monto": 114.74,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Debitado 18.19 MLC para pago en tienda MLC. Nro Transaccion: MMQNK20IN891",
+    "tipo": "gasto",
+    "monto": 18.19,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Debitado 152.34 MLC para pago en tienda MLC. Nro Transaccion: MMIAOIM458AX",
+    "tipo": "gasto",
+    "monto": 152.34,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 145.72 MLC No. Transaccion: MMDTIRC9ZD76",
+    "tipo": "gasto",
+    "monto": 145.72,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 140.47 MLC No. Transaccion: MMN9DDE3CUP8",
+    "tipo": "gasto",
+    "monto": 140.47,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9226xxxxxxxxxxxx de 52.94 MLC.",
+    "tipo": "gasto",
+    "monto": 52.94,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Debitado 33.71 MLC para pago en tienda MLC. Nro Transaccion: MMQOT8HLJEFY",
+    "tipo": "gasto",
+    "monto": 33.71,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 139.68 MLC No. Transaccion: MMB4LDIMSYJ9",
+    "tipo": "gasto",
+    "monto": 139.68,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 171.07 MLC No. Transaccion: MMUTDD2EC2IH",
+    "tipo": "gasto",
+    "monto": 171.07,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 137.57 MLC No. Transaccion: MM7DV7C9HX3D",
+    "tipo": "gasto",
+    "monto": 137.57,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 25.38 MLC No. Transaccion: MM7B7P0RNPM6",
+    "tipo": "gasto",
+    "monto": 25.38,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Debitado 89.76 MLC para pago en tienda MLC. Nro Transaccion: MMFWWXR5RDNP",
+    "tipo": "gasto",
+    "monto": 89.76,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9228xxxxxxxxxxxx de 50.58 MLC.",
+    "tipo": "gasto",
+    "monto": 50.58,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Debitado 6.19 MLC para pago en tienda MLC. Nro Transaccion: MMVB3K3QMVIF",
+    "tipo": "gasto",
+    "monto": 6.19,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9226xxxxxxxxxxxx de 48.99 MLC.",
+    "tipo": "gasto",
+    "monto": 48.99,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 48.07 MLC No. Transaccion: MML0MVZMUF84",
+    "tipo": "gasto",
+    "monto": 48.07,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 108.88 MLC No. Transaccion: MMGBCVARLW3M",
+    "tipo": "gasto",
+    "monto": 108.88,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 12.85 MLC No. Transaccion: MMFZFDSNCZXV",
+    "tipo": "gasto",
+    "monto": 12.85,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9228xxxxxxxxxxxx de 65.20 MLC.",
+    "tipo": "gasto",
+    "monto": 65.2,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9235xxxxxxxxxxxx de 133.44 MLC.",
+    "tipo": "gasto",
+    "monto": 133.44,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9560xxxxxxxxxxxx de 37.23 MLC.",
+    "tipo": "gasto",
+    "monto": 37.23,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Debitado 164.51 MLC para pago en tienda MLC. Nro Transaccion: MMY0MAHYM2ZB",
+    "tipo": "gasto",
+    "monto": 164.51,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9200xxxxxxxxxxxx de 84.51 MLC.",
+    "tipo": "gasto",
+    "monto": 84.51,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Debitado 160.04 MLC para pago en tienda MLC. Nro Transaccion: MMBAJDM5FC79",
+    "tipo": "gasto",
+    "monto": 160.04,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Debitado 197.07 MLC para pago en tienda MLC. Nro Transaccion: MM6ZPXVPBL9O",
+    "tipo": "gasto",
+    "monto": 197.07,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Debitado 185.19 MLC para pago en tienda MLC. Nro Transaccion: MMTXKDOTRBAD",
+    "tipo": "gasto",
+    "monto": 185.19,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9228xxxxxxxxxxxx de 125.39 MLC.",
+    "tipo": "gasto",
+    "monto": 125.39,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Debitado 128.73 MLC para pago en tienda MLC. Nro Transaccion: MMNNNGBPJ4UF",
+    "tipo": "gasto",
+    "monto": 128.73,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Debitado 20.24 MLC para pago en tienda MLC. Nro Transaccion: MMY3O1ICNS8Y",
+    "tipo": "gasto",
+    "monto": 20.24,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 176.45 MLC No. Transaccion: MMRC6ZS62YWE",
+    "tipo": "gasto",
+    "monto": 176.45,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 35.40 MLC No. Transaccion: MM983EP9P9W4",
+    "tipo": "gasto",
+    "monto": 35.4,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 182.25 MLC No. Transaccion: MM6CNOLJQ52W",
+    "tipo": "gasto",
+    "monto": 182.25,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha realizado un pago de 23.39 MLC No. Transaccion: MMFUU8DD2255",
+    "tipo": "gasto",
+    "monto": 23.39,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9226xxxxxxxxxxxx de 77.23 MLC.",
+    "tipo": "gasto",
+    "monto": 77.23,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 74.83 USD a la bolsa MiTransfer. Transaccion MM76A3KKRZD5",
+    "tipo": "gasto",
+    "monto": 74.83,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 97.45 USD a la bolsa MiTransfer. Transaccion MMP3JPXGH301",
+    "tipo": "gasto",
+    "monto": 97.45,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9570xxxxxxxxxxxx de 82.28 USD.",
+    "tipo": "gasto",
+    "monto": 82.28,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 25.70 USD a la bolsa MiTransfer. Transaccion MMQ7ZJ3SWEBN",
+    "tipo": "gasto",
+    "monto": 25.7,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9235xxxxxxxxxxxx de 18.58 USD.",
+    "tipo": "gasto",
+    "monto": 18.58,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9235xxxxxxxxxxxx de 85.85 USD.",
+    "tipo": "gasto",
+    "monto": 85.85,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Debitado 23.15 USD para pago internacional.",
+    "tipo": "gasto",
+    "monto": 23.15,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Debitado 40.32 USD para pago internacional.",
+    "tipo": "gasto",
+    "monto": 40.32,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Debitado 33.19 USD para pago internacional.",
+    "tipo": "gasto",
+    "monto": 33.19,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Debitado 32.64 USD para pago internacional.",
+    "tipo": "gasto",
+    "monto": 32.64,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9200xxxxxxxxxxxx de 71.62 USD.",
+    "tipo": "gasto",
+    "monto": 71.62,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 74.35 USD a la bolsa MiTransfer. Transaccion MM0U686XII5P",
+    "tipo": "gasto",
+    "monto": 74.35,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Debitado 26.80 USD para pago internacional.",
+    "tipo": "gasto",
+    "monto": 26.8,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9570xxxxxxxxxxxx de 30.54 USD.",
+    "tipo": "gasto",
+    "monto": 30.54,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9225xxxxxxxxxxxx de 49.27 USD.",
+    "tipo": "gasto",
+    "monto": 49.27,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9226xxxxxxxxxxxx de 61.83 USD.",
+    "tipo": "gasto",
+    "monto": 61.83,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 68.00 USD a la bolsa MiTransfer. Transaccion MMWIYMENVG3K",
+    "tipo": "gasto",
+    "monto": 68.0,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9200xxxxxxxxxxxx de 73.06 USD.",
+    "tipo": "gasto",
+    "monto": 73.06,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Debitado 23.61 USD para pago internacional.",
+    "tipo": "gasto",
+    "monto": 23.61,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Debitado 5.81 USD para pago internacional.",
+    "tipo": "gasto",
+    "monto": 5.81,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9225xxxxxxxxxxxx de 63.40 USD.",
+    "tipo": "gasto",
+    "monto": 63.4,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 50.28 USD a la bolsa MiTransfer. Transaccion MMV239MOFT6Y",
+    "tipo": "gasto",
+    "monto": 50.28,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9560xxxxxxxxxxxx de 24.22 USD.",
+    "tipo": "gasto",
+    "monto": 24.22,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9570xxxxxxxxxxxx de 46.22 USD.",
+    "tipo": "gasto",
+    "monto": 46.22,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 1.96 USD a la bolsa MiTransfer. Transaccion MMEXL68J0NME",
+    "tipo": "gasto",
+    "monto": 1.96,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Debitado 27.91 USD para pago internacional.",
+    "tipo": "gasto",
+    "monto": 27.91,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9200xxxxxxxxxxxx de 48.78 USD.",
+    "tipo": "gasto",
+    "monto": 48.78,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 88.87 USD a la bolsa MiTransfer. Transaccion MMPCXA5S00I8",
+    "tipo": "gasto",
+    "monto": 88.87,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9235xxxxxxxxxxxx de 52.39 USD.",
+    "tipo": "gasto",
+    "monto": 52.39,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Debitado 2.15 USD para pago internacional.",
+    "tipo": "gasto",
+    "monto": 2.15,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 38.49 USD a la bolsa MiTransfer. Transaccion MM3CPUDRL90A",
+    "tipo": "gasto",
+    "monto": 38.49,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9570xxxxxxxxxxxx de 4.55 USD.",
+    "tipo": "gasto",
+    "monto": 4.55,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Debitado 81.84 USD para pago internacional.",
+    "tipo": "gasto",
+    "monto": 81.84,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9226xxxxxxxxxxxx de 96.48 USD.",
+    "tipo": "gasto",
+    "monto": 96.48,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 93.09 USD a la bolsa MiTransfer. Transaccion MMOQ2ZDO74V1",
+    "tipo": "gasto",
+    "monto": 93.09,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Debitado 66.19 USD para pago internacional.",
+    "tipo": "gasto",
+    "monto": 66.19,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Pago realizado de 58.28 USD a la bolsa MiTransfer. Transaccion MM0ENV5SN961",
+    "tipo": "gasto",
+    "monto": 58.28,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Debitado 96.40 USD para pago internacional.",
+    "tipo": "gasto",
+    "monto": 96.4,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9560xxxxxxxxxxxx de 22.52 USD.",
+    "tipo": "gasto",
+    "monto": 22.52,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha realizado una transferencia a la cuenta 9225xxxxxxxxxxxx de 76.32 USD.",
+    "tipo": "gasto",
+    "monto": 76.32,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Se ha recibido una transferencia de 3814.89 CUP de la cuenta 9235xxxxxxxxxxxx. Transacción MMBCJ29YFC2H.",
+    "tipo": "ingreso",
+    "monto": 3814.89,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Transferencia recibida por 8142.12 CUP de Marlon Baez. Transacción: MMD5050UI22K.",
+    "tipo": "ingreso",
+    "monto": 8142.12,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su cuenta 9560xxxxxxxxxxxx ha sido acreditada con 3881.67 CUP de la tarjeta 9560xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 3881.67,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Transferencia recibida por 6479.85 CUP de Athena Core. Transacción: MM1TV18KGYGG.",
+    "tipo": "ingreso",
+    "monto": 6479.85,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Acreditado 415.94 CUP de deposito en su cuenta de Transfermovil.",
+    "tipo": "ingreso",
+    "monto": 415.94,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Transferencia recibida por 8432.97 CUP de Carlos Manuel. Transacción: MMK2TCZS8S2F.",
+    "tipo": "ingreso",
+    "monto": 8432.97,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su cuenta 9225xxxxxxxxxxxx ha sido acreditada con 928.54 CUP de la tarjeta 9225xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 928.54,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 3466.61 CUP de la cuenta 9560xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 3466.61,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Acreditado 9114.25 CUP de deposito en su cuenta de Transfermovil.",
+    "tipo": "ingreso",
+    "monto": 9114.25,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su cuenta 9560xxxxxxxxxxxx ha sido acreditada con 83.23 CUP de la tarjeta 9560xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 83.23,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Transferencia recibida por 6863.57 CUP de Yanet Fraga. Transacción: MMAZBCGJC36O.",
+    "tipo": "ingreso",
+    "monto": 6863.57,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su cuenta 9225xxxxxxxxxxxx ha sido acreditada con 4335.92 CUP de la tarjeta 9225xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 4335.92,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su cuenta 9235xxxxxxxxxxxx ha sido acreditada con 3020.49 CUP de la tarjeta 9235xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 3020.49,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Acreditado 1449.31 CUP de deposito en su cuenta de Transfermovil.",
+    "tipo": "ingreso",
+    "monto": 1449.31,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 5479.78 CUP de la cuenta 9228xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 5479.78,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Transferencia recibida por 1821.77 CUP de Yoelvis Pérez. Transacción: MM24479QTKCD.",
+    "tipo": "ingreso",
+    "monto": 1821.77,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Acreditado 9515.88 CUP de deposito en su cuenta de Transfermovil.",
+    "tipo": "ingreso",
+    "monto": 9515.88,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Transferencia recibida por 3651.29 CUP de Patricia Blanco. Transacción: MMLPAIH0P4E0.",
+    "tipo": "ingreso",
+    "monto": 3651.29,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 3593.83 CUP de la cuenta 9225xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 3593.83,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 8922.13 CUP de la tarjeta 9560xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 8922.13,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su cuenta 9570xxxxxxxxxxxx ha sido acreditada con 3664.53 CUP de la tarjeta 9570xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 3664.53,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 1666.78 CUP de la cuenta 9200xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 1666.78,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Se ha recibido una transferencia de 2650.93 CUP de la cuenta 9235xxxxxxxxxxxx. Transacción MMIYS2N75BXD.",
+    "tipo": "ingreso",
+    "monto": 2650.93,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Se ha recibido una transferencia de 8350.37 CUP de la cuenta 9235xxxxxxxxxxxx. Transacción MMJTGXNX4SN6.",
+    "tipo": "ingreso",
+    "monto": 8350.37,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Acreditado 8174.20 CUP de deposito en su cuenta de Transfermovil.",
+    "tipo": "ingreso",
+    "monto": 8174.2,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Acreditado 7175.85 CUP de deposito en su cuenta de Transfermovil.",
+    "tipo": "ingreso",
+    "monto": 7175.85,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su cuenta 9560xxxxxxxxxxxx ha sido acreditada con 5927.55 CUP de la tarjeta 9560xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 5927.55,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Acreditado 8214.82 CUP de deposito en su cuenta de Transfermovil.",
+    "tipo": "ingreso",
+    "monto": 8214.82,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Acreditado 2652.56 CUP de deposito en su cuenta de Transfermovil.",
+    "tipo": "ingreso",
+    "monto": 2652.56,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su cuenta 9570xxxxxxxxxxxx ha sido acreditada con 972.02 CUP de la tarjeta 9570xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 972.02,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Acreditado 4320.65 CUP de deposito en su cuenta de Transfermovil.",
+    "tipo": "ingreso",
+    "monto": 4320.65,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 986.19 CUP de la cuenta 9235xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 986.19,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su cuenta 9235xxxxxxxxxxxx ha sido acreditada con 5202.42 CUP de la tarjeta 9235xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 5202.42,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 3980.57 CUP de la cuenta 9226xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 3980.57,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 7480.66 CUP de la cuenta 9560xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 7480.66,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Acreditado 8234.32 CUP de deposito en su cuenta de Transfermovil.",
+    "tipo": "ingreso",
+    "monto": 8234.32,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Acreditado 584.06 CUP de deposito en su cuenta de Transfermovil.",
+    "tipo": "ingreso",
+    "monto": 584.06,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 1703.13 CUP de la cuenta 9560xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 1703.13,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 9192.58 CUP de la tarjeta 9225xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 9192.58,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Transferencia recibida por 4077.27 CUP de Yoelvis Pérez. Transacción: MMDCK82853UY.",
+    "tipo": "ingreso",
+    "monto": 4077.27,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 7701.97 CUP de la tarjeta 9560xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 7701.97,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Se ha recibido una transferencia de 8003.61 CUP de la cuenta 9226xxxxxxxxxxxx. Transacción MMOMTZJKO0MT.",
+    "tipo": "ingreso",
+    "monto": 8003.61,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Acreditado 3541.84 CUP de deposito en su cuenta de Transfermovil.",
+    "tipo": "ingreso",
+    "monto": 3541.84,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Acreditado 3566.71 CUP de deposito en su cuenta de Transfermovil.",
+    "tipo": "ingreso",
+    "monto": 3566.71,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Transferencia recibida por 8689.00 CUP de Alejandro Gómez. Transacción: MMR96KHUB2RT.",
+    "tipo": "ingreso",
+    "monto": 8689.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 8605.40 CUP de la tarjeta 9570xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 8605.4,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 5490.15 CUP de la tarjeta 9226xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 5490.15,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Transferencia recibida por 9792.93 CUP de Jules AI. Transacción: MMY3Z2T4H20R.",
+    "tipo": "ingreso",
+    "monto": 9792.93,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Se ha recibido una transferencia de 5000.98 CUP de la cuenta 9225xxxxxxxxxxxx. Transacción MM94SZ2KUUOY.",
+    "tipo": "ingreso",
+    "monto": 5000.98,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Acreditado 4770.63 CUP de deposito en su cuenta de Transfermovil.",
+    "tipo": "ingreso",
+    "monto": 4770.63,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 5763.19 CUP de la tarjeta 9560xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 5763.19,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Transferencia recibida por 6409.40 CUP de Yanet Fraga. Transacción: MM7PWO6CMLXZ.",
+    "tipo": "ingreso",
+    "monto": 6409.4,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su cuenta 9560xxxxxxxxxxxx ha sido acreditada con 2719.77 CUP de la tarjeta 9560xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 2719.77,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su cuenta 9226xxxxxxxxxxxx ha sido acreditada con 809.85 CUP de la tarjeta 9226xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 809.85,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Transferencia recibida por 9316.58 CUP de Patricia Blanco. Transacción: MMOI0PESGBM6.",
+    "tipo": "ingreso",
+    "monto": 9316.58,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su cuenta 9235xxxxxxxxxxxx ha sido acreditada con 9750.07 CUP de la tarjeta 9235xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 9750.07,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Se ha recibido una transferencia de 5342.50 CUP de la cuenta 9226xxxxxxxxxxxx. Transacción MM6RIDLOFAS1.",
+    "tipo": "ingreso",
+    "monto": 5342.5,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Transferencia recibida por 4697.29 CUP de Carlos Manuel. Transacción: MMA78RAPKIAN.",
+    "tipo": "ingreso",
+    "monto": 4697.29,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Se ha recibido una transferencia de 3953.57 CUP de la cuenta 9560xxxxxxxxxxxx. Transacción MMF0ONJPI163.",
+    "tipo": "ingreso",
+    "monto": 3953.57,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 6488.09 CUP de la tarjeta 9228xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 6488.09,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Transferencia recibida por 505.82 CUP de Roberto Fontanills. Transacción: MMTGDJZ0IFRM.",
+    "tipo": "ingreso",
+    "monto": 505.82,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Transferencia recibida por 9979.65 CUP de María Elena. Transacción: MMQ2L48C1CQG.",
+    "tipo": "ingreso",
+    "monto": 9979.65,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Transferencia recibida por 8284.24 CUP de Patricia Blanco. Transacción: MME1I1P0BQ1S.",
+    "tipo": "ingreso",
+    "monto": 8284.24,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 6817.61 CUP de la tarjeta 9570xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 6817.61,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 9733.01 CUP de la tarjeta 9560xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 9733.01,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 3720.27 CUP de la tarjeta 9570xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 3720.27,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su cuenta 9225xxxxxxxxxxxx ha sido acreditada con 4883.55 CUP de la tarjeta 9225xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 4883.55,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 4380.63 CUP de la tarjeta 9225xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 4380.63,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 4499.35 CUP de la cuenta 9228xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 4499.35,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 6586.31 CUP de la tarjeta 9225xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 6586.31,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su cuenta 9226xxxxxxxxxxxx ha sido acreditada con 1794.60 CUP de la tarjeta 9226xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 1794.6,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su cuenta 9228xxxxxxxxxxxx ha sido acreditada con 718.03 CUP de la tarjeta 9228xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 718.03,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su cuenta 9226xxxxxxxxxxxx ha sido acreditada con 592.42 CUP de la tarjeta 9226xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 592.42,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 2495.14 CUP de la tarjeta 9226xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 2495.14,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su cuenta 9560xxxxxxxxxxxx ha sido acreditada con 5504.16 CUP de la tarjeta 9560xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 5504.16,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 3241.27 CUP de la cuenta 9228xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 3241.27,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Acreditado 5180.92 CUP de deposito en su cuenta de Transfermovil.",
+    "tipo": "ingreso",
+    "monto": 5180.92,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su cuenta 9560xxxxxxxxxxxx ha sido acreditada con 1555.60 CUP de la tarjeta 9560xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 1555.6,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Se ha recibido una transferencia de 3253.67 CUP de la cuenta 9570xxxxxxxxxxxx. Transacción MMRR6Z3DXB3N.",
+    "tipo": "ingreso",
+    "monto": 3253.67,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 3485.82 CUP de la cuenta 9228xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 3485.82,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Transferencia recibida por 3199.97 CUP de María Elena. Transacción: MMULZFY981UD.",
+    "tipo": "ingreso",
+    "monto": 3199.97,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Transferencia recibida por 1488.64 CUP de Patricia Blanco. Transacción: MMMR0TJOPZ1R.",
+    "tipo": "ingreso",
+    "monto": 1488.64,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Se ha recibido una transferencia de 6525.96 CUP de la cuenta 9200xxxxxxxxxxxx. Transacción MMHW0IC1L7DY.",
+    "tipo": "ingreso",
+    "monto": 6525.96,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su cuenta 9226xxxxxxxxxxxx ha sido acreditada con 1912.99 CUP de la tarjeta 9226xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 1912.99,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Transferencia recibida por 3744.47 CUP de María Elena. Transacción: MM14EB8753AY.",
+    "tipo": "ingreso",
+    "monto": 3744.47,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su cuenta 9200xxxxxxxxxxxx ha sido acreditada con 4717.19 CUP de la tarjeta 9200xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 4717.19,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 5272.72 CUP de la cuenta 9560xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 5272.72,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Acreditado 200.59 CUP de deposito en su cuenta de Transfermovil.",
+    "tipo": "ingreso",
+    "monto": 200.59,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 9264.24 CUP de la cuenta 9235xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 9264.24,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su cuenta 9200xxxxxxxxxxxx ha sido acreditada con 6261.67 CUP de la tarjeta 9200xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 6261.67,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 6128.36 CUP de la tarjeta 9235xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 6128.36,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su cuenta 9235xxxxxxxxxxxx ha sido acreditada con 8627.25 CUP de la tarjeta 9235xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 8627.25,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 1192.69 CUP de la tarjeta 9560xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 1192.69,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Transferencia recibida por 7793.29 CUP de Roberto Fontanills. Transacción: MMDG1WJUIIYM.",
+    "tipo": "ingreso",
+    "monto": 7793.29,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 1349.53 CUP de la tarjeta 9228xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 1349.53,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 7426.24 CUP de la cuenta 9200xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 7426.24,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 6083.22 CUP de la tarjeta 9200xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 6083.22,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Transferencia recibida por 5191.84 CUP de Jules AI. Transacción: MMO0USWBKOK3.",
+    "tipo": "ingreso",
+    "monto": 5191.84,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Transferencia recibida por 2951.25 CUP de Jules AI. Transacción: MM7Y6QXDSGV6.",
+    "tipo": "ingreso",
+    "monto": 2951.25,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 4141.46 CUP de la cuenta 9560xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 4141.46,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Acreditado 921.00 CUP de deposito en su cuenta de Transfermovil.",
+    "tipo": "ingreso",
+    "monto": 921.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 8714.34 CUP de la cuenta 9226xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 8714.34,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Acreditado 6229.38 CUP de deposito en su cuenta de Transfermovil.",
+    "tipo": "ingreso",
+    "monto": 6229.38,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Se ha recibido una transferencia de 75.66 CUP de la cuenta 9235xxxxxxxxxxxx. Transacción MM5KW3HGBMFB.",
+    "tipo": "ingreso",
+    "monto": 75.66,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Se ha recibido una transferencia de 3317.80 CUP de la cuenta 9560xxxxxxxxxxxx. Transacción MMDD9FKXZUU8.",
+    "tipo": "ingreso",
+    "monto": 3317.8,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Acreditado 9315.48 CUP de deposito en su cuenta de Transfermovil.",
+    "tipo": "ingreso",
+    "monto": 9315.48,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Transferencia recibida por 4143.44 CUP de María Elena. Transacción: MMHHCU9TD0V2.",
+    "tipo": "ingreso",
+    "monto": 4143.44,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su cuenta 9235xxxxxxxxxxxx ha sido acreditada con 6092.36 CUP de la tarjeta 9235xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 6092.36,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 2911.98 CUP de la tarjeta 9570xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 2911.98,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 122.86 CUP de la tarjeta 9235xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 122.86,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Transferencia recibida por 1948.22 CUP de Roberto Fontanills. Transacción: MM47RRBEFQ56.",
+    "tipo": "ingreso",
+    "monto": 1948.22,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Se ha recibido una transferencia de 9278.62 CUP de la cuenta 9225xxxxxxxxxxxx. Transacción MMCSUYTAUL62.",
+    "tipo": "ingreso",
+    "monto": 9278.62,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Se ha recibido una transferencia de 8408.98 CUP de la cuenta 9560xxxxxxxxxxxx. Transacción MMMNTFVGE2L4.",
+    "tipo": "ingreso",
+    "monto": 8408.98,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 4144.56 CUP de la cuenta 9200xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 4144.56,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 7992.26 CUP de la tarjeta 9235xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 7992.26,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su cuenta 9225xxxxxxxxxxxx ha sido acreditada con 2059.82 CUP de la tarjeta 9225xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 2059.82,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 7458.09 CUP de la cuenta 9226xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 7458.09,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Acreditado 162.41 CUP de deposito en su cuenta de Transfermovil.",
+    "tipo": "ingreso",
+    "monto": 162.41,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Acreditado 4442.04 CUP de deposito en su cuenta de Transfermovil.",
+    "tipo": "ingreso",
+    "monto": 4442.04,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 3562.69 CUP de la cuenta 9560xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 3562.69,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Se ha recibido una transferencia de 4561.29 CUP de la cuenta 9560xxxxxxxxxxxx. Transacción MMYZQII4W6OZ.",
+    "tipo": "ingreso",
+    "monto": 4561.29,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Se ha recibido una transferencia de 4538.30 CUP de la cuenta 9570xxxxxxxxxxxx. Transacción MMBRMQG1VED3.",
+    "tipo": "ingreso",
+    "monto": 4538.3,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Transferencia recibida por 5565.94 CUP de Yoelvis Pérez. Transacción: MMCKQVIIFRCH.",
+    "tipo": "ingreso",
+    "monto": 5565.94,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Acreditado 7845.30 CUP de deposito en su cuenta de Transfermovil.",
+    "tipo": "ingreso",
+    "monto": 7845.3,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Acreditado 985.56 CUP de deposito en su cuenta de Transfermovil.",
+    "tipo": "ingreso",
+    "monto": 985.56,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su cuenta 9235xxxxxxxxxxxx ha sido acreditada con 9033.53 CUP de la tarjeta 9235xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 9033.53,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 3052.46 CUP de la cuenta 9228xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 3052.46,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 18.42 CUP de la tarjeta 9200xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 18.42,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su cuenta 9225xxxxxxxxxxxx ha sido acreditada con 6628.25 CUP de la tarjeta 9225xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 6628.25,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Transferencia recibida por 8850.04 CUP de Carlos Manuel. Transacción: MMX9EE346Z7W.",
+    "tipo": "ingreso",
+    "monto": 8850.04,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 5524.98 CUP de la cuenta 9228xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 5524.98,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Acreditado 5685.81 CUP de deposito en su cuenta de Transfermovil.",
+    "tipo": "ingreso",
+    "monto": 5685.81,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Acreditado 893.58 CUP de deposito en su cuenta de Transfermovil.",
+    "tipo": "ingreso",
+    "monto": 893.58,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su cuenta 9228xxxxxxxxxxxx ha sido acreditada con 9061.49 CUP de la tarjeta 9228xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 9061.49,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Se ha recibido una transferencia de 4736.87 CUP de la cuenta 9226xxxxxxxxxxxx. Transacción MMGB93WKCS4K.",
+    "tipo": "ingreso",
+    "monto": 4736.87,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Acreditado 2759.42 CUP de deposito en su cuenta de Transfermovil.",
+    "tipo": "ingreso",
+    "monto": 2759.42,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 8621.52 CUP de la tarjeta 9560xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 8621.52,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su cuenta 9226xxxxxxxxxxxx ha sido acreditada con 5781.80 CUP de la tarjeta 9226xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 5781.8,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Se ha recibido una transferencia de 7059.02 CUP de la cuenta 9235xxxxxxxxxxxx. Transacción MMRF5A7QY8YB.",
+    "tipo": "ingreso",
+    "monto": 7059.02,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Acreditado 9562.27 CUP de deposito en su cuenta de Transfermovil.",
+    "tipo": "ingreso",
+    "monto": 9562.27,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su cuenta 9228xxxxxxxxxxxx ha sido acreditada con 7707.27 CUP de la tarjeta 9228xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 7707.27,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 2840.14 CUP de la tarjeta 9570xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 2840.14,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Transferencia recibida por 3765.82 CUP de Roberto Fontanills. Transacción: MM1X2GDGKXCQ.",
+    "tipo": "ingreso",
+    "monto": 3765.82,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 6925.29 CUP de la cuenta 9226xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 6925.29,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 4922.30 CUP de la cuenta 9225xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 4922.3,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 713.42 CUP de la cuenta 9200xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 713.42,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Acreditado 5158.68 CUP de deposito en su cuenta de Transfermovil.",
+    "tipo": "ingreso",
+    "monto": 5158.68,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Se ha recibido una transferencia de 5357.69 CUP de la cuenta 9570xxxxxxxxxxxx. Transacción MM9MKB9XN4M4.",
+    "tipo": "ingreso",
+    "monto": 5357.69,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 6481.45 CUP de la tarjeta 9560xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 6481.45,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "EnZona: Se ha recibido una transferencia de 366.63 CUP de la cuenta 9225xxxxxxxxxxxx. Transacción MMA9IN2XR838.",
+    "tipo": "ingreso",
+    "monto": 366.63,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 32.75 MLC de la tarjeta 9570xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 32.75,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 26.19 MLC en su tarjeta 9225xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 26.19,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 404.52 MLC de la tarjeta 9560xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 404.52,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 231.89 MLC de la tarjeta 9560xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 231.89,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 78.73 MLC en su tarjeta 9235xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 78.73,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 462.78 MLC de la tarjeta 9225xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 462.78,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 75.09 MLC en su tarjeta 9560xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 75.09,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 238.25 MLC en su tarjeta 9235xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 238.25,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 125.13 MLC en su tarjeta 9560xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 125.13,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 12.11 MLC en su tarjeta 9560xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 12.11,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 452.81 MLC en su tarjeta 9570xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 452.81,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 230.81 MLC de la tarjeta 9226xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 230.81,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 36.66 MLC en su tarjeta 9570xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 36.66,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 61.52 MLC de la tarjeta 9235xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 61.52,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 114.18 MLC en su tarjeta 9570xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 114.18,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 215.97 MLC de la tarjeta 9570xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 215.97,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 340.81 MLC en su tarjeta 9228xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 340.81,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 488.05 MLC de la tarjeta 9235xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 488.05,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 72.98 MLC en su tarjeta 9570xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 72.98,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 383.29 MLC en su tarjeta 9235xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 383.29,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 171.07 MLC de la cuenta 9225xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 171.07,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 74.91 MLC en su tarjeta 9200xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 74.91,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 349.67 MLC en su tarjeta 9235xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 349.67,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 222.14 MLC en su tarjeta 9235xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 222.14,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 71.02 MLC de la tarjeta 9570xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 71.02,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 308.16 MLC en su tarjeta 9570xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 308.16,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 12.74 MLC en su tarjeta 9200xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 12.74,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 8.14 MLC en su tarjeta 9226xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 8.14,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 354.84 MLC de la cuenta 9235xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 354.84,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 211.03 MLC de la cuenta 9570xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 211.03,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 347.72 MLC en su tarjeta 9226xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 347.72,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 321.71 MLC de la cuenta 9235xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 321.71,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 208.96 MLC de la tarjeta 9226xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 208.96,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 347.38 MLC en su tarjeta 9235xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 347.38,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 360.01 MLC en su tarjeta 9235xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 360.01,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 315.46 MLC de la cuenta 9570xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 315.46,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 177.19 MLC de la tarjeta 9225xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 177.19,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 121.64 MLC de la tarjeta 9225xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 121.64,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 488.51 MLC de la cuenta 9235xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 488.51,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 432.05 MLC de la tarjeta 9235xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 432.05,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Ha recibido una transferencia de 113.54 MLC de la tarjeta 9570xxxxxxxxxxxx",
+    "tipo": "ingreso",
+    "monto": 113.54,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 331.37 MLC en su tarjeta 9228xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 331.37,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 100.89 MLC en su tarjeta 9570xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 100.89,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 344.20 MLC de la cuenta 9200xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 344.2,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 92.28 MLC en su tarjeta 9560xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 92.28,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 31.74 MLC de la cuenta 9228xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 31.74,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 108.75 MLC de la cuenta 9228xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 108.75,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 310.33 MLC de la cuenta 9570xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 310.33,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 26.44 MLC en su tarjeta 9560xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 26.44,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 462.81 MLC en su tarjeta 9226xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 462.81,
+    "moneda": "MLC",
+    "confianza": "alta"
+  },
+  {
+    "body": "Bolsa MiTransfer: Depósito recibido de 158.17 USD por recarga internacional.",
+    "tipo": "ingreso",
+    "monto": 158.17,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Bolsa MiTransfer: Depósito recibido de 27.63 USD por recarga internacional.",
+    "tipo": "ingreso",
+    "monto": 27.63,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 91.74 USD de la cuenta 9235xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 91.74,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Bolsa MiTransfer: Depósito recibido de 86.72 USD por recarga internacional.",
+    "tipo": "ingreso",
+    "monto": 86.72,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 180.18 USD en su monedero USD.",
+    "tipo": "ingreso",
+    "monto": 180.18,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 68.60 USD en su monedero USD.",
+    "tipo": "ingreso",
+    "monto": 68.6,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 148.86 USD en su monedero USD.",
+    "tipo": "ingreso",
+    "monto": 148.86,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 78.23 USD en su monedero USD.",
+    "tipo": "ingreso",
+    "monto": 78.23,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 96.84 USD en su monedero USD.",
+    "tipo": "ingreso",
+    "monto": 96.84,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 178.65 USD en su monedero USD.",
+    "tipo": "ingreso",
+    "monto": 178.65,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 185.94 USD en su monedero USD.",
+    "tipo": "ingreso",
+    "monto": 185.94,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 80.53 USD de la cuenta 9226xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 80.53,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 145.37 USD de la cuenta 9560xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 145.37,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 195.23 USD de la cuenta 9226xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 195.23,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Bolsa MiTransfer: Depósito recibido de 29.81 USD por recarga internacional.",
+    "tipo": "ingreso",
+    "monto": 29.81,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 16.63 USD en su monedero USD.",
+    "tipo": "ingreso",
+    "monto": 16.63,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 171.07 USD de la cuenta 9200xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 171.07,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 38.38 USD en su monedero USD.",
+    "tipo": "ingreso",
+    "monto": 38.38,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 177.85 USD en su monedero USD.",
+    "tipo": "ingreso",
+    "monto": 177.85,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Bolsa MiTransfer: Depósito recibido de 158.96 USD por recarga internacional.",
+    "tipo": "ingreso",
+    "monto": 158.96,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Bolsa MiTransfer: Depósito recibido de 181.59 USD por recarga internacional.",
+    "tipo": "ingreso",
+    "monto": 181.59,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 171.73 USD de la cuenta 9225xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 171.73,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 172.11 USD en su monedero USD.",
+    "tipo": "ingreso",
+    "monto": 172.11,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 120.36 USD de la cuenta 9570xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 120.36,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 59.44 USD de la cuenta 9560xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 59.44,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 148.55 USD en su monedero USD.",
+    "tipo": "ingreso",
+    "monto": 148.55,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 68.82 USD en su monedero USD.",
+    "tipo": "ingreso",
+    "monto": 68.82,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 178.91 USD en su monedero USD.",
+    "tipo": "ingreso",
+    "monto": 178.91,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 183.18 USD de la cuenta 9225xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 183.18,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 196.14 USD de la cuenta 9225xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 196.14,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 148.03 USD en su monedero USD.",
+    "tipo": "ingreso",
+    "monto": 148.03,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 88.01 USD de la cuenta 9200xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 88.01,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 162.89 USD en su monedero USD.",
+    "tipo": "ingreso",
+    "monto": 162.89,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 93.23 USD en su monedero USD.",
+    "tipo": "ingreso",
+    "monto": 93.23,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Bolsa MiTransfer: Depósito recibido de 113.90 USD por recarga internacional.",
+    "tipo": "ingreso",
+    "monto": 113.9,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Se ha recibido un deposito de 147.70 USD en su monedero USD.",
+    "tipo": "ingreso",
+    "monto": 147.7,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Bolsa MiTransfer: Depósito recibido de 74.89 USD por recarga internacional.",
+    "tipo": "ingreso",
+    "monto": 74.89,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted ha recibido una transferencia de 199.80 USD de la cuenta 9225xxxxxxxxxxxx.",
+    "tipo": "ingreso",
+    "monto": 199.8,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Bolsa MiTransfer: Depósito recibido de 135.46 USD por recarga internacional.",
+    "tipo": "ingreso",
+    "monto": 135.46,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Bolsa MiTransfer: Depósito recibido de 94.56 USD por recarga internacional.",
+    "tipo": "ingreso",
+    "monto": 94.56,
+    "moneda": "USD",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su saldo principal actual es de 879.65 CUP. Vence el 15/08/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 879.65,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Su saldo es 613.99 CUP, expira el 26/06/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 613.99,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Su saldo es 1058.81 CUP, expira el 01/11/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 1058.81,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Su saldo es 1341.22 CUP, expira el 11/09/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 1341.22,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su saldo principal actual es de 644.59 CUP. Vence el 09/12/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 644.59,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su saldo principal actual es de 867.09 CUP. Vence el 07/11/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 867.09,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su saldo principal actual es de 1322.46 CUP. Vence el 24/01/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 1322.46,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Su saldo es 552.35 CUP, expira el 02/02/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 552.35,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA informa: Su saldo principal es de 703.38 CUP, valido hasta 02/06/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 703.38,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su saldo principal actual es de 975.78 CUP. Vence el 23/02/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 975.78,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su saldo principal actual es de 1162.63 CUP. Vence el 05/06/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 1162.63,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su saldo principal actual es de 179.20 CUP. Vence el 16/12/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 179.2,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Su saldo es 322.59 CUP, expira el 24/04/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 322.59,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Su saldo es 1347.92 CUP, expira el 17/11/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 1347.92,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Su saldo es 91.15 CUP, expira el 12/06/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 91.15,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su saldo principal actual es de 757.16 CUP. Vence el 27/02/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 757.16,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Su saldo es 802.54 CUP, expira el 27/09/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 802.54,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA informa: Su saldo principal es de 935.22 CUP, valido hasta 26/11/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 935.22,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Su saldo es 290.65 CUP, expira el 15/02/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 290.65,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA informa: Su saldo principal es de 1347.94 CUP, valido hasta 10/02/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 1347.94,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA informa: Su saldo principal es de 421.15 CUP, valido hasta 23/03/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 421.15,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Su saldo es 1313.74 CUP, expira el 17/11/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 1313.74,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Su saldo es 630.64 CUP, expira el 22/09/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 630.64,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA informa: Su saldo principal es de 526.58 CUP, valido hasta 15/12/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 526.58,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su saldo principal actual es de 444.36 CUP. Vence el 03/01/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 444.36,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su saldo principal actual es de 970.56 CUP. Vence el 14/10/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 970.56,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su saldo principal actual es de 972.62 CUP. Vence el 11/08/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 972.62,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Su saldo es 1048.33 CUP, expira el 27/09/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 1048.33,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Su saldo es 463.08 CUP, expira el 05/05/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 463.08,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA informa: Su saldo principal es de 347.91 CUP, valido hasta 12/05/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 347.91,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA informa: Su saldo principal es de 536.15 CUP, valido hasta 15/03/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 536.15,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su saldo principal actual es de 1070.60 CUP. Vence el 10/03/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 1070.6,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA informa: Su saldo principal es de 1042.36 CUP, valido hasta 22/03/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 1042.36,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Su saldo es 184.21 CUP, expira el 11/10/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 184.21,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su saldo principal actual es de 398.01 CUP. Vence el 06/04/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 398.01,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Su saldo es 61.69 CUP, expira el 11/06/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 61.69,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA informa: Su saldo principal es de 678.16 CUP, valido hasta 06/09/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 678.16,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Su saldo es 1381.45 CUP, expira el 13/08/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 1381.45,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su saldo principal actual es de 1392.44 CUP. Vence el 05/01/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 1392.44,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Su saldo es 1463.65 CUP, expira el 11/11/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 1463.65,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA informa: Su saldo principal es de 716.13 CUP, valido hasta 10/10/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 716.13,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su saldo principal actual es de 1201.37 CUP. Vence el 24/08/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 1201.37,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su saldo principal actual es de 177.35 CUP. Vence el 16/01/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 177.35,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su saldo principal actual es de 830.93 CUP. Vence el 10/01/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 830.93,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Su saldo es 1262.91 CUP, expira el 15/06/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 1262.91,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su saldo principal actual es de 92.00 CUP. Vence el 21/04/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 92.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA informa: Su saldo principal es de 340.99 CUP, valido hasta 25/05/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 340.99,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su saldo principal actual es de 134.55 CUP. Vence el 28/08/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 134.55,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Su saldo es 1436.86 CUP, expira el 17/07/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 1436.86,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su saldo principal actual es de 483.46 CUP. Vence el 20/09/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 483.46,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Su saldo es 547.99 CUP, expira el 05/12/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 547.99,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Su saldo es 585.31 CUP, expira el 01/05/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 585.31,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA informa: Su saldo principal es de 469.05 CUP, valido hasta 15/09/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 469.05,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Su saldo es 1094.50 CUP, expira el 15/12/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 1094.5,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su saldo principal actual es de 440.06 CUP. Vence el 26/12/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 440.06,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA informa: Su saldo principal es de 1345.68 CUP, valido hasta 05/10/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 1345.68,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Su saldo es 224.02 CUP, expira el 10/08/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 224.02,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA informa: Su saldo principal es de 108.51 CUP, valido hasta 19/07/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 108.51,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su saldo principal actual es de 620.10 CUP. Vence el 09/07/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 620.1,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA informa: Su saldo principal es de 698.56 CUP, valido hasta 19/03/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 698.56,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA informa: Su saldo principal es de 1250.10 CUP, valido hasta 10/09/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 1250.1,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Su saldo es 1235.97 CUP, expira el 10/10/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 1235.97,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA informa: Su saldo principal es de 843.33 CUP, valido hasta 15/04/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 843.33,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Su saldo es 239.50 CUP, expira el 10/11/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 239.5,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA informa: Su saldo principal es de 195.02 CUP, valido hasta 22/05/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 195.02,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA informa: Su saldo principal es de 742.91 CUP, valido hasta 23/11/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 742.91,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su saldo principal actual es de 187.84 CUP. Vence el 09/08/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 187.84,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Su saldo es 1120.89 CUP, expira el 19/08/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 1120.89,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su saldo principal actual es de 1303.84 CUP. Vence el 21/11/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 1303.84,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su saldo principal actual es de 1229.24 CUP. Vence el 12/09/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 1229.24,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su paquete de datos tiene 1.2 GB de navegacion internacional LTE y 300 MB de navegacion nacional, validos hasta 06/10/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 1.2,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su paquete de datos tiene 5.5 GB de navegacion internacional LTE y 1500 MB de navegacion nacional, validos hasta 05/06/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 5.5,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted tiene 500 MB de bono para navegacion nacional y 4.8 GB de datos internacionales, vencen el 21/06/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 4.8,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Recurso Datos: 5.1 GB de internet internacional y 1500 MB nacional de bono. Expira: 03/09/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 5.1,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted tiene 100 MB de bono para navegacion nacional y 3.6 GB de datos internacionales, vencen el 20/03/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 3.6,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted tiene 2048 MB de bono para navegacion nacional y 13.2 GB de datos internacionales, vencen el 28/11/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 13.2,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Recurso Datos: 10.6 GB de internet internacional y 1500 MB nacional de bono. Expira: 12/02/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 10.6,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted tiene 200 MB de bono para navegacion nacional y 5.9 GB de datos internacionales, vencen el 01/03/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 5.9,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su paquete de datos tiene 6.2 GB de navegacion internacional LTE y 500 MB de navegacion nacional, validos hasta 14/06/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 6.2,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Recurso Datos: 4.1 GB de internet internacional y 1000 MB nacional de bono. Expira: 08/04/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 4.1,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Recurso Datos: 10.7 GB de internet internacional y 1000 MB nacional de bono. Expira: 28/09/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 10.7,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su paquete de datos tiene 10.8 GB de navegacion internacional LTE y 2048 MB de navegacion nacional, validos hasta 04/07/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 10.8,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted tiene 200 MB de bono para navegacion nacional y 2.6 GB de datos internacionales, vencen el 01/08/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 2.6,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Recurso Datos: 10.7 GB de internet internacional y 200 MB nacional de bono. Expira: 27/08/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 10.7,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su paquete de datos tiene 11.7 GB de navegacion internacional LTE y 300 MB de navegacion nacional, validos hasta 06/12/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 11.7,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su paquete de datos tiene 11.4 GB de navegacion internacional LTE y 100 MB de navegacion nacional, validos hasta 08/03/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 11.4,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su paquete de datos tiene 10.6 GB de navegacion internacional LTE y 300 MB de navegacion nacional, validos hasta 05/04/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 10.6,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su paquete de datos tiene 6.9 GB de navegacion internacional LTE y 2048 MB de navegacion nacional, validos hasta 26/02/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 6.9,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su paquete de datos tiene 11.8 GB de navegacion internacional LTE y 2048 MB de navegacion nacional, validos hasta 14/01/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 11.8,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted tiene 1500 MB de bono para navegacion nacional y 1.5 GB de datos internacionales, vencen el 17/10/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 1.5,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Recurso Datos: 2.7 GB de internet internacional y 300 MB nacional de bono. Expira: 02/02/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 2.7,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su paquete de datos tiene 1.1 GB de navegacion internacional LTE y 100 MB de navegacion nacional, validos hasta 26/02/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 1.1,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su paquete de datos tiene 9.2 GB de navegacion internacional LTE y 200 MB de navegacion nacional, validos hasta 06/11/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 9.2,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted tiene 2048 MB de bono para navegacion nacional y 2.3 GB de datos internacionales, vencen el 24/05/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 2.3,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su paquete de datos tiene 5.9 GB de navegacion internacional LTE y 2048 MB de navegacion nacional, validos hasta 17/12/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 5.9,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Recurso Datos: 8.1 GB de internet internacional y 100 MB nacional de bono. Expira: 04/10/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 8.1,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su paquete de datos tiene 4.0 GB de navegacion internacional LTE y 200 MB de navegacion nacional, validos hasta 10/03/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 4.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted tiene 100 MB de bono para navegacion nacional y 14.6 GB de datos internacionales, vencen el 07/09/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 14.6,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su paquete de datos tiene 6.1 GB de navegacion internacional LTE y 1000 MB de navegacion nacional, validos hasta 06/08/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 6.1,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Recurso Datos: 3.5 GB de internet internacional y 300 MB nacional de bono. Expira: 13/07/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 3.5,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted tiene 100 MB de bono para navegacion nacional y 4.2 GB de datos internacionales, vencen el 25/06/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 4.2,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted tiene 200 MB de bono para navegacion nacional y 2.5 GB de datos internacionales, vencen el 16/06/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 2.5,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su paquete de datos tiene 8.8 GB de navegacion internacional LTE y 100 MB de navegacion nacional, validos hasta 03/06/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 8.8,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Recurso Datos: 6.4 GB de internet internacional y 500 MB nacional de bono. Expira: 20/12/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 6.4,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted tiene 500 MB de bono para navegacion nacional y 14.7 GB de datos internacionales, vencen el 08/09/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 14.7,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Recurso Datos: 14.8 GB de internet internacional y 500 MB nacional de bono. Expira: 07/02/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 14.8,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su paquete de datos tiene 6.1 GB de navegacion internacional LTE y 100 MB de navegacion nacional, validos hasta 22/08/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 6.1,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su paquete de datos tiene 6.5 GB de navegacion internacional LTE y 1000 MB de navegacion nacional, validos hasta 22/11/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 6.5,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Recurso Datos: 3.0 GB de internet internacional y 500 MB nacional de bono. Expira: 23/10/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 3.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted tiene 200 MB de bono para navegacion nacional y 14.0 GB de datos internacionales, vencen el 03/06/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 14.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted tiene 2048 MB de bono para navegacion nacional y 3.8 GB de datos internacionales, vencen el 13/02/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 3.8,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Recurso Datos: 11.2 GB de internet internacional y 300 MB nacional de bono. Expira: 25/12/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 11.2,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted tiene 2048 MB de bono para navegacion nacional y 4.8 GB de datos internacionales, vencen el 26/11/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 4.8,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted tiene 1000 MB de bono para navegacion nacional y 7.7 GB de datos internacionales, vencen el 13/08/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 7.7,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted tiene 500 MB de bono para navegacion nacional y 3.1 GB de datos internacionales, vencen el 04/02/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 3.1,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Recurso Datos: 8.0 GB de internet internacional y 1500 MB nacional de bono. Expira: 05/01/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 8.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su paquete de datos tiene 1.7 GB de navegacion internacional LTE y 100 MB de navegacion nacional, validos hasta 16/11/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 1.7,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Recurso Datos: 6.4 GB de internet internacional y 1500 MB nacional de bono. Expira: 11/03/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 6.4,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted tiene 2048 MB de bono para navegacion nacional y 9.7 GB de datos internacionales, vencen el 03/11/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 9.7,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted tiene 200 MB de bono para navegacion nacional y 12.1 GB de datos internacionales, vencen el 10/11/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 12.1,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su paquete de datos tiene 8.1 GB de navegacion internacional LTE y 1000 MB de navegacion nacional, validos hasta 11/09/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 8.1,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted tiene 100 MB de bono para navegacion nacional y 14.3 GB de datos internacionales, vencen el 14/02/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 14.3,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su paquete de datos tiene 5.4 GB de navegacion internacional LTE y 500 MB de navegacion nacional, validos hasta 15/08/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 5.4,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su paquete de datos tiene 3.5 GB de navegacion internacional LTE y 1500 MB de navegacion nacional, validos hasta 28/05/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 3.5,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted tiene 200 MB de bono para navegacion nacional y 7.9 GB de datos internacionales, vencen el 10/12/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 7.9,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Recurso Datos: 11.7 GB de internet internacional y 1000 MB nacional de bono. Expira: 22/08/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 11.7,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su paquete de datos tiene 10.6 GB de navegacion internacional LTE y 1000 MB de navegacion nacional, validos hasta 16/08/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 10.6,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted tiene 500 MB de bono para navegacion nacional y 8.1 GB de datos internacionales, vencen el 09/08/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 8.1,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su paquete de datos tiene 9.6 GB de navegacion internacional LTE y 300 MB de navegacion nacional, validos hasta 25/05/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 9.6,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Recurso Datos: 1.4 GB de internet internacional y 100 MB nacional de bono. Expira: 05/06/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 1.4,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su paquete de datos tiene 9.2 GB de navegacion internacional LTE y 2048 MB de navegacion nacional, validos hasta 21/06/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 9.2,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Recurso Datos: 7.0 GB de internet internacional y 300 MB nacional de bono. Expira: 14/06/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 7.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su paquete de datos tiene 4.4 GB de navegacion internacional LTE y 200 MB de navegacion nacional, validos hasta 21/05/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 4.4,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted tiene 100 MB de bono para navegacion nacional y 13.7 GB de datos internacionales, vencen el 28/05/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 13.7,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Recurso Datos: 3.4 GB de internet internacional y 1000 MB nacional de bono. Expira: 11/01/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 3.4,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Su paquete de datos tiene 13.1 GB de navegacion internacional LTE y 1000 MB de navegacion nacional, validos hasta 17/07/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 13.1,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Recurso Datos: 10.7 GB de internet internacional y 1000 MB nacional de bono. Expira: 01/06/2025.",
+    "tipo": "sin_clasificar",
+    "monto": 10.7,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Recurso Datos: 6.5 GB de internet internacional y 1000 MB nacional de bono. Expira: 04/08/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 6.5,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted tiene 300 MB de bono para navegacion nacional y 10.5 GB de datos internacionales, vencen el 16/09/2026.",
+    "tipo": "sin_clasificar",
+    "monto": 10.5,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Usted tiene 300 MB de bono para navegacion nacional y 3.3 GB de datos internacionales, vencen el 12/07/2024.",
+    "tipo": "sin_clasificar",
+    "monto": 3.3,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Nueva promocion, recargue del 27/09/2024 al 10/05/2024 y reciba un bono de 1000.00 CUP de saldo.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Promoción de Recarga Internacional Cubacel: Recibe 30 GB de datos internacionales LTE válidos por 30 días.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Nueva promocion, recargue del 19/06/2025 al 03/10/2026 y reciba un bono de 1000.00 CUP de saldo.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Nueva promocion, recargue del 07/06/2024 al 21/05/2026 y reciba un bono de 1000.00 CUP de saldo.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Nueva promocion, recargue del 22/09/2025 al 07/07/2025 y reciba un bono de 1000.00 CUP de saldo.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA Promocion Internacional: Del 17/08/2026 al 25/09/2024, si recargas desde el exterior recibes 30 GB + Datos ilimitados de 12 a 7 am!",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Promoción de Recarga Internacional Cubacel: Recibe 30 GB de datos internacionales LTE válidos por 30 días.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Promoción de Recarga Internacional Cubacel: Recibe 25 GB de datos internacionales LTE válidos por 30 días.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA Promocion Internacional: Del 17/04/2025 al 15/03/2024, si recargas desde el exterior recibes 10 GB + Datos ilimitados de 12 a 7 am!",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA Promocion Internacional: Del 28/07/2025 al 11/02/2026, si recargas desde el exterior recibes 20 GB + Datos ilimitados de 12 a 7 am!",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Promoción de Recarga Internacional Cubacel: Recibe 25 GB de datos internacionales LTE válidos por 30 días.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA Promocion Internacional: Del 13/04/2024 al 05/04/2024, si recargas desde el exterior recibes 15 GB + Datos ilimitados de 12 a 7 am!",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA Promocion Internacional: Del 15/08/2026 al 14/07/2026, si recargas desde el exterior recibes 20 GB + Datos ilimitados de 12 a 7 am!",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Promoción de Recarga Internacional Cubacel: Recibe 15 GB de datos internacionales LTE válidos por 30 días.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA Promocion Internacional: Del 06/11/2024 al 24/08/2024, si recargas desde el exterior recibes 30 GB + Datos ilimitados de 12 a 7 am!",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Nueva promocion, recargue del 11/10/2025 al 28/02/2025 y reciba un bono de 1000.00 CUP de saldo.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Promoción de Recarga Internacional Cubacel: Recibe 10 GB de datos internacionales LTE válidos por 30 días.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Nueva promocion, recargue del 04/09/2026 al 27/10/2026 y reciba un bono de 1000.00 CUP de saldo.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Promoción de Recarga Internacional Cubacel: Recibe 25 GB de datos internacionales LTE válidos por 30 días.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA Promocion Internacional: Del 26/12/2026 al 08/07/2024, si recargas desde el exterior recibes 25 GB + Datos ilimitados de 12 a 7 am!",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Promoción de Recarga Internacional Cubacel: Recibe 10 GB de datos internacionales LTE válidos por 30 días.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Promoción de Recarga Internacional Cubacel: Recibe 10 GB de datos internacionales LTE válidos por 30 días.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Nueva promocion, recargue del 16/11/2024 al 09/03/2025 y reciba un bono de 1000.00 CUP de saldo.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Promoción de Recarga Internacional Cubacel: Recibe 20 GB de datos internacionales LTE válidos por 30 días.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Nueva promocion, recargue del 23/11/2024 al 09/09/2025 y reciba un bono de 1000.00 CUP de saldo.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Nueva promocion, recargue del 26/11/2024 al 18/04/2025 y reciba un bono de 1000.00 CUP de saldo.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA Promocion Internacional: Del 13/05/2025 al 03/04/2025, si recargas desde el exterior recibes 10 GB + Datos ilimitados de 12 a 7 am!",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA Promocion Internacional: Del 15/11/2025 al 26/11/2025, si recargas desde el exterior recibes 15 GB + Datos ilimitados de 12 a 7 am!",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Nueva promocion, recargue del 28/02/2025 al 16/12/2025 y reciba un bono de 1000.00 CUP de saldo.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA Promocion Internacional: Del 27/02/2024 al 23/05/2026, si recargas desde el exterior recibes 25 GB + Datos ilimitados de 12 a 7 am!",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Nueva promocion, recargue del 14/10/2026 al 27/09/2026 y reciba un bono de 1000.00 CUP de saldo.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Promoción de Recarga Internacional Cubacel: Recibe 25 GB de datos internacionales LTE válidos por 30 días.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Promoción de Recarga Internacional Cubacel: Recibe 25 GB de datos internacionales LTE válidos por 30 días.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Promoción de Recarga Internacional Cubacel: Recibe 20 GB de datos internacionales LTE válidos por 30 días.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Nueva promocion, recargue del 28/10/2026 al 14/06/2025 y reciba un bono de 1000.00 CUP de saldo.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA Promocion Internacional: Del 09/03/2026 al 19/06/2025, si recargas desde el exterior recibes 15 GB + Datos ilimitados de 12 a 7 am!",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA Promocion Internacional: Del 14/06/2024 al 13/07/2026, si recargas desde el exterior recibes 10 GB + Datos ilimitados de 12 a 7 am!",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA Promocion Internacional: Del 01/09/2026 al 20/11/2024, si recargas desde el exterior recibes 10 GB + Datos ilimitados de 12 a 7 am!",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Nueva promocion, recargue del 07/05/2026 al 28/03/2024 y reciba un bono de 1000.00 CUP de saldo.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA Promocion Internacional: Del 14/10/2025 al 05/02/2025, si recargas desde el exterior recibes 30 GB + Datos ilimitados de 12 a 7 am!",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Promoción de Recarga Internacional Cubacel: Recibe 30 GB de datos internacionales LTE válidos por 30 días.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Nueva promocion, recargue del 04/04/2026 al 07/04/2025 y reciba un bono de 1000.00 CUP de saldo.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA Promocion Internacional: Del 13/03/2025 al 28/04/2026, si recargas desde el exterior recibes 25 GB + Datos ilimitados de 12 a 7 am!",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA Promocion Internacional: Del 24/11/2024 al 14/03/2025, si recargas desde el exterior recibes 20 GB + Datos ilimitados de 12 a 7 am!",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Nueva promocion, recargue del 10/05/2024 al 20/08/2024 y reciba un bono de 1000.00 CUP de saldo.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA Promocion Internacional: Del 22/11/2025 al 03/01/2025, si recargas desde el exterior recibes 30 GB + Datos ilimitados de 12 a 7 am!",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Promoción de Recarga Internacional Cubacel: Recibe 20 GB de datos internacionales LTE válidos por 30 días.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA Promocion Internacional: Del 24/10/2025 al 03/02/2026, si recargas desde el exterior recibes 25 GB + Datos ilimitados de 12 a 7 am!",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Promoción de Recarga Internacional Cubacel: Recibe 10 GB de datos internacionales LTE válidos por 30 días.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "ETECSA: Nueva promocion, recargue del 01/05/2026 al 20/07/2025 y reciba un bono de 1000.00 CUP de saldo.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "alta"
+  },
+  {
+    "body": "Operacion cancelada. Su saldo de 3357.95 CUP es menor que el importe del pago solicitado.",
+    "tipo": "sin_clasificar",
+    "monto": 3357.95,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Usted intentó transferir 4840.45 CUP pero la operacion fue declinada.",
+    "tipo": "sin_clasificar",
+    "monto": 4840.45,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Operacion cancelada. Su saldo de 210.42 CUP es menor que el importe del pago solicitado.",
+    "tipo": "sin_clasificar",
+    "monto": 210.42,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Usted intentó transferir 1305.16 CUP pero la operacion fue declinada.",
+    "tipo": "sin_clasificar",
+    "monto": 1305.16,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "ERROR: Pago denegado para la compra de 2466.73 CUP en EnZona.",
+    "tipo": "sin_clasificar",
+    "monto": 2466.73,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Operacion cancelada. Su saldo de 4390.09 CUP es menor que el importe del pago solicitado.",
+    "tipo": "sin_clasificar",
+    "monto": 4390.09,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Usted intentó transferir 452.79 CUP pero la operacion fue declinada.",
+    "tipo": "sin_clasificar",
+    "monto": 452.79,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "ERROR: Pago denegado para la compra de 2167.48 CUP en EnZona.",
+    "tipo": "sin_clasificar",
+    "monto": 2167.48,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Transferencia fallida: No se pudo realizar la transferencia de 588.63 CUP por saldo insuficiente.",
+    "tipo": "sin_clasificar",
+    "monto": 588.63,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "No se ha podido procesar el deposito de 4892.69 CUP. Contacte con el banco.",
+    "tipo": "sin_clasificar",
+    "monto": 4892.69,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "ERROR: Pago denegado para la compra de 4359.04 CUP en EnZona.",
+    "tipo": "sin_clasificar",
+    "monto": 4359.04,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "No se ha podido procesar el deposito de 3740.38 CUP. Contacte con el banco.",
+    "tipo": "sin_clasificar",
+    "monto": 3740.38,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "ERROR: Pago denegado para la compra de 1418.21 CUP en EnZona.",
+    "tipo": "sin_clasificar",
+    "monto": 1418.21,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "ERROR: Pago denegado para la compra de 3066.59 CUP en EnZona.",
+    "tipo": "sin_clasificar",
+    "monto": 3066.59,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "No se ha podido procesar el deposito de 2587.28 CUP. Contacte con el banco.",
+    "tipo": "sin_clasificar",
+    "monto": 2587.28,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "ERROR: Pago denegado para la compra de 4463.90 CUP en EnZona.",
+    "tipo": "sin_clasificar",
+    "monto": 4463.9,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "No se ha podido procesar el deposito de 3685.66 CUP. Contacte con el banco.",
+    "tipo": "sin_clasificar",
+    "monto": 3685.66,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Operacion cancelada. Su saldo de 3819.56 CUP es menor que el importe del pago solicitado.",
+    "tipo": "sin_clasificar",
+    "monto": 3819.56,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "No se ha podido procesar el deposito de 2780.60 CUP. Contacte con el banco.",
+    "tipo": "sin_clasificar",
+    "monto": 2780.6,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Operacion cancelada. Su saldo de 270.84 CUP es menor que el importe del pago solicitado.",
+    "tipo": "sin_clasificar",
+    "monto": 270.84,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Operacion cancelada. Su saldo de 277.56 CUP es menor que el importe del pago solicitado.",
+    "tipo": "sin_clasificar",
+    "monto": 277.56,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "ERROR: Pago denegado para la compra de 184.13 CUP en EnZona.",
+    "tipo": "sin_clasificar",
+    "monto": 184.13,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "No se ha podido procesar el deposito de 821.96 CUP. Contacte con el banco.",
+    "tipo": "sin_clasificar",
+    "monto": 821.96,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "No se ha podido procesar el deposito de 2184.97 CUP. Contacte con el banco.",
+    "tipo": "sin_clasificar",
+    "monto": 2184.97,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "ERROR: Pago denegado para la compra de 208.75 CUP en EnZona.",
+    "tipo": "sin_clasificar",
+    "monto": 208.75,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Usted intentó transferir 4944.15 CUP pero la operacion fue declinada.",
+    "tipo": "sin_clasificar",
+    "monto": 4944.15,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "No se ha podido procesar el deposito de 2428.57 CUP. Contacte con el banco.",
+    "tipo": "sin_clasificar",
+    "monto": 2428.57,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Operacion cancelada. Su saldo de 566.89 CUP es menor que el importe del pago solicitado.",
+    "tipo": "sin_clasificar",
+    "monto": 566.89,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Transferencia fallida: No se pudo realizar la transferencia de 622.65 CUP por saldo insuficiente.",
+    "tipo": "sin_clasificar",
+    "monto": 622.65,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "ERROR: Pago denegado para la compra de 1022.65 CUP en EnZona.",
+    "tipo": "sin_clasificar",
+    "monto": 1022.65,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Operacion cancelada. Su saldo de 907.37 CUP es menor que el importe del pago solicitado.",
+    "tipo": "sin_clasificar",
+    "monto": 907.37,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "ERROR: Pago denegado para la compra de 3750.93 CUP en EnZona.",
+    "tipo": "sin_clasificar",
+    "monto": 3750.93,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Usted intentó transferir 2818.42 CUP pero la operacion fue declinada.",
+    "tipo": "sin_clasificar",
+    "monto": 2818.42,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Transferencia fallida: No se pudo realizar la transferencia de 1065.92 CUP por saldo insuficiente.",
+    "tipo": "sin_clasificar",
+    "monto": 1065.92,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Usted intentó transferir 2632.45 CUP pero la operacion fue declinada.",
+    "tipo": "sin_clasificar",
+    "monto": 2632.45,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Transferencia fallida: No se pudo realizar la transferencia de 906.94 CUP por saldo insuficiente.",
+    "tipo": "sin_clasificar",
+    "monto": 906.94,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "No se ha podido procesar el deposito de 1234.56 CUP. Contacte con el banco.",
+    "tipo": "sin_clasificar",
+    "monto": 1234.56,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "ERROR: Pago denegado para la compra de 3386.16 CUP en EnZona.",
+    "tipo": "sin_clasificar",
+    "monto": 3386.16,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Transferencia fallida: No se pudo realizar la transferencia de 134.68 CUP por saldo insuficiente.",
+    "tipo": "sin_clasificar",
+    "monto": 134.68,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Usted intentó transferir 1973.88 CUP pero la operacion fue declinada.",
+    "tipo": "sin_clasificar",
+    "monto": 1973.88,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Transferencia fallida: No se pudo realizar la transferencia de 4646.10 CUP por saldo insuficiente.",
+    "tipo": "sin_clasificar",
+    "monto": 4646.1,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Operacion cancelada. Su saldo de 4185.70 CUP es menor que el importe del pago solicitado.",
+    "tipo": "sin_clasificar",
+    "monto": 4185.7,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "No se ha podido procesar el deposito de 149.23 CUP. Contacte con el banco.",
+    "tipo": "sin_clasificar",
+    "monto": 149.23,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "No se ha podido procesar el deposito de 4154.34 CUP. Contacte con el banco.",
+    "tipo": "sin_clasificar",
+    "monto": 4154.34,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "ERROR: Pago denegado para la compra de 2273.01 CUP en EnZona.",
+    "tipo": "sin_clasificar",
+    "monto": 2273.01,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Transferencia fallida: No se pudo realizar la transferencia de 2973.05 CUP por saldo insuficiente.",
+    "tipo": "sin_clasificar",
+    "monto": 2973.05,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Transferencia fallida: No se pudo realizar la transferencia de 1650.49 CUP por saldo insuficiente.",
+    "tipo": "sin_clasificar",
+    "monto": 1650.49,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "No se ha podido procesar el deposito de 3282.58 CUP. Contacte con el banco.",
+    "tipo": "sin_clasificar",
+    "monto": 3282.58,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Usted intentó transferir 1627.95 CUP pero la operacion fue declinada.",
+    "tipo": "sin_clasificar",
+    "monto": 1627.95,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Transferencia fallida: No se pudo realizar la transferencia de 650.95 CUP por saldo insuficiente.",
+    "tipo": "sin_clasificar",
+    "monto": 650.95,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Le recordamos que su cita con el dentista es mañana a las 10:00 AM.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Su codigo de verificacion para la app de finanzas es 438869. No lo comparta.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Su codigo de verificacion para la app de finanzas es 879930. No lo comparta.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Tu codigo de seguridad de EnZona es 673734. Expiracion 2 minutos.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Su codigo de verificacion para la app de finanzas es 499917. No lo comparta.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Le recordamos que su cita con el dentista es mañana a las 10:00 AM.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Hola como estas, nos vemos mas tarde en el parque?",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Felicidades! Has ganado una recarga gratis. Registrate aqui: http://spam.cu",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Su codigo de verificacion para la app de finanzas es 193520. No lo comparta.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Hola como estas, nos vemos mas tarde en el parque?",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Felicidades! Has ganado una recarga gratis. Registrate aqui: http://spam.cu",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Felicidades! Has ganado una recarga gratis. Registrate aqui: http://spam.cu",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Hola como estas, nos vemos mas tarde en el parque?",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Le recordamos que su cita con el dentista es mañana a las 10:00 AM.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Felicidades! Has ganado una recarga gratis. Registrate aqui: http://spam.cu",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Le recordamos que su cita con el dentista es mañana a las 10:00 AM.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Tu codigo de seguridad de EnZona es 818234. Expiracion 2 minutos.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Le recordamos que su cita con el dentista es mañana a las 10:00 AM.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Su codigo de verificacion para la app de finanzas es 797848. No lo comparta.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Le recordamos que su cita con el dentista es mañana a las 10:00 AM.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Hola como estas, nos vemos mas tarde en el parque?",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Felicidades! Has ganado una recarga gratis. Registrate aqui: http://spam.cu",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Felicidades! Has ganado una recarga gratis. Registrate aqui: http://spam.cu",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Tu codigo de seguridad de EnZona es 381521. Expiracion 2 minutos.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Felicidades! Has ganado una recarga gratis. Registrate aqui: http://spam.cu",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Felicidades! Has ganado una recarga gratis. Registrate aqui: http://spam.cu",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Le recordamos que su cita con el dentista es mañana a las 10:00 AM.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Hola como estas, nos vemos mas tarde en el parque?",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Felicidades! Has ganado una recarga gratis. Registrate aqui: http://spam.cu",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Su codigo de verificacion para la app de finanzas es 197462. No lo comparta.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Le recordamos que su cita con el dentista es mañana a las 10:00 AM.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Hola como estas, nos vemos mas tarde en el parque?",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Hola como estas, nos vemos mas tarde en el parque?",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Tu codigo de seguridad de EnZona es 619383. Expiracion 2 minutos.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Tu codigo de seguridad de EnZona es 760141. Expiracion 2 minutos.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Le recordamos que su cita con el dentista es mañana a las 10:00 AM.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Felicidades! Has ganado una recarga gratis. Registrate aqui: http://spam.cu",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Felicidades! Has ganado una recarga gratis. Registrate aqui: http://spam.cu",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Hola como estas, nos vemos mas tarde en el parque?",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Le recordamos que su cita con el dentista es mañana a las 10:00 AM.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Hola como estas, nos vemos mas tarde en el parque?",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Felicidades! Has ganado una recarga gratis. Registrate aqui: http://spam.cu",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Tu codigo de seguridad de EnZona es 409834. Expiracion 2 minutos.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Tu codigo de seguridad de EnZona es 150046. Expiracion 2 minutos.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Su codigo de verificacion para la app de finanzas es 180250. No lo comparta.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Su codigo de verificacion para la app de finanzas es 638354. No lo comparta.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Felicidades! Has ganado una recarga gratis. Registrate aqui: http://spam.cu",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Su codigo de verificacion para la app de finanzas es 533082. No lo comparta.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Tu codigo de seguridad de EnZona es 587227. Expiracion 2 minutos.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Le recordamos que su cita con el dentista es mañana a las 10:00 AM.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Le recordamos que su cita con el dentista es mañana a las 10:00 AM.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Su codigo de verificacion para la app de finanzas es 714012. No lo comparta.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Tu codigo de seguridad de EnZona es 905984. Expiracion 2 minutos.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Su codigo de verificacion para la app de finanzas es 117058. No lo comparta.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Felicidades! Has ganado una recarga gratis. Registrate aqui: http://spam.cu",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Hola como estas, nos vemos mas tarde en el parque?",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Felicidades! Has ganado una recarga gratis. Registrate aqui: http://spam.cu",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Su codigo de verificacion para la app de finanzas es 147457. No lo comparta.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Le recordamos que su cita con el dentista es mañana a las 10:00 AM.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  },
+  {
+    "body": "Tu codigo de seguridad de EnZona es 429196. Expiracion 2 minutos.",
+    "tipo": "sin_clasificar",
+    "monto": 0.0,
+    "moneda": "CUP",
+    "confianza": "baja"
+  }
+]
