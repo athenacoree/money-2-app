@@ -251,7 +251,9 @@ fun DonutChart(
                                 val dx = offset.x - center.x
                                 val dy = offset.y - center.y
                                 var angle = Math.toDegrees(Math.atan2(dy.toDouble(), dx.toDouble())).toFloat()
-                                if (angle < 0) angle += 360f
+                                angle = (angle + 90f)
+                                if (angle < 0f) angle += 360f
+                                if (angle >= 360f) angle -= 360f
 
                                 var currentAngle = 0f
                                 for (item in categories) {
