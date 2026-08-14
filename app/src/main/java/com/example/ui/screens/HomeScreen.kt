@@ -81,17 +81,37 @@ fun HomeScreen(
         weeklyBars.map { (inc, exp) -> (inc - exp).toFloat() }
     }
 
-    val mobileCandles = remember(etecsaBalance) {
+    val mobileCandles = remember(etecsaBalance, recentTxList) {
         val current = etecsaBalance.saldoCup
-        listOf(
-            MobileCandleData("Lun", current - 120.0, current - 90.0, current - 80.0, current - 140.0, "Llamadas Móviles"),
-            MobileCandleData("Mar", current - 90.0, current - 170.0, current - 80.0, current - 180.0, "Paquete 2GB LTE"),
-            MobileCandleData("Mié", current - 170.0, current + 250.0, current + 280.0, current - 170.0, "Recarga Internacional +500 CUP"),
-            MobileCandleData("Jue", current + 250.0, current + 210.0, current + 260.0, current + 200.0, "Navegación LTE"),
-            MobileCandleData("Vie", current + 210.0, current + 150.0, current + 220.0, current + 140.0, "SMS y Conversaciones"),
-            MobileCandleData("Sáb", current + 150.0, current + 60.0, current + 160.0, current + 50.0, "Bono ETECSA"),
-            MobileCandleData("Dom", current + 60.0, current, maxOf(current + 70.0, current + 10.0), minOf(current, current - 10.0), "Sincronizado *222#")
-        )
+        val mobileTxs = recentTxList.filter {
+            it.metodo_pago.contains("Transfermóvil", ignoreCase = true) ||
+            it.metodo_pago.contains("SMS", ignoreCase = true) ||
+            it.descripcion.contains("ETECSA", ignoreCase = true) ||
+            it.descripcion.contains("Cubacel", ignoreCase = true)
+        }
+        val days = listOf("Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom")
+        days.mapIndexed { index, day ->
+            val dayFactor = (index + 1) * 0.1
+            val dayTxs = mobileTxs.filter {
+                val cal = java.util.Calendar.getInstance().apply { timeInMillis = it.fecha }
+                val dayOfWeek = cal.get(java.util.Calendar.DAY_OF_WEEK)
+                (dayOfWeek == ((index + 1) % 7) + 1)
+            }
+            val incSum = dayTxs.filter { it.tipo == "ingreso" }.sumOf { it.monto }
+            val expSum = dayTxs.filter { it.tipo == "gasto" }.sumOf { it.monto }
+            val openVal = (current - (7 - index) * 20.0 + incSum - expSum).coerceAtLeast(0.0)
+            val closeVal = (openVal + incSum - expSum).coerceAtLeast(0.0)
+            val highVal = maxOf(openVal, closeVal) + (if (incSum > 0) incSum * 0.2 else 10.0)
+            val lowVal = minOf(openVal, closeVal) - (if (expSum > 0) expSum * 0.2 else 5.0)
+            MobileCandleData(
+                dayLabel = day,
+                open = openVal,
+                close = closeVal,
+                high = maxOf(highVal, maxOf(openVal, closeVal)),
+                low = minOf(lowVal.coerceAtLeast(0.0), minOf(openVal, closeVal)),
+                eventNote = if (incSum > 0 || expSum > 0) "Recargas/Consumo $day" else "Sincronizado *222#"
+            )
+        }
     }
 
     val categoryColors = mapOf(

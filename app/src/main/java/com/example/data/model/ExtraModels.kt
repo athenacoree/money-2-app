@@ -111,11 +111,68 @@ data class BranchInfo(
 )
 
 data class EtecsaMobileBalance(
-    val saldoCup: Double = 150.00,
-    val fechaVencimiento: String = "30/11/2026",
-    val datosMb: Double = 3584.0, // MB totales
-    val datosLteMb: Double = 2048.0, // MB LTE
-    val minutosVoz: Int = 45, // Minutos
-    val mensajesSms: Int = 120, // Cantidad de SMS
-    val lastUpdatedTimestamp: Long = System.currentTimeMillis()
+    val saldoCup: Double = 0.00,
+    val fechaVencimiento: String = "Sin fecha",
+    val datosMb: Double = 0.0, // MB totales
+    val datosLteMb: Double = 0.0, // MB LTE
+    val minutosVoz: Int = 0, // Minutos
+    val mensajesSms: Int = 0, // Cantidad de SMS
+    val lastUpdatedTimestamp: Long = 0L
+)
+
+// --- 10 NEW FEATURE MODELS ---
+
+data class UssdLogItem(
+    val id: Long = System.currentTimeMillis(),
+    val rawText: String,
+    val parsedSaldo: Double,
+    val parsedDatosMb: Double,
+    val parsedMinutos: Int,
+    val parsedSms: Int,
+    val timestamp: Long = System.currentTimeMillis()
+)
+
+data class FinancialGoal(
+    val id: Long = System.currentTimeMillis(),
+    val name: String,
+    val targetAmount: Double,
+    val currentAmount: Double = 0.0,
+    val category: String = "General",
+    val colorHex: String = "#7C3AED"
+)
+
+data class CategoryBudget(
+    val categoryName: String,
+    val limitAmount: Double,
+    val alertThresholdPercent: Double = 80.0
+)
+
+data class RecurringExpense(
+    val id: Long = System.currentTimeMillis(),
+    val title: String,
+    val amount: Double,
+    val currency: String = "CUP",
+    val category: String,
+    val intervalDays: Int = 30,
+    val nextDueDate: Long,
+    val isActive: Boolean = true
+)
+
+data class DebtLoanItem(
+    val id: Long = System.currentTimeMillis(),
+    val personName: String,
+    val amount: Double,
+    val currency: String = "CUP",
+    val isOwedToMe: Boolean, // true = me deben (Cuenta por Cobrar), false = yo debo (Cuenta por Pagar)
+    val description: String,
+    val dueDateStr: String,
+    val isSettled: Boolean = false
+)
+
+data class DashboardShortcut(
+    val id: String,
+    val title: String,
+    val iconName: String,
+    val routeOrAction: String,
+    val isEnabled: Boolean = true
 )

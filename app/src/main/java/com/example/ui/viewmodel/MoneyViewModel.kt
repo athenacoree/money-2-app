@@ -492,18 +492,195 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     // Monitor Oficial de Saldo Línea Móvil ETECSA (*222#)
-    val etecsaMobileBalance = MutableStateFlow(
-        EtecsaMobileBalance(
-            saldoCup = 250.00,
-            fechaVencimiento = "30/11/2026",
-            datosMb = 4500.0,
-            datosLteMb = 2500.0,
-            minutosVoz = 45,
-            mensajesSms = 120,
-            lastUpdatedTimestamp = System.currentTimeMillis()
+    val etecsaMobileBalance = MutableStateFlow(EtecsaMobileBalance())
+    val showEtecsaUssdDialog = MutableStateFlow(false)
+
+    // --- 10 NEW FEATURES STATE FLOWS & MANAGERS ---
+
+    // Feature 1: USSD Log History Tracker
+    val ussdLogHistory = MutableStateFlow<List<com.example.data.model.UssdLogItem>>(emptyList())
+
+    // Feature 2: Informal Currency Exchange Calculator (CUP <-> USD / MLC / SQP)
+    val customExchangeRateUSD = MutableStateFlow(320.0) // 1 USD = 320 CUP
+    val customExchangeRateMLC = MutableStateFlow(270.0) // 1 MLC = 270 CUP
+
+    fun updateCustomExchangeRates(usdRate: Double, mlcRate: Double) {
+        customExchangeRateUSD.value = usdRate
+        customExchangeRateMLC.value = mlcRate
+        viewModelScope.launch {
+            repository.insertConfiguracion(com.example.data.model.Configuracion(clave = "custom_exchange_rate_usd", valor = usdRate.toString()))
+            repository.insertConfiguracion(com.example.data.model.Configuracion(clave = "custom_exchange_rate_mlc", valor = mlcRate.toString()))
+        }
+    }
+
+    // Feature 3: Digital Receipt Data Generator
+    fun generateTransactionReceipt(tx: Transaction): String {
+        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+        return """
+            =================================
+            🧾 RECIBO DIGITAL COMPROBANTE DE PAGO
+            =================================
+            ID Transacción: TX-${tx.id}
+            Fecha: ${sdf.format(Date(tx.fecha))}
+            Categoría: ${tx.categoria}
+            Monto: ${tx.monto} ${tx.moneda}
+            Método de Pago: ${tx.metodo_pago}
+            Tipo: ${tx.tipo.uppercase(Locale.getDefault())}
+            Detalles: ${tx.descripcion}
+            Estado: CONFIRMADO ✅
+            =================================
+            Generado por AURA Financial System Cuba
+        """.trimIndent()
+    }
+
+    // Feature 4: Financial Goals & Savings Targets
+    val financialGoals = MutableStateFlow<List<com.example.data.model.FinancialGoal>>(
+        listOf(
+            com.example.data.model.FinancialGoal(1, "Comprar Teléfono", 150000.0, 45000.0, "Tecnología", "#7C3AED"),
+            com.example.data.model.FinancialGoal(2, "Fondo Emergencia", 50000.0, 30000.0, "Ahorro", "#10B981")
         )
     )
-    val showEtecsaUssdDialog = MutableStateFlow(false)
+
+    fun addFinancialGoal(name: String, target: Double, category: String) {
+        val goal = com.example.data.model.FinancialGoal(
+            id = System.currentTimeMillis(),
+            name = name,
+            targetAmount = target,
+            currentAmount = 0.0,
+            category = category
+        )
+        financialGoals.value = financialGoals.value + goal
+    }
+
+    fun addFundsToGoal(goalId: Long, amount: Double) {
+        financialGoals.value = financialGoals.value.map { g ->
+            if (g.id == goalId) g.copy(currentAmount = (g.currentAmount + amount).coerceAtMost(g.targetAmount)) else g
+        }
+    }
+
+    // Feature 5: Category Spending Limits & Budget Warnings
+    val categoryBudgets = MutableStateFlow<List<com.example.data.model.CategoryBudget>>(
+        listOf(
+            com.example.data.model.CategoryBudget("Comida", 20000.0),
+            com.example.data.model.CategoryBudget("Servicios", 8000.0),
+            com.example.data.model.CategoryBudget("Entretenimiento", 5000.0)
+        )
+    )
+
+    fun setCategoryBudget(categoryName: String, limitAmount: Double) {
+        val existing = categoryBudgets.value.find { it.categoryName == categoryName }
+        if (existing != null) {
+            categoryBudgets.value = categoryBudgets.value.map {
+                if (it.categoryName == categoryName) it.copy(limitAmount = limitAmount) else it
+            }
+        } else {
+            categoryBudgets.value = categoryBudgets.value + com.example.data.model.CategoryBudget(categoryName, limitAmount)
+        }
+    }
+
+    // Feature 6: Transfermóvil Quick Favorite Contacts
+    val favoriteTransferContacts = MutableStateFlow<List<Contacto>>(emptyList())
+
+    fun toggleFavoriteContact(contact: Contacto) {
+        if (favoriteTransferContacts.value.any { it.id == contact.id }) {
+            favoriteTransferContacts.value = favoriteTransferContacts.value.filter { it.id != contact.id }
+        } else {
+            favoriteTransferContacts.value = favoriteTransferContacts.value + contact
+        }
+    }
+
+    // Feature 7: Advanced Search Query with Tag Filter
+    val searchQuery = MutableStateFlow("")
+    val searchMinAmount = MutableStateFlow("")
+    val searchMaxAmount = MutableStateFlow("")
+
+    val advancedFilteredTransactions: StateFlow<List<Transaction>> = combine(
+        filteredTransactions,
+        searchQuery,
+        searchMinAmount,
+        searchMaxAmount
+    ) { list, q, minStr, maxStr ->
+        val min = minStr.toDoubleOrNull() ?: 0.0
+        val max = maxStr.toDoubleOrNull() ?: Double.MAX_VALUE
+
+        list.filter { tx ->
+            val matchesQ = q.isBlank() || tx.descripcion.contains(q, ignoreCase = true) || tx.categoria.contains(q, ignoreCase = true) || tx.metodo_pago.contains(q, ignoreCase = true)
+            val matchesAmt = tx.monto in min..max
+            matchesQ && matchesAmt
+        }
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
+    // Feature 8: Recurring Expenses & Reminders
+    val recurringExpenses = MutableStateFlow<List<com.example.data.model.RecurringExpense>>(
+        listOf(
+            com.example.data.model.RecurringExpense(1, "Pago Nauta Hogar", 1250.0, "CUP", "Servicios", 30, System.currentTimeMillis() + 864000000L),
+            com.example.data.model.RecurringExpense(2, "Factura Electricidad", 850.0, "CUP", "Servicios", 30, System.currentTimeMillis() + 432000000L)
+        )
+    )
+
+    fun addRecurringExpense(title: String, amount: Double, category: String, days: Int) {
+        val rec = com.example.data.model.RecurringExpense(
+            title = title,
+            amount = amount,
+            category = category,
+            intervalDays = days,
+            nextDueDate = System.currentTimeMillis() + (days * 86400000L)
+        )
+        recurringExpenses.value = recurringExpenses.value + rec
+    }
+
+    // Feature 9: Debt & Loan Ledger (Cuentas por Cobrar / Pagar)
+    val debtLoanItems = MutableStateFlow<List<com.example.data.model.DebtLoanItem>>(
+        listOf(
+            com.example.data.model.DebtLoanItem(1, "Alejandro", 2500.0, "CUP", isOwedToMe = true, "Préstamo almuerzo", "15/12/2026"),
+            com.example.data.model.DebtLoanItem(2, "Bodega Barrio", 1200.0, "CUP", isOwedToMe = false, "Insumos fiados", "30/11/2026")
+        )
+    )
+
+    fun addDebtLoanItem(personName: String, amount: Double, isOwedToMe: Boolean, description: String, dueDateStr: String) {
+        val item = com.example.data.model.DebtLoanItem(
+            personName = personName,
+            amount = amount,
+            isOwedToMe = isOwedToMe,
+            description = description,
+            dueDateStr = dueDateStr
+        )
+        debtLoanItems.value = debtLoanItems.value + item
+    }
+
+    fun settleDebtLoanItem(item: com.example.data.model.DebtLoanItem) {
+        debtLoanItems.value = debtLoanItems.value.map {
+            if (it.id == item.id) it.copy(isSettled = true) else it
+        }
+        val cal = Calendar.getInstance()
+        val format = SimpleDateFormat("HH:mm", Locale.getDefault())
+        addTransaction(
+            monto = item.amount,
+            categoria = if (item.isOwedToMe) "Cobros" else "Pagos Deuda",
+            descripcion = "Liquidación Deuda con ${item.personName}: ${item.description}",
+            fecha = cal.timeInMillis,
+            hora = format.format(cal.time),
+            metodoPago = "Efectivo",
+            esEmpleador = false,
+            tipo = if (item.isOwedToMe) "ingreso" else "gasto"
+        )
+    }
+
+    // Feature 10: Dashboard Quick Action Shortcuts Customizer
+    val dashboardShortcuts = MutableStateFlow<List<com.example.data.model.DashboardShortcut>>(
+        listOf(
+            com.example.data.model.DashboardShortcut("sc_ussd", "Consultar *222#", "Refresh", "action_ussd"),
+            com.example.data.model.DashboardShortcut("sc_transfer", "Transferir SQP", "Send", "action_qvapay"),
+            com.example.data.model.DashboardShortcut("sc_calc", "Cambio Divisas", "SwapHoriz", "action_calc"),
+            com.example.data.model.DashboardShortcut("sc_debts", "Cuentas Cobrar/Pagar", "Receipt", "action_debts")
+        )
+    )
+
+    fun toggleDashboardShortcut(shortcutId: String) {
+        dashboardShortcuts.value = dashboardShortcuts.value.map {
+            if (it.id == shortcutId) it.copy(isEnabled = !it.isEnabled) else it
+        }
+    }
 
     fun updateEtecsaMobileBalance(
         saldoCup: Double,
@@ -513,6 +690,14 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
         mensajesSms: Int,
         fechaVencimiento: String
     ) {
+        val logItem = com.example.data.model.UssdLogItem(
+            rawText = "Saldo: $saldoCup CUP, Datos: $datosMb MB, Min: $minutosVoz, SMS: $mensajesSms",
+            parsedSaldo = saldoCup,
+            parsedDatosMb = datosMb,
+            parsedMinutos = minutosVoz,
+            parsedSms = mensajesSms
+        )
+        ussdLogHistory.value = listOf(logItem) + ussdLogHistory.value
         val updated = EtecsaMobileBalance(
             saldoCup = saldoCup,
             fechaVencimiento = fechaVencimiento,
@@ -541,16 +726,25 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
         var sms = etecsaMobileBalance.value.mensajesSms
         var vencimiento = etecsaMobileBalance.value.fechaVencimiento
 
-        val saldoRegex = Regex("(?i)saldo:?\\s*(\\d+(?:\\.\\d+)?)\\s*CUP")
-        val datosGbRegex = Regex("(?i)(\\d+(?:\\.\\d+)?)\\s*GB")
-        val datosMbRegex = Regex("(?i)(\\d+(?:\\.\\d+)?)\\s*MB")
-        val minRegex = Regex("(?i)(\\d+)\\s*(?:Min|Minutos)")
-        val smsRegex = Regex("(?i)(\\d+)\\s*SMS")
-        val dateRegex = Regex("(\\d{2}/\\d{2}/\\d{4})")
+        val saldoRegex = Regex("(?i)(?:saldo(?: principal)?(?: es)?:?\\s*)(\\d+(?:[\\.,]\\d+)?)\\s*(?:CUP|$)")
+        val fallbackCupRegex = Regex("(\\d+(?:[\\.,]\\d+)?)\\s*CUP")
+        val datosGbRegex = Regex("(?i)(\\d+(?:[\\.,]\\d+)?)\\s*GB")
+        val datosMbRegex = Regex("(?i)(\\d+(?:[\\.,]\\d+)?)\\s*MB")
+        val lteGbRegex = Regex("(?i)(\\d+(?:[\\.,]\\d+)?)\\s*GB\\s*(?:LTE|4G)")
+        val lteMbRegex = Regex("(?i)(\\d+(?:[\\.,]\\d+)?)\\s*MB\\s*(?:LTE|4G)")
+        val minRegex = Regex("(?i)(\\d+)\\s*(?:Min|Minutos|Voz)")
+        val smsRegex = Regex("(?i)(\\d+)\\s*(?:SMS|Mensajes)")
+        val dateRegex = Regex("(\\d{2}[/\\-]\\d{2}[/\\-]\\d{2,4})")
 
-        saldoRegex.find(input)?.groupValues?.get(1)?.toDoubleOrNull()?.let { saldo = it }
-        datosGbRegex.find(input)?.groupValues?.get(1)?.toDoubleOrNull()?.let { datos = it * 1024.0 }
-        datosMbRegex.find(input)?.groupValues?.get(1)?.toDoubleOrNull()?.let { datos = it }
+        saldoRegex.find(input)?.groupValues?.get(1)?.replace(",", ".")?.toDoubleOrNull()?.let { saldo = it }
+            ?: fallbackCupRegex.find(input)?.groupValues?.get(1)?.replace(",", ".")?.toDoubleOrNull()?.let { saldo = it }
+
+        lteGbRegex.find(input)?.groupValues?.get(1)?.replace(",", ".")?.toDoubleOrNull()?.let { lte = it * 1024.0 }
+            ?: lteMbRegex.find(input)?.groupValues?.get(1)?.replace(",", ".")?.toDoubleOrNull()?.let { lte = it }
+
+        datosGbRegex.find(input)?.groupValues?.get(1)?.replace(",", ".")?.toDoubleOrNull()?.let { datos = it * 1024.0 }
+            ?: datosMbRegex.find(input)?.groupValues?.get(1)?.replace(",", ".")?.toDoubleOrNull()?.let { datos = it }
+
         minRegex.find(input)?.groupValues?.get(1)?.toIntOrNull()?.let { min = it }
         smsRegex.find(input)?.groupValues?.get(1)?.toIntOrNull()?.let { sms = it }
         dateRegex.find(input)?.groupValues?.get(1)?.let { vencimiento = it }
@@ -618,6 +812,24 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
         val secPin = repository.getConfiguracionByKey("user_security_pin")?.valor ?: "1234"
         isSecurityAuthEnabled.value = secAuth
         userSecurityPin.value = secPin
+
+        // ETECSA mobile balance persistent loading
+        val savedSaldo = repository.getConfiguracionByKey("etecsa_saldo_cup")?.valor?.toDoubleOrNull() ?: 0.0
+        val savedDatos = repository.getConfiguracionByKey("etecsa_datos_mb")?.valor?.toDoubleOrNull() ?: 0.0
+        val savedLte = repository.getConfiguracionByKey("etecsa_datos_lte_mb")?.valor?.toDoubleOrNull() ?: 0.0
+        val savedMin = repository.getConfiguracionByKey("etecsa_minutos")?.valor?.toIntOrNull() ?: 0
+        val savedSms = repository.getConfiguracionByKey("etecsa_sms")?.valor?.toIntOrNull() ?: 0
+        val savedVenc = repository.getConfiguracionByKey("etecsa_vencimiento")?.valor ?: "Sin fecha"
+
+        etecsaMobileBalance.value = EtecsaMobileBalance(
+            saldoCup = savedSaldo,
+            datosMb = savedDatos,
+            datosLteMb = savedLte,
+            minutosVoz = savedMin,
+            mensajesSms = savedSms,
+            fechaVencimiento = savedVenc,
+            lastUpdatedTimestamp = System.currentTimeMillis()
+        )
 
         // QvaPay config loading
         val qvapayActive = repository.getConfiguracionByKey("qvapay_activo")?.valor?.toBoolean() ?: false
