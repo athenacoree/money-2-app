@@ -33,4 +33,32 @@ class TransactionTest {
         assertEquals("Transfermóvil", tx.metodo_pago)
         assertTrue(tx.es_empleador)
     }
+
+    @Test
+    fun testNegativeBalanceCalculation() {
+        val income = 200.0
+        val expense = 500.0
+        val netBalance = income - expense
+
+        assertEquals(-300.0, netBalance, 0.0)
+    }
+
+    @Test
+    fun testQvaPayExpenseTypeConvention() {
+        val tx = Transaction(
+            id = 2L,
+            tipo = "gasto",
+            monto = 50.0,
+            moneda = "SQP",
+            categoria = "QvaPay",
+            descripcion = "Transferencia QvaPay",
+            fecha = System.currentTimeMillis(),
+            hora = "10:00",
+            metodo_pago = "QvaPay",
+            es_empleador = false
+        )
+
+        assertEquals("gasto", tx.tipo)
+        assertEquals("SQP", tx.moneda)
+    }
 }
