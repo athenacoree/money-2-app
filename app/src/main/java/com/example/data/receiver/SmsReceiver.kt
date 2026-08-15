@@ -110,14 +110,28 @@ class SmsReceiver : BroadcastReceiver() {
 
         // 2. Fallback to Regex if amount is not found or model parsing threw exception
         if (amount == null) {
-            val amountPattern = Pattern.compile("(?i)(\\d+(?:\\.\\d+)?)\\s*(?:CUP|MLC|USD)?")
-            val matcher = amountPattern.matcher(body)
-            if (matcher.find()) {
-                amount = matcher.group(1)?.toDoubleOrNull()
+            val amountCurrencyRegex = Pattern.compile("(?i)(?:(CUP|MLC|USD)\\s*(\\d+(?:\\.\\d+)?))|(?:(\\d+(?:\\.\\d+)?)\\s*(CUP|MLC|USD))")
+            val acMatcher = amountCurrencyRegex.matcher(body)
+            if (acMatcher.find()) {
+                if (acMatcher.group(2) != null) {
+                    amount = acMatcher.group(2)?.toDoubleOrNull()
+                    currency = acMatcher.group(1)?.uppercase() ?: "CUP"
+                } else if (acMatcher.group(3) != null) {
+                    amount = acMatcher.group(3)?.toDoubleOrNull()
+                    currency = acMatcher.group(4)?.uppercase() ?: "CUP"
+                }
+            }
+
+            if (amount == null) {
+                val amountPattern = Pattern.compile("(\\d+(?:\\.\\d+)?)")
+                val matcher = amountPattern.matcher(body)
+                if (matcher.find()) {
+                    amount = matcher.group(1)?.toDoubleOrNull()
+                }
             }
 
             val lowerBody = body.lowercase()
-            tipo = if (lowerBody.contains("recibido") || lowerBody.contains("recibi") || lowerBody.contains("ingreso")) {
+            tipo = if (lowerBody.contains("recibido") || lowerBody.contains("recibi") || lowerBody.contains("ingreso") || lowerBody.contains("acreditado")) {
                 "ingreso"
             } else {
                 "gasto"

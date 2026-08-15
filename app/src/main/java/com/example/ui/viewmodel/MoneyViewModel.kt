@@ -207,26 +207,26 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0.0)
 
     val availableBalance: StateFlow<Double> = combine(totalIncome, totalExpense) { inc, exp ->
-        (inc - exp).coerceAtLeast(0.0)
+        inc - exp
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0.0)
 
     // Multi-Currency Breakdown (Desglose CUP, MLC y USD/SQP)
     val balanceCUP: StateFlow<Double> = filteredByProfileTransactions.map { list ->
         val inc = list.filter { it.tipo == "ingreso" && (it.moneda == "CUP" || it.moneda.isEmpty()) }.sumOf { it.monto }
         val exp = list.filter { it.tipo == "gasto" && (it.moneda == "CUP" || it.moneda.isEmpty()) }.sumOf { it.monto }
-        (inc - exp).coerceAtLeast(0.0)
+        inc - exp
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0.0)
 
     val balanceMLC: StateFlow<Double> = filteredByProfileTransactions.map { list ->
         val inc = list.filter { it.tipo == "ingreso" && it.moneda == "MLC" }.sumOf { it.monto }
         val exp = list.filter { it.tipo == "gasto" && it.moneda == "MLC" }.sumOf { it.monto }
-        (inc - exp).coerceAtLeast(0.0)
+        inc - exp
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0.0)
 
     val balanceUSD: StateFlow<Double> = filteredByProfileTransactions.map { list ->
         val inc = list.filter { it.tipo == "ingreso" && (it.moneda == "USD" || it.moneda == "SQP") }.sumOf { it.monto }
         val exp = list.filter { it.tipo == "gasto" && (it.moneda == "USD" || it.moneda == "SQP") }.sumOf { it.monto }
-        (inc - exp).coerceAtLeast(0.0)
+        inc - exp
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0.0)
 
     // Last 7 days trend percentage
@@ -989,7 +989,7 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
                         hora = format.format(cal.time),
                         metodoPago = "QvaPay",
                         esEmpleador = isEmployerModeEnabled.value,
-                        tipo = "Gasto"
+                        tipo = "gasto"
                     )
                     refreshQvaPayData()
                 }.onFailure { err ->
@@ -1436,7 +1436,7 @@ class MoneyViewModel(application: Application) : AndroidViewModel(application) {
                 fecha = cal.timeInMillis,
                 hora = format.format(cal.time),
                 metodoPago = "Efectivo",
-                esEmpleador = true, // Work mode sales
+                esEmpleador = (_appMode.value == AppMode.WORK_EMPLOYER || _appMode.value == AppMode.WORK_EMPLOYEE),
                 tipo = "ingreso"
             )
 
